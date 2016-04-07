@@ -1,12 +1,78 @@
-import QtQuick 2.0
+import QtQuick 2.4
+import QtQuick.LocalStorage 2.0
+import "at_backend.js" as AT
 
 Item { id: u1db_item;
 
     property var db: null;
     property ListModel model: ListModel {}
 
-    function rq_names() {} // TODO: Should return [route_short_name, route_long_name] from route_id;
-    function force_download_all() {} // TODO: Should fill database.
+    property string debug: "DB ROUTES: ";
+
+    function rq_names(route_id) {
+        db_open();
+        var out_array = ["", ""];
+        out_array[0] = db_get(route_id, "route_short_name");
+        out_array[1] = db_get(route_id, "route_long_name");
+        console.log(debug, "rq_names(route_id) returning: ", out_array[0], out_array[1]);
+        return out_array;
+
+    }
+
+    // FUNCTION 'force_download_all()' >>
+    // Forces a complete update on 'routes' db.
+    function force_download_all() {
+        db_open();
+        console.log(debug, "Download Start.");
+        var req = new XMLHttpRequest;
+        req.open("GET", "https://api.at.govt.nz/v1/gtfs/routes?api_key=" + at_api_key);
+        req.onreadystatechange = function() {
+
+            if (req.readyState === XMLHttpRequest.DONE) {
+                console.log(debug, "Download Complete.");
+                console.log(debug, "Finding latest version...");
+
+                var objectArray = JSON.parse(req.responseText).response;
+
+                // Get latest route_id version >>>
+                // Loop through and split "50051017900-20160316100058_v39.6" to "20160316100058".
+                // Find largest number.
+                var _latest = 0;
+                var ti_int = []; // From "route_id", grab dates in number form.
+
+                for (var key in objectArray) {
+                    var ti_str = objectArray[key].route_id;
+                    ti_int.push( Number(ti_str.slice(ti_str.indexOf('-')+1, ti_str.indexOf('_'))) );
+                    if (ti_int[key] > _latest) {_latest = ti_int[key];}
+                }
+
+                console.log(debug, "OK! Latest Version is ", _latest);
+                console.log(debug, "Begin loading into db.");
+
+                for (key in objectArray) {
+                    console.log(debug, "Comparing", ti_int[key], "with", _latest);
+                    if (ti_int[key] === _latest) {
+
+                        db_add(
+                                    objectArray[key].route_id,
+                                    objectArray[key].agency_id,
+                                    objectArray[key].route_short_name,
+                                    objectArray[key].route_long_name,
+                                    objectArray[key].route_desc,
+                                    objectArray[key].route_type,
+                                    objectArray[key].route_url,
+                                    objectArray[key].route_color,
+                                    objectArray[key].route_text_color
+                                    );
+                        console.log(debug, "(" + key + "/" + objectArray.length + ")LOAD: ", objectArray[key].route_id);
+                    } else {
+                        console.log(debug, "(" + key + "/" + objectArray.length + ")SKIP: ", "Routes Element Outdated.");
+                    }
+                }
+            }
+        }
+        req.send();
+    }
 
     // FUNCTION 'reload_model()' >>
     // Forces a complete reload on 'routes' lm.
