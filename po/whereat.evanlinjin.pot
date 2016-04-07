@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-07 08:42+1200\n"
+"POT-Creation-Date: 2016-04-08 10:54+1200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: /home/evan/bots_workspace/whereat/whereat/Main.qml:14
+msgid ""
+"An app for quick public transport information. Currently, only Auckland "
+"Transport is supported. This is the Alpha version and is in heavy "
+"development."
+msgstr ""
 
 #: /home/evan/bots_workspace/whereat/whereat/PageTimeBoard.qml:76
 msgid "Nothing to show"

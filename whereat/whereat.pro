@@ -60,5 +60,7 @@ DISTFILES += \
     components/pageHome/Ph_HistoryTab.qml \
     views/StopInfoView.qml \
     databases/U1db_Trips.qml \
-    databases/U1db_Routes.qml
+    databases/U1db_Routes.qml \
+    cp_settings/PageInfo.qml \
+    cp_settings/DialogueUpdateDB.qml
 

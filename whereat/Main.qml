@@ -10,6 +10,9 @@ MainView { id: where_at;
     objectName: "mainView";
     applicationName: "whereat.evanlinjin";
 
+    property string app_version: "0.4.40"
+    property string app_description: i18n.tr("An app for quick public transport information. Currently, only Auckland Transport is supported. This is the Alpha version and is in heavy development.")
+
     property string at_api_key: "4928a9ac-16b9-4879-a2f3-73c460023d21";
     property string gsm_api_key: "AIzaSyAajNuWYbFbLoOLl7fPOBS3oxt1gLa6ZHk";
 
@@ -34,6 +37,11 @@ MainView { id: where_at;
     // TimeBoardModel Variables.
     property bool tbm_is_loading: false;
 
+    // Database Variables.
+    property bool calendar_working: false;
+    property bool routes_working: false;
+    property bool trips_working: false;
+
     // <<< *** DATABASES *** >>> //
 
     U1db_Favourites {id: u1db_favourites;}
@@ -45,7 +53,7 @@ MainView { id: where_at;
 
     PositionSource {id: positionSource;
         property bool has_changed: true;
-        updateInterval: 100000; active: true;
+        updateInterval: 10000; active: true;
         onPositionChanged: {
             var lat = (positionSource.position.coordinate.latitude).toFixed(6);
             var lon = (positionSource.position.coordinate.longitude).toFixed(5);

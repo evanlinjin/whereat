@@ -11,27 +11,42 @@ Page { id: page_settings;
         ln2: "Settings"; icon: "settings";
         tabbar.visible: false;
         topbar.actions: [
-            //Action {iconName: "help"; text: "Information"; /*onTriggered: {download_some();}*/},
+            Action {iconName: "info"; text: "About";
+                onTriggered: {page_settings.pageStack.addPageToNextColumn(page_settings, Qt.resolvedUrl("PageInfo.qml"));}
+            },
             Action{iconName: "security-alert"; text: "force_download_all()"; onTriggered: u1db_calendar.force_download_all();}
 
         ]
-//        tabbar.actions: [
-//            Action{iconName: "help"; text: "Help"; },
-//            Action{iconName: "save"; text: "Save"; },
-//            Action{iconName: "add"; text: "Add"; }
-//        ]
     }
 
-//    UbuntuListView { id: settings_listview;
-//        anchors {top: header.bottom; bottom: parent.bottom; left: parent.left; right: parent.right;}
-//        clip: true;
+    UbuntuListView { id: settings_listview;
+        anchors {top: header.bottom; bottom: parent.bottom; left: parent.left; right: parent.right;}
+        clip: true;
 
-//        model: u1db_calendar.model;
+        model: VisualItemModel {
 
-//        delegate: ListItems.Standard {
-//            text: model.service_id + ", " + model.start_date + ", " + model.end_date + ".";
-//        }
-//    }
+            // BACKEND SECTION >>>
+
+            ListItems.Divider {}
+            ListItems.Header { text: "Backend"; }
+
+            ListItems.Subtitled { text: "Service Provider"; subText: "Auckland Transport"; progression: true;
+                onClicked: {}
+            }
+            ListItems.Subtitled {text: "Update Database..."; subText: "Last Updated: None"; showDivider: false;
+                onClicked: {PopupUtils.open(Qt.resolvedUrl("DialogueUpdateDB.qml"));}
+            }
+
+            // MISCELLANEOUS SECTION >>>
+
+            ListItems.Divider {}
+            ListItems.Header { text: "Miscellaneous"; }
+
+            ListItems.Subtitled {text: "About"; subText: "Version: " + app_version; progression: true;
+                onClicked: {page_settings.pageStack.addPageToNextColumn(page_settings, Qt.resolvedUrl("PageInfo.qml"));}
+            }
+        }
+    }
 
 //    ProgressBar {id: progress_bar;
 //        anchors {top: header.bottom; left: parent.left; right: parent.right;}
@@ -46,9 +61,9 @@ Page { id: page_settings;
 
     //Scrollbar {flickableItem: settings_listview;}
 
-    Component.onCompleted: {
-        u1db_calendar.reload_model();
-    }
+//    Component.onCompleted: {
+//        u1db_calendar.reload_model();
+//    }
 
 //    function download_some() {
 //        u1db_calendar.re_download("18290010283-20160316100058_v39.6");

@@ -7,17 +7,12 @@ PageHeader { id: header;
     property string ln2: "Timeboards";
     property string icon: "clock-app-symbolic";
 
-    property alias tabbar: home_sections;
-    property alias topbar: header.trailingActionBar;
+    property alias tabbar: home_sections; // .actions: []
+    property alias topbar: header.trailingActionBar; // .actions: []
 
     contents: CustomHeader {id: ch_home; mainTitle: ln1; subTitle: ln2; iconName: icon;}
     extension: Sections { id: home_sections; height: visible ? units.gu(4) : 0;
         anchors {left: parent.left; top: parent.top;}
-//        actions: [
-//            Action{text: "Saved"; onTriggered: favourites_model.update_favourites();},
-//            Action{text: "Nearby"; onTriggered: nearby_model.update_favourites();},
-//            Action{text: "Recent";}
-//        ]
     }
     leadingActionBar.actions: [
         Action {iconName: "clock-app-symbolic"; text: "Timeboards";
@@ -34,7 +29,7 @@ PageHeader { id: header;
         }
     ]
     leadingActionBar.numberOfSlots: 1;
-//    trailingActionBar.actions: [
-//        Action {iconName: "reload"; text: "Force Reload";}
-//    ]
 }
+
+// onClicked: page.pageStack.addPageToNextColumn(page, pageTimeBoard)
+// onClicked: page.pageStack.addPageToCurrentColumn(page, page3)
