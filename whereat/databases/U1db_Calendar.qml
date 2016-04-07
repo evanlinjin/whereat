@@ -9,7 +9,7 @@ Item { id: u1db_item;
 
     /*********************************************************************************************** PUBLIC FUNCTIONS */
 
-    // FUNCTION 'rq_day()' >>
+    // FUNCTION 'rq_day(service_id, day)' >>
     // See if specified service operates on specified day.
     // Returns true if operates. False if not operating.
     function rq_day(service_id, day) {
@@ -169,4 +169,3 @@ Item { id: u1db_item;
 //                    tx.executeSql('INSERT INTO calendar VALUES(?, ?)', ["foo", "Bar"]);
 //                    console.log('Calendar table added');
 //                };
-

@@ -9,6 +9,11 @@ Item { id: u1db_item;
 
     property string debug: "DB ROUTES: ";
 
+    /*********************************************************************************************** PUBLIC FUNCTIONS */
+
+    // FUNCTION 'rq_names(route_id) >>>
+    // Finds 'route_short_name' & 'route_long_name' from specified 'route_id'.
+    // Returns empty strings if failed.
     function rq_names(route_id) {
         db_open();
         var out_array = ["", ""];
@@ -16,7 +21,6 @@ Item { id: u1db_item;
         out_array[1] = db_get(route_id, "route_long_name");
         console.log(debug, "rq_names(route_id) returning: ", out_array[0], out_array[1]);
         return out_array;
-
     }
 
     // FUNCTION 'force_download_all()' >>
