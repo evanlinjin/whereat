@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-08 14:49+1200\n"
+"POT-Creation-Date: 2016-04-08 19:19+1200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,6 +22,10 @@ msgid ""
 "An app for quick public transport information. Currently, only Auckland "
 "Transport is supported. This is the Alpha version and is in heavy "
 "development."
+msgstr ""
+
+#: /home/evan/bots_workspace/whereat/whereat/PageJourneyPlanner.qml:15
+msgid "Coming soon"
 msgstr ""
 
 #: /home/evan/bots_workspace/whereat/whereat/PageTimeBoard.qml:76

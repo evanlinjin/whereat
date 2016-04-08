@@ -37,6 +37,8 @@ Item { id: u1db_item;
                 console.log(debug, "Finding latest version...");
 
                 var objectArray = JSON.parse(req.responseText).response;
+                where_at.r_total = objectArray.length; // no. of elements.
+                where_at.r_i = 0; // element in processing.
 
                 // Get latest route_id version >>>
                 // Loop through and split "50051017900-20160316100058_v39.6" to "20160316100058".
@@ -54,6 +56,7 @@ Item { id: u1db_item;
                 console.log(debug, "Begin loading into db.");
 
                 for (key in objectArray) {
+                    where_at.r_i = key + 1;
                     console.log(debug, "Comparing", ti_int[key], "with", _latest);
                     if (ti_int[key] === _latest) {
 

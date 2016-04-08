@@ -63,5 +63,8 @@ DISTFILES += \
     databases/U1db_Routes.qml \
     cp_settings/PageInfo.qml \
     cp_settings/DialogueUpdateDB.qml \
-    PageATHop.qml
+    PageATHop.qml \
+    cp_settings/cp_update/UpdateDB_View0.qml \
+    cp_settings/cp_update/UpdateDB_View1.qml \
+    cp_settings/cp_update/UpdateDB_View2.qml
 

@@ -74,7 +74,7 @@ Page { id: page_timeboard;
             visible: timeboard_model.model.count === 0 && where_at.tbm_is_loading === false;
             iconName: "weather-showers-symbolic";
             title: i18n.tr("Nothing to show")
-            subTitle: "I apologise if you need to get somwhere"
+            subTitle: "I apologise if you need to get somewhere"
         }
         Scrollbar {flickableItem: timeboard_listview;}
     }

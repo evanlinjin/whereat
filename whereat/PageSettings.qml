@@ -31,7 +31,7 @@ Page { id: page_settings;
             ListItems.Subtitled { text: "Service Provider"; subText: "Auckland Transport"; progression: true;
                 onClicked: {}
             }
-            ListItems.Subtitled {text: "Update Database..."; subText: "Last Updated: None"; showDivider: false;
+            ListItems.Standard {text: "Update Database..."; showDivider: false;
                 onClicked: {PopupUtils.open(Qt.resolvedUrl("DialogueUpdateDB.qml"));}
             }
 

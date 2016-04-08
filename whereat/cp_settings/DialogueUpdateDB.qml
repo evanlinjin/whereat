@@ -10,15 +10,8 @@ Dialog { id: dialogue;
     text: "This action requires a network connection and will freeze the app for a period of time. Please don't turn the screen off."
 
     ActivityIndicator { id: activity; running: false;}
-    Button { id: b1;
-        text: "I'm not ready...";
-        onClicked: PopupUtils.close(dialogue);
-    }
-    Button { id: b2;
-        text: "Experience the lag 😱";
-        color: UbuntuColors.orange;
-        onClicked: updateDB();
-    }
+
+    Loader { id: loader; source: "UpdateDB_View0.qml"}
 
     function updateDB() {
 
@@ -30,9 +23,7 @@ Dialog { id: dialogue;
         activity.running = true;
         loadFinishedTimer.start();
 
-        b1.visible = false;
-        b1.text = "Cancel";
-        b2.visible = false;
+        loader.source = "";
 
         calendar.force_download_all();
         routes.force_download_all();
@@ -42,11 +33,9 @@ Dialog { id: dialogue;
     Timer { id: loadFinishedTimer;
         running: false; interval: 1000; repeat: true;
         onTriggered: {
-            //console.log("CALENDAR:", where_at.calendar_working, "TRIPS:", where_at.trips_working, "ROUTES:", where_at.routes_working);
             if (!where_at.calendar_working && !where_at.trips_working && !where_at.routes_working) {
-                dialogue.text = "Done!";
-                activity.running = false;
-                b1.text = "Close";
+                dialogue.text = "Done!"; activity.running = false;
+                loader.source = "UpdateDB_View2.qml";
             }
         }
     }

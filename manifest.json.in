@@ -1,6 +1,6 @@
 {
-    "name": "whereat.evanlinjin",
-    "description": "An app for quick public transport information. Currently, only Auckland Transport is supported. This is the Alpha version and is in heavy development.",
+    "name": "publictransport.evanlinjin",
+    "description": "Search and find bus stops, train stations and ferry piers. View real time boards, and favourite them.",
     "architecture": "@CLICK_ARCH@",
     "title": "Where AT?",
     "hooks": {
@@ -9,7 +9,7 @@
             "desktop": "whereat/whereat.desktop"
         }
     },
-    "version": "0.4.44",
+    "version": "0.4.46",
     "maintainer": "Evan Lin <evan.linjin@gmail.com>",
     "framework": "ubuntu-sdk-15.04.4-qml"
 }

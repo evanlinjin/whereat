@@ -8,14 +8,15 @@ import "at_backend.js" as AT
 MainView { id: where_at;
 
     objectName: "mainView";
-    applicationName: "whereat.evanlinjin";
+    applicationName: "publictransport.evanlinjin";
 
-    property string app_version: "0.4.44"
+    property string app_version: "0.4.45"
     property string app_description: i18n.tr("An app for quick public transport information. Currently, only Auckland Transport is supported. This is the Alpha version and is in heavy development.")
 
-    property string at_api_key: "4928a9ac-16b9-4879-a2f3-73c460023d21";
+    property string at_api_key: "53114d1f-acc3-4331-8a3e-40ece2104ae6";
     property string gsm_api_key: "AIzaSyAajNuWYbFbLoOLl7fPOBS3oxt1gLa6ZHk";
 
+    //anchorToKeyboard: true;
     theme.name: "Ubuntu.Components.Themes.Ambiance"; // "Ubuntu.Components.Themes.SuruDark";
     width: units.gu(100); height: units.gu(75);
 
@@ -41,6 +42,15 @@ MainView { id: where_at;
     property bool calendar_working: false;
     property bool routes_working: false;
     property bool trips_working: false;
+
+    property int c_i: 0;
+    property int c_total: 0;
+
+    property int r_i: 0;
+    property int r_total: 0;
+
+    property int t_i: 0;
+    property int t_total: 0;
 
     property var db_set: Settings {
         property bool updated: true;

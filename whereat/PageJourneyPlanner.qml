@@ -9,4 +9,16 @@ Page {id: page;
         icon: "swap";
         tabbar.visible: false;
     }
+
+    EmptyState {
+        iconName: "swap";
+        title: i18n.tr("Coming soon");
+        subTitle: "Unfortunately I have not finished implementing this feature. Check this space for updates. 😁😝😊";
+    }
+
+//    property alias iconName: emptyIcon.name
+//    property alias iconSource: emptyIcon.source
+//    property alias iconColor: emptyIcon.color
+//    property alias title: emptyLabel.text
+//    property alias subTitle: emptySublabel.tex
 }

@@ -1,7 +1,6 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
-//import "views"
 
 Page { id: page;
 
@@ -23,8 +22,8 @@ Page { id: page;
         ]
         tabbar.actions: [
             Action{text: "Starred"; onTriggered: tab_loader.source = "Ph_FavouritesTab.qml";},
-            Action{text: "Nearby"; onTriggered: tab_loader.source = "Ph_NearbyTab.qml";},
-            Action{text: "Recent"; onTriggered: tab_loader.source = "Ph_HistoryTab.qml";}
+            Action{text: "Nearby"; onTriggered: tab_loader.source = "Ph_NearbyTab.qml";}/*,
+            Action{text: "Recent"; onTriggered: tab_loader.source = "Ph_HistoryTab.qml";}*/
         ]
     }
 

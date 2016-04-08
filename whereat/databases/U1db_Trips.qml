@@ -38,6 +38,8 @@ Item { id: u1db_item;
                 console.log(debug, "STATUS UPDATE: Finding latest version...");
 
                 var objectArray = JSON.parse(req.responseText).response;
+                where_at.t_total = objectArray.length; // no. of elements.
+                where_at.t_i = 0; // element in processing.
 
                 // Get latest trip_id version >>>
                 // Loop through and split "50051017900-20160316100058_v39.6" to "20160316100058".
@@ -55,6 +57,7 @@ Item { id: u1db_item;
                 console.log(debug, "STATUS UPDATE: Begin Loading into database...");
 
                 for (key in objectArray) {
+                    where_at.t_i = key + 1;
                     console.log(debug, "COMPARING: ", ti_int[key], " WITH ", _latest);
                     if (ti_int[key] === _latest) {
 
