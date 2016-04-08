@@ -19,7 +19,8 @@ Item { id: u1db_item;
         var out_array = ["", ""];
         out_array[0] = db_get(trip_id, "route_id");
         out_array[1] = db_get(trip_id, "trip_headsign");
-        console.log(debug, "rq_rid_hs(trip_id) returning: ", out_array[0], out_array[1]);
+        out_array[2] = db_get(trip_id, "service_id");
+        console.log(debug, "rq_rid_hs(trip_id) returning: ", out_array);
         return out_array;
     }
 
@@ -73,7 +74,7 @@ Item { id: u1db_item;
                         console.log(debug, "(" + key + "/" + objectArray.length + ")SKIP: ", "trips Element Outdated.");
                     }
                 }
-                trips_working = false;
+                where_at.trips_working = false;
                 console.log(debug, "STATUS UPDATE: DONE!");
             }
         }

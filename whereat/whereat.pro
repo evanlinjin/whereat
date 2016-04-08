@@ -62,5 +62,6 @@ DISTFILES += \
     databases/U1db_Trips.qml \
     databases/U1db_Routes.qml \
     cp_settings/PageInfo.qml \
-    cp_settings/DialogueUpdateDB.qml
+    cp_settings/DialogueUpdateDB.qml \
+    PageATHop.qml
 

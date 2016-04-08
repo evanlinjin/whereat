@@ -21,12 +21,12 @@ PageHeader { id: header;
         Action {iconName: "swap"; text: "Journey Planner";
             onTriggered: {whereat_apl.primaryPageSource = Qt.resolvedUrl("PageJourneyPlanner.qml");}
         },
-        Action {iconName: "navigation-menu"; text: "AT Hop Card";
-            //onTriggered: {whereat_apl.primaryPageSource = Qt.resolvedUrl("PageHome.qml");}
-        },
+        Action {iconName: "external-link"; text: "AT Hop Card";
+            onTriggered: {whereat_apl.primaryPageSource = Qt.resolvedUrl("PageATHop.qml");}
+        }/*,
         Action {iconName: "settings"; text: "Settings";
             onTriggered: {whereat_apl.primaryPageSource = Qt.resolvedUrl("PageSettings.qml");}
-        }
+        }*/
     ]
     leadingActionBar.numberOfSlots: 1;
 }

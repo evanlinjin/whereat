@@ -73,9 +73,9 @@ Item { id: u1db_item;
                         console.log(debug, "(" + key + "/" + objectArray.length + ")SKIP: ", "Routes Element Outdated.");
                     }
                 }
+                where_at.routes_working = false;
+                console.log(debug, "STATUS UPDATE: DONE!");
             }
-            routes_working = false;
-            console.log(debug, "STATUS UPDATE: DONE!");
         }
         req.send();
     }

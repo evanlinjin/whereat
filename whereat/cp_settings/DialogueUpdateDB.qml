@@ -21,14 +21,17 @@ Dialog { id: dialogue;
     }
 
     function updateDB() {
-        dialogue.text = "Please wait...";
-        activity.running = true;
 
         where_at.calendar_working = true;
         where_at.trips_working = true;
         where_at.routes_working = true;
 
+        dialogue.text = "Working...";
+        activity.running = true;
+        loadFinishedTimer.start();
+
         b1.visible = false;
+        b1.text = "Cancel";
         b2.visible = false;
 
         calendar.force_download_all();
@@ -39,12 +42,11 @@ Dialog { id: dialogue;
     Timer { id: loadFinishedTimer;
         running: false; interval: 1000; repeat: true;
         onTriggered: {
-            if (where_at.calendar_working === where_at.trips_working === where_at.routes_working === true) {
+            //console.log("CALENDAR:", where_at.calendar_working, "TRIPS:", where_at.trips_working, "ROUTES:", where_at.routes_working);
+            if (!where_at.calendar_working && !where_at.trips_working && !where_at.routes_working) {
                 dialogue.text = "Done!";
                 activity.running = false;
                 b1.text = "Close";
-                b1.visible = true;
-
             }
         }
     }

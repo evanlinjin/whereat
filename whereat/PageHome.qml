@@ -18,7 +18,7 @@ Page { id: page;
                 onTriggered: {var temp = tab_loader.source; tab_loader.source = ""; tab_loader.source = temp;}
             },
             Action {iconName: "settings"; text: "Settings";
-                onTriggered: whereat_apl.primaryPageSource = Qt.resolvedUrl("PageSettings.qml");
+                onTriggered: page.pageStack.addPageToNextColumn(page, Qt.resolvedUrl("PageSettings.qml"));
             }
         ]
         tabbar.actions: [

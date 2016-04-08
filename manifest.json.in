@@ -9,7 +9,7 @@
             "desktop": "whereat/whereat.desktop"
         }
     },
-    "version": "0.4.40",
+    "version": "0.4.44",
     "maintainer": "Evan Lin <evan.linjin@gmail.com>",
-    "framework": "ubuntu-sdk-15.04.4"
+    "framework": "ubuntu-sdk-15.04.4-qml"
 }

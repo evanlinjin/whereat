@@ -16,7 +16,7 @@ Page { id: page_timeboard;
     Component.onObjectNameChanged: {
         console.log("page_timeboard: ", stop_id);
         is_favourite = u1db_favourites.is_f_stop(stop_id);
-        timeboard_model.n_results = 10; // Reset number of results to show.
+        timeboard_model.n_results = 50; // Reset number of results to show.
         timeboard_model.reload(stop_id);
     }
 

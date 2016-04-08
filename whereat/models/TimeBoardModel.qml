@@ -6,12 +6,15 @@ Item { id: timeboard_model_item;
 
     property alias model: timeboard_model;
     property alias info: tbm_stop_model;
-    //property bool is_loading: false;
 
-    property int n_results: 10;
+    property int n_results: 50;
+
+    // DATABASES: >>>
+    U1db_Calendar {id: u1db_calendar;}
+    U1db_Routes {id: u1db_routes;}
+    U1db_Trips {id: u1db_trips;}
 
     signal loadStopComplete();
-    signal loadRoutesCompleted();
     signal loadTimesCompleted();
 
     onLoadStopComplete: {
@@ -19,8 +22,6 @@ Item { id: timeboard_model_item;
         where_at.ptb_header_subtitle = get_stop_model().stop_name;
         where_at.ptb_is_favourite = u1db_favourites.is_f_stop(get_stop_model().stop_id);
     }
-
-    onLoadRoutesCompleted: {}
 
     onLoadTimesCompleted: {
         console.log("tbm_times_model.count: ", tbm_times_model.count);
@@ -91,41 +92,27 @@ Item { id: timeboard_model_item;
 
             // APPEND TO TIMEBOARD (timeboard_model) >>>
             timeboard_model.append(obj);
-            load_more(i);
+            load_more(i); // Grabs more info from database.
         }
 
         // SEND SIGNAL >>>
         where_at.tbm_is_loading = false; //////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
-
     function load_more(index) {
-        if (timeboard_model.get(index) === undefined) {return;}
-        else {
-            // LOAD ADDITIONAL INFORMATION FROM "Get Trips From trip_id" & 'tbm_routes_model' >>>
-            var req = new XMLHttpRequest;
-            req.open("GET", "https://api.at.govt.nz/v1/gtfs/trips/tripId/" + timeboard_model.get(index).trip_id + "?api_key=" + at_api_key);
-            req.onreadystatechange = function() {
-                if (JSON.parse(req.responseText) === undefined) {load_more(index); return;}
-                else {
-                    var obj = JSON.parse(req.responseText).response[0];
-                    timeboard_model.get(index).route_id = obj.route_id;
-                    timeboard_model.get(index).service_id = obj.service_id;
-                    timeboard_model.get(index).trip_headsign = obj.trip_headsign;
 
-                    for (var j = 0; j < tbm_routes_model.count; j++) {
-                        var obj2 = tbm_routes_model.get(j);
-                        if (obj2.route_id === obj.route_id) {
-                            timeboard_model.get(index).agency_id = obj2.agency_id;
-                            timeboard_model.get(index).route_short_name = obj2.route_short_name;
-                            timeboard_model.get(index).route_long_name = obj2.route_long_name;
-                            break;
-                        }
-                    }
-                }
-            }
-            req.send();
-        }
+        // Get data from 'trips' db.
+        var t_id = timeboard_model.get(index).trip_id;
+        var from_trips = u1db_trips.rq_rid_hs(t_id);
+        timeboard_model.get(index).route_id = from_trips[0];
+        timeboard_model.get(index).trip_headsign = from_trips[1];
+        timeboard_model.get(index).service_id = from_trips[2];
+
+        // Get data from 'routes' db.
+        var r_id = from_trips[0];
+        var from_routes = u1db_routes.rq_names(r_id);
+        timeboard_model.get(index).route_short_name = from_routes[0];
+        timeboard_model.get(index).route_long_name = from_routes[1];
     }
 
 
@@ -138,7 +125,7 @@ Item { id: timeboard_model_item;
 
         // Load additional list models.
         load_stop(in_stop_id);
-        load_routes(in_stop_id);
+        //load_routes(in_stop_id);
         load_times(in_stop_id);
     }
 
@@ -154,7 +141,6 @@ Item { id: timeboard_model_item;
     // <<< LISTMODELS >>> //
     ListModel { id: timeboard_model; }  // Main ListModel.
     ListModel { id: tbm_stop_model; }   // Basic info about the stop.
-    ListModel { id: tbm_routes_model; } // Routes which pass the stop..
     ListModel { id: tbm_times_model; }  // Stop Times about the stop.
 
     // <<< FUNCTIONS OF "tbm_stop_model" >>> //
@@ -164,21 +150,6 @@ Item { id: timeboard_model_item;
         req.open("GET", "https://api.at.govt.nz/v1/gtfs/stops/stopId/" + in_stop_id + "?api_key=" + at_api_key);
         req.onreadystatechange = function() {
             if (req.readyState === XMLHttpRequest.DONE) {tbm_stop_model.append(JSON.parse(req.responseText).response[0]); timeboard_model_item.loadStopComplete();}
-        }
-        req.send();
-    }
-
-    // <<< FUNCTIONS OF "tbm_routes_model" >>> //
-    function get_routes_model(in_index) {return tbm_routes_model.get(in_index);}
-    function load_routes(in_stop_id) {
-        tbm_routes_model.clear(); var req = new XMLHttpRequest;
-        req.open("GET", "https://api.at.govt.nz/v1/gtfs/routes/stopid/" + in_stop_id + "?api_key=" + at_api_key);
-        req.onreadystatechange = function() {
-            if (req.readyState === XMLHttpRequest.DONE) {
-                var objectArray = JSON.parse(req.responseText);
-                for (var key in objectArray.response) {tbm_routes_model.append(objectArray.response[key]);}
-                timeboard_model_item.loadRoutesCompleted();
-            }
         }
         req.send();
     }

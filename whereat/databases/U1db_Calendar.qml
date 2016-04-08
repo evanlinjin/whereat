@@ -73,7 +73,7 @@ Item { id: u1db_item;
                     }
                 }
                 console.log("STATUS UPDATE: DONE!");
-                calendar_working = false;
+                where_at.calendar_working = false;
             }
         }
         req.send();
