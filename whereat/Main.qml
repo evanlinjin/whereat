@@ -8,7 +8,7 @@ import "at_backend.js" as AT
 MainView { id: where_at;
 
     objectName: "mainView";
-    applicationName: "publictransport.evanlinjin";
+    applicationName: "whereat.evanlinjin";
 
     property string app_version: "0.4.45"
     property string app_description: i18n.tr("An app for quick public transport information. Currently, only Auckland Transport is supported. This is the Alpha version and is in heavy development.")
@@ -41,6 +41,7 @@ MainView { id: where_at;
     // Database Variables.
     property bool calendar_working: false;
     property bool routes_working: false;
+    property bool stops_working: false;
     property bool trips_working: false;
 
     property int c_i: 0;
@@ -48,6 +49,9 @@ MainView { id: where_at;
 
     property int r_i: 0;
     property int r_total: 0;
+
+    property int s_i: 0;
+    property int s_total: 0;
 
     property int t_i: 0;
     property int t_total: 0;

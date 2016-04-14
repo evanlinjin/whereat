@@ -66,5 +66,6 @@ DISTFILES += \
     PageATHop.qml \
     cp_settings/cp_update/UpdateDB_View0.qml \
     cp_settings/cp_update/UpdateDB_View1.qml \
-    cp_settings/cp_update/UpdateDB_View2.qml
+    cp_settings/cp_update/UpdateDB_View2.qml \
+    databases/U1db_Stops.qml
 

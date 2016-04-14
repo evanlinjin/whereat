@@ -17,6 +17,7 @@ Dialog { id: dialogue;
 
         where_at.calendar_working = true;
         where_at.trips_working = true;
+        where_at.stops_working = true;
         where_at.routes_working = true;
 
         dialogue.text = "Working...";
@@ -27,13 +28,14 @@ Dialog { id: dialogue;
 
         calendar.force_download_all();
         routes.force_download_all();
+        stops.force_download_all();
         trips.force_download_all();
     }
 
     Timer { id: loadFinishedTimer;
         running: false; interval: 1000; repeat: true;
         onTriggered: {
-            if (!where_at.calendar_working && !where_at.trips_working && !where_at.routes_working) {
+            if (!where_at.calendar_working && !where_at.trips_working && !where_at.stops_working && !where_at.routes_working) {
                 dialogue.text = "Done!"; activity.running = false;
                 loader.source = "UpdateDB_View2.qml";
             }
@@ -42,5 +44,6 @@ Dialog { id: dialogue;
 
     U1db_Calendar { id: calendar; }
     U1db_Routes { id: routes; }
+    U1db_Stops { id: stops; }
     U1db_Trips { id: trips; }
 }

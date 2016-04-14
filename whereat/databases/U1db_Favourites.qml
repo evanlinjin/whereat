@@ -1,9 +1,39 @@
 import QtQuick 2.4
-import Ubuntu.Components 1.3
+import QtQuick.LocalStorage 2.0
 import U1db 1.0 as U1db
 import "at_backend.js" as AT
 
 Item { id: u1db_item;
+
+    property var db: null;
+    property ListModel model: ListModel {}
+
+    property string debug: "DB ROUTES: ";
+
+    // FUNCTION 'db_open()' >>>
+    // Opens 'favourites' db from SQLite.
+    function db_open() {
+        if (db !== null) {return;}         // Return if db already loaded.
+
+        // db = LocalStorage.openDatabaseSync(identifier, version, description, estimated_size, callback(db))
+        db = LocalStorage.openDatabaseSync("AT", "0.1", "Stores Data from AT Transport", 100000);
+
+        try {
+            db.transaction(function(tx){
+                tx.executeSql(
+                            'CREATE TABLE IF NOT EXISTS favourites(' +
+                            'alias_id        TEXT PRIMARY KEY    NOT NULL,' +
+                            'type            TEXT                NOT NULL,' +
+                            'alias_var0      TEXT                        ,' +
+                            'alias_var1      TEXT                        ,' +
+                            'alias_var2      TEXT                         ' + ')'
+                            );
+                var table_len  = tx.executeSql("SELECT * FROM favourites").rows.length;
+                console.log("LOADED: DB 'calendar' with ", table_len, " elements.");
+            });
+        } catch (err) { console.log("ERROR: creating table in database: " + err); };
+    }
+
     U1db.Database {id: favourites_db; path: "favourites_database";}
 
     U1db.Index {id: f_stops_index;

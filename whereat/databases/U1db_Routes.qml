@@ -134,7 +134,6 @@ Item { id: u1db_item;
             tx.executeSql('INSERT OR REPLACE INTO routes VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)',
                           [route_id, a_id, r_sn, r_ln, r_d, r_t, r_u, r_c, r_tc] );
         });
-
     }
 
     // FUNCTION 'db_get(route_id, key)' >>>

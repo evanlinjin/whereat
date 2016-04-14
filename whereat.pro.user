@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 3.5.1, 2016-04-08T14:51:54. -->
+<!-- Written by QtCreator 3.5.1, 2016-04-14T09:17:49. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -203,27 +203,29 @@
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName"></value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">UbuntuProjectManager.UploadStep</value>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedFiles">
-       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.29_armhf.click</value>
-       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.2_armhf.click</value>
-       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.19.2_armhf.click</value>
        <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Debug/whereat.evanlinjin_0.4.2_armhf.click</value>
-       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.20_armhf.click</value>
+       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.45_armhf.click</value>
+       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.19.2_armhf.click</value>
        <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.36_armhf.click</value>
-       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.41_armhf.click</value>
-       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.43_armhf.click</value>
+       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Debug/whereat.evanlinjin_0.1_armhf.click</value>
        <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.24_armhf.click</value>
-       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.12_armhf.click</value>
+       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.42_armhf.click</value>
+       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.29_armhf.click</value>
+       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4_armhf.click</value>
+       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.23.1_armhf.click</value>
+       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.20_armhf.click</value>
+       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.22_armhf.click</value>
+       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.2_armhf.click</value>
        <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.38_armhf.click</value>
        <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.27_armhf.click</value>
-       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4_armhf.click</value>
-       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.22_armhf.click</value>
-       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.23.1_armhf.click</value>
-       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.42_armhf.click</value>
+       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.12_armhf.click</value>
+       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.41_armhf.click</value>
        <value type="QString">/usr/share/qtcreator/ubuntu/scripts/qtc_device_applaunch.py</value>
-       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Debug/whereat.evanlinjin_0.1_armhf.click</value>
        <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.31_armhf.click</value>
+       <value type="QString">/home/evan/bots_workspace/build-whereat-UbuntuSDK_for_armhf_GCC_ubuntu_sdk_15_04_vivid-Release/whereat.evanlinjin_0.4.43_armhf.click</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedHosts">
+       <value type="QString">127.0.0.1</value>
        <value type="QString">127.0.0.1</value>
        <value type="QString">127.0.0.1</value>
        <value type="QString">127.0.0.1</value>
@@ -264,6 +266,7 @@
        <value type="QString">/tmp</value>
        <value type="QString">/tmp</value>
        <value type="QString">/tmp</value>
+       <value type="QString">/tmp</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedSysroots">
        <value type="QString">/var/lib/schroot/chroots/click-ubuntu-sdk-15.04-armhf</value>
@@ -285,27 +288,29 @@
        <value type="QString">/var/lib/schroot/chroots/click-ubuntu-sdk-15.04-armhf</value>
        <value type="QString">/var/lib/schroot/chroots/click-ubuntu-sdk-15.04-armhf</value>
        <value type="QString">/var/lib/schroot/chroots/click-ubuntu-sdk-15.04-armhf</value>
+       <value type="QString">/var/lib/schroot/chroots/click-ubuntu-sdk-15.04-armhf</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedTimes">
-       <value type="QDateTime">2016-04-06T04:36:51</value>
-       <value type="QDateTime">2016-03-30T19:05:14</value>
-       <value type="QDateTime">2016-04-03T21:05:22</value>
        <value type="QDateTime">2016-04-02T10:17:51</value>
-       <value type="QDateTime">2016-04-03T21:59:07</value>
+       <value type="QDateTime">2016-04-08T19:15:39</value>
+       <value type="QDateTime">2016-04-03T21:05:22</value>
        <value type="QDateTime">2016-04-06T21:58:15</value>
-       <value type="QDateTime">2016-04-08T13:47:39</value>
-       <value type="QDateTime">2016-04-08T14:48:59</value>
+       <value type="QDateTime">2016-03-27T03:42:21</value>
        <value type="QDateTime">2016-04-04T05:10:42</value>
-       <value type="QDateTime">2016-04-03T20:29:09</value>
+       <value type="QDateTime">2016-04-08T14:08:33</value>
+       <value type="QDateTime">2016-04-06T04:36:51</value>
+       <value type="QDateTime">2016-03-30T12:11:11</value>
+       <value type="QDateTime">2016-04-04T05:06:05</value>
+       <value type="QDateTime">2016-04-03T21:59:07</value>
+       <value type="QDateTime">2016-04-04T04:51:39</value>
+       <value type="QDateTime">2016-03-30T19:05:14</value>
        <value type="QDateTime">2016-04-07T06:41:13</value>
        <value type="QDateTime">2016-04-05T13:37:13</value>
-       <value type="QDateTime">2016-03-30T12:11:11</value>
-       <value type="QDateTime">2016-04-04T04:51:39</value>
-       <value type="QDateTime">2016-04-04T05:06:05</value>
-       <value type="QDateTime">2016-04-08T14:08:33</value>
-       <value type="QDateTime">2016-04-08T14:48:59</value>
-       <value type="QDateTime">2016-03-27T03:42:21</value>
+       <value type="QDateTime">2016-04-03T20:29:09</value>
+       <value type="QDateTime">2016-04-08T13:47:39</value>
+       <value type="QDateTime">2016-04-08T19:15:39</value>
        <value type="QDateTime">2016-04-06T08:07:56</value>
+       <value type="QDateTime">2016-04-08T14:48:59</value>
       </valuelist>
      </valuemap>
      <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
