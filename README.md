@@ -1,5 +1,5 @@
 # Where AT?
-A Public Transport App Written in Qt \
+A Public Transport App Written in Qt  
 ![Where AT?](https://raw.githubusercontent.com/evanlinjin/whereat/master/whereat/whereat.png)
 
 ## Introduction
