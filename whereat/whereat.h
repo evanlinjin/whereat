@@ -21,6 +21,7 @@ public:
     void setAtApiKey(const QString &a) {if (a != m_atApiKey) {m_atApiKey = a; emit atApiKeyChanged();}}
 
     Locator* locator;
+    Downloader* downloader;
 
     AbstractModel* listModel;
     StopModel* favouritesModel;

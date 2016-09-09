@@ -5,6 +5,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QDebug>
 
 #include "keys.h"
 
@@ -20,16 +21,18 @@ private:
     QNetworkAccessManager* nm;
 
 signals:
-    void stopsNearbySearchComplete(bool status, QNetworkReply* reply);
-    void stopsTextSearchComplete(bool status, QNetworkReply* reply);
-    void timeboardSearchComplete(bool status, QNetworkReply* reply);
-    void timeboardRtSearchComplete(bool status, QNetworkReply* reply);
+    void stopsNearbySearchComplete(int status, QNetworkReply* reply);
+    void stopsTextSearchComplete(int status, QNetworkReply* reply);
+    void timeboardSearchComplete(int status, QNetworkReply* reply);
+    void timeboardRtSearchComplete(int status, QNetworkReply* reply);
+    void routesNearbySearchComplete(int status, QNetworkReply* reply);
 
 public slots:
     void getStopsNearbySearch(double lat, double lon, double radius);
     void getStopsTextSearch(QString query);
     void getTimeboardSearch(QString stop_id);
     void getTimeboardRtSearch(QStringList trip_ids);
+    void getRoutesNearbySearch(double lat, double lon, double radius);
 
 private slots:
     void networkReplyHandler(QNetworkReply* reply);

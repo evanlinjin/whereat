@@ -52,10 +52,27 @@ MainView {
             onClicked: locator.request();
         }
 
+        Button { id: button2
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                top: button.bottom
+                topMargin: units.gu(2)
+            }
+            width: parent.width
+            text: "Download";
+            onClicked: {
+                downloader.getStopsNearbySearch(123.45, 123.45, 123.45);
+                downloader.getStopsTextSearch("test");
+                downloader.getTimeboardSearch("113");
+                downloader.getTimeboardRtSearch("");
+                downloader.getRoutesNearbySearch(123.45, 123.45, 123.45);
+            }
+        }
+
         UbuntuListView {
             anchors {
                 horizontalCenter: parent.horizontalCenter
-                top: button.bottom;
+                top: button2.bottom;
                 bottom: parent.bottom;
                 topMargin: units.gu(2);
             }
