@@ -3,13 +3,14 @@ TARGET = whereat
 
 load(ubuntu-click)
 
-QT += qml quick core positioning
+QT += qml quick core positioning concurrent network sql
 
 SOURCES += main.cpp \
     whereat.cpp \
     models/abstractmodel.cpp \
     models/stopmodel.cpp \
-    misc/locator.cpp
+    misc/locator.cpp \
+    misc/downloader.cpp
 
 RESOURCES += whereat.qrc
 
@@ -49,4 +50,5 @@ HEADERS += \
     whereat.h \
     models/abstractmodel.h \
     models/stopmodel.h \
-    misc/locator.h
+    misc/locator.h \
+    misc/downloader.h

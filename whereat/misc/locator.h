@@ -2,28 +2,30 @@
 #define LOCATOR_H
 
 #include <QObject>
+#include <QDebug>
 #include <QGeoPositionInfoSource>
 
 class Locator : public QObject {
     Q_OBJECT
-    Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
 
 public:
     explicit Locator(QObject *parent = 0);
     ~Locator();
 
-    bool busy() const {return busy;}
-
 private:
-    QGeoPositionInfoSource *source;
-    bool m_busy;
-    void setBusy(bool a) {if (a != busy) {busy = a; emit busyChanged(busy);}}
+    QGeoPositionInfoSource* source;
+    double lat, lon;
 
 signals:
-    busyChanged(bool busy);
+    void response(bool status, double lat, double lon); // READ ME!
 
 public slots:
-    void request(int ms, QString id);
+    void request(); // CALL ME!
+
+private slots:
+    void getPositionUpdateSuccess(QGeoPositionInfo info);
+    void getPositionUpdateFail();
+
 };
 
 #endif // LOCATOR_H

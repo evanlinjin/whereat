@@ -16,10 +16,11 @@ int main(int argc, char *argv[])
     WhereAt* whereat = new WhereAt();
 
     view->engine()->rootContext()->setContextProperty("whereat", whereat);
+    view->engine()->rootContext()->setContextProperty("locator", whereat->locator);
     view->engine()->rootContext()->setContextProperty("walistmodel", whereat->listModel);
     view->engine()->rootContext()->setContextProperty("favouritesModel", whereat->favouritesModel);
 
-    whereat->setAtApiKey(Keys::atApi);
+    //whereat->setAtApiKey(Keys::atApi);
 
     view->setSource(QUrl(QStringLiteral("qrc:///Main.qml")));
     view->show();

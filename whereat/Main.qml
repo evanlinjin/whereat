@@ -26,79 +26,36 @@ MainView {
             }
         }
 
-        Label {
-            id: label
-            objectName: "label"
+        Label { id: label
             anchors {
-                horizontalCenter: parent.horizontalCenter
-                top: pageHeader.bottom
-                topMargin: units.gu(2)
+                horizontalCenter: parent.horizontalCenter;
+                top: pageHeader.bottom;
+                topMargin: units.gu(2);
             }
-
             text: whereat.atApiKey;
+            Component.onCompleted: {
+                locator.response.connect(response);
+            }
+            function response(status, lat, lon) {
+                label.text = "Status: " + status + ", Lat: " + lat + ", Lon: " + lon;
+            }
         }
 
-        Button {
-            id: button
-            objectName: "button"
+        Button { id: button
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 top: label.bottom
                 topMargin: units.gu(2)
             }
             width: parent.width
-            text: "ADD " + walistmodel.count;
-//            onClicked: {
-//                whereat.atApiKey = "added.";
-//                if (!walistmodel.insertRow(0)) {
-//                    whereat.atApiKey = "Not added.";
-//                }
-//                walistmodel.setData(walistmodel.getIndex(0), walistmodel.count, 259);
-//                walistmodel.setData(walistmodel.getIndex(0), walistmodel.count, 260);
-//            }
-        }
-
-        Button {
-            id: button2
-            objectName: "button"
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                top: button.bottom
-                topMargin: units.gu(2)
-            }
-            width: parent.width
-            text: "REMOVE " + favouritesModel.count;
-            onClicked: {
-                whereat.atApiKey = "removed.";
-                if (!walistmodel.removeRow(0)) {
-                    whereat.atApiKey = "Not removed.";
-                }
-            }
-        }
-
-        Button {
-            id: button3
-            objectName: "button"
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                top: button2.bottom
-                topMargin: units.gu(2)
-            }
-            width: parent.width
-            text: "MOVE " + favouritesModel.count;
-            onClicked: {
-                whereat.atApiKey = "moved.";
-                //walistmodel.clear();
-                if (!walistmodel.moveRow(-1, 0, -1, 3)) {
-                    whereat.atApiKey = "Not moved.";
-                }
-            }
+            text: "Locate";
+            onClicked: locator.request();
         }
 
         UbuntuListView {
             anchors {
                 horizontalCenter: parent.horizontalCenter
-                top: button3.bottom;
+                top: button.bottom;
                 bottom: parent.bottom;
                 topMargin: units.gu(2);
             }

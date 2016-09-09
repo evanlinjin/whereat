@@ -5,6 +5,8 @@
 
 #include "models/abstractmodel.h"
 #include "models/stopmodel.h"
+#include "misc/locator.h"
+#include "misc/downloader.h"
 
 class WhereAt : public QObject
 {
@@ -13,9 +15,12 @@ class WhereAt : public QObject
 
 public:
     explicit WhereAt(QObject *parent = 0);
+    ~WhereAt();
 
     QString atApiKey() const {return m_atApiKey;}
     void setAtApiKey(const QString &a) {if (a != m_atApiKey) {m_atApiKey = a; emit atApiKeyChanged();}}
+
+    Locator* locator;
 
     AbstractModel* listModel;
     StopModel* favouritesModel;
