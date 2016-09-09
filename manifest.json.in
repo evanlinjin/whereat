@@ -1,15 +1,16 @@
 {
-    "name": "publictransport.evanlinjin",
-    "description": "Search and find bus stops, train stations and ferry piers. View real time boards, and favourite them.",
+    "name": "whereat.evanlinjin",
+    "description": "description of whereat",
     "architecture": "@CLICK_ARCH@",
-    "title": "Where AT?",
+    "title": "whereat",
     "hooks": {
         "whereat": {
             "apparmor": "whereat/whereat.apparmor",
-            "desktop": "whereat/whereat.desktop"
+            "desktop":  "whereat/whereat.desktop"
         }
     },
-    "version": "0.4.46",
-    "maintainer": "Evan Lin <evan.linjin@gmail.com>",
-    "framework": "ubuntu-sdk-15.04.4-qml"
+    "version": "0.1",
+    "maintainer": "Evan Chih-Yu Lin <evan.linjin@gmail.com>",
+    "framework" : "ubuntu-sdk-15.04.6"
 }
+

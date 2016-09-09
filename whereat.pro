@@ -34,7 +34,7 @@ aptest.commands = bash $$PWD/whereat/tests/autopilot/run
 aptest.depends  = sub-whereat
 
 unittest.target   = check
-unittest.commands = /usr/bin/qmltestrunner -input $$PWD/whereat/tests/unit 
+unittest.commands = /usr/bin/qmltestrunner -input $$PWD/whereat/tests/unit
 unittest.depends  = sub-whereat
 
 QMAKE_EXTRA_TARGETS += aptest unittest

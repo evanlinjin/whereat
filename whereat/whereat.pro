@@ -1,5 +1,14 @@
-TEMPLATE = aux
+TEMPLATE = app
 TARGET = whereat
+
+load(ubuntu-click)
+
+QT += qml quick
+
+SOURCES += main.cpp \
+    whereat.cpp \
+    models/abstractmodel.cpp \
+    models/stopmodel.cpp
 
 RESOURCES += whereat.qrc
 
@@ -10,61 +19,32 @@ CONF_FILES +=  whereat.apparmor \
                whereat.png
 
 AP_TEST_FILES += tests/autopilot/run \
-                 $$files(tests/*.py,true)               
+                 $$files(tests/*.py,true)
 
+#show all the files in QtCreator
 OTHER_FILES += $${CONF_FILES} \
                $${QML_FILES} \
                $${AP_TEST_FILES} \
                whereat.desktop
 
-#specify where the qml/js files are installed to
-qml_files.path = /whereat
-qml_files.files += $${QML_FILES}
-
 #specify where the config files are installed to
 config_files.path = /whereat
 config_files.files += $${CONF_FILES}
+INSTALLS+=config_files
 
 #install the desktop file, a translated version is 
 #automatically created in the build directory
 desktop_file.path = /whereat
 desktop_file.files = $$OUT_PWD/whereat.desktop
 desktop_file.CONFIG += no_check_exist
+INSTALLS+=desktop_file
 
-INSTALLS+=config_files qml_files desktop_file
+# Default rules for deployment.
+target.path = $${UBUNTU_CLICK_BINARY_PATH}
+INSTALLS+=target
 
-DISTFILES += \
-    PageHome.qml \
-    components/CustomHeader.qml \
-    PageTimeBoard.qml \
-    views/MainGridView.qml \
-    views/MainSearchView.qml \
-    logic/at_backend.js \
-    models/NearbyModel.qml \
-    models/MainSearchResultsModel.qml \
-    models/FavouritesModel.qml \
-    models/HistoryModel.qml \
-    databases/U1db_Favourites.qml \
-    models/TimeBoardModel.qml \
-    components/TBM_Label.qml \
-    views/MainListView.qml \
-    PageSettings.qml \
-    popups/PopupNavigation.qml \
-    components/NearbySlider.qml \
-    components/MainHeader.qml \
-    databases/U1db_Calendar.qml \
-    components/EmptyState.qml \
-    PageJourneyPlanner.qml \
-    components/pageHome/Ph_FavouritesTab.qml \
-    components/pageHome/Ph_NearbyTab.qml \
-    components/pageHome/Ph_HistoryTab.qml \
-    views/StopInfoView.qml \
-    databases/U1db_Trips.qml \
-    databases/U1db_Routes.qml \
-    cp_settings/PageInfo.qml \
-    cp_settings/DialogueUpdateDB.qml \
-    PageATHop.qml \
-    cp_settings/cp_update/UpdateDB_View0.qml \
-    cp_settings/cp_update/UpdateDB_View1.qml \
-    cp_settings/cp_update/UpdateDB_View2.qml
-
+HEADERS += \
+    keys.h \
+    whereat.h \
+    models/abstractmodel.h \
+    models/stopmodel.h
