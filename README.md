@@ -7,7 +7,7 @@ Currently this app only supports the Ubuntu Touch Operating System, and only pro
 ## Additional Files
 In order to build, you need to provide your own '/whereat/keys.h' file.
 This needs to be in the following format:
-'''
+```
 # FILE: /whereat/keys.h
 
 #ifndef KEYS_H
@@ -20,7 +20,7 @@ namespace Keys {
 }
 
 #endif // KEYS_H
-'''
+```
 
 ## Authors
 * Evan Chih-Yu Lin ([evan.linjin@gmail.com](evan.linjin@gmail.com))
