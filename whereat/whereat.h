@@ -2,6 +2,7 @@
 #define WHEREAT_H
 
 #include <QObject>
+
 #include "models/abstractmodel.h"
 #include "models/stopmodel.h"
 
@@ -12,6 +13,7 @@ class WhereAt : public QObject
 
 public:
     explicit WhereAt(QObject *parent = 0);
+
     QString atApiKey() const {return m_atApiKey;}
     void setAtApiKey(const QString &a) {if (a != m_atApiKey) {m_atApiKey = a; emit atApiKeyChanged();}}
 

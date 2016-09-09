@@ -3,12 +3,13 @@ TARGET = whereat
 
 load(ubuntu-click)
 
-QT += qml quick
+QT += qml quick core positioning
 
 SOURCES += main.cpp \
     whereat.cpp \
     models/abstractmodel.cpp \
-    models/stopmodel.cpp
+    models/stopmodel.cpp \
+    misc/locator.cpp
 
 RESOURCES += whereat.qrc
 
@@ -47,4 +48,5 @@ HEADERS += \
     keys.h \
     whereat.h \
     models/abstractmodel.h \
-    models/stopmodel.h
+    models/stopmodel.h \
+    misc/locator.h
