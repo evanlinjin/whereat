@@ -23,6 +23,7 @@ PageHeader { id: header;
     property bool dual_heading: false;
 
     property alias searchPlaceholderText: search_textfield.placeholderText;
+    property alias searchQuery: search_textfield.text;
     signal searchAccepted(string query);
 
     function focus_search_bar() {

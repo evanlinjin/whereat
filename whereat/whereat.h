@@ -41,6 +41,10 @@ public slots:
     void reloadNearbyStops_COORD(bool status, double lat, double lon);
     void reloadNearbyStops_REPLY(int status, QNetworkReply* reply);
     void reloadNearbyStops_JSON(QList<AbstractItem> list);
+
+    void reloadTextSearch(QString query);
+    void reloadTextSearch_REPLY(int status, QNetworkReply* reply);
+    void reloadTextSearch_JSON(QList<AbstractItem> list);
 };
 
 #endif // WHEREAT_H

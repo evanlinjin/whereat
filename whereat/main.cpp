@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 
     view->engine()->rootContext()->setContextProperty("FavouriteStopsModel", whereat->favouriteStopsModel);
     view->engine()->rootContext()->setContextProperty("NearbyStopsModel", whereat->nearbyStopsModel);
-    view->engine()->rootContext()->setContextProperty("RecentStopsModel", whereat->recentStopsModel);
+    view->engine()->rootContext()->setContextProperty("TextSearchStopsModel", whereat->textSearchStopsModel);
 
     view->setSource(QUrl(QStringLiteral("qrc:///Main.qml")));
     view->show();

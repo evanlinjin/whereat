@@ -28,6 +28,8 @@ WhereAt::~WhereAt() {
     jsonParser->deleteLater();
 }
 
+// DEFINITIONS FOR : UPDATING NEARBY STOPS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 void WhereAt::updateNearbyStops() {
     if (nearbyStopsModel->count() == 0) {
         this->reloadNearbyStops();
@@ -64,7 +66,7 @@ void WhereAt::reloadNearbyStops_COORD(bool status, double lat, double lon) {
 }
 
 void WhereAt::reloadNearbyStops_REPLY(int status, QNetworkReply* reply) {
-    qDebug() << this << "reloadNearbyStops_REPLY" << status << reply;
+    qDebug() << this << "reloadNearbyStops_REPLY" << status << reply->error();
     disconnect(downloader, SIGNAL(stopsNearbySearchComplete(int,QNetworkReply*)),
                this, SLOT(reloadNearbyStops_REPLY(int,QNetworkReply*)));
 
@@ -88,4 +90,44 @@ void WhereAt::reloadNearbyStops_JSON(QList<AbstractItem> list) {
 
     nearbyStopsModel->append(list);
     nearbyStopsModel->setLoading(false);
+}
+
+// DEFINITIONS FOR : UPDATING TEXT SEARCH STOPS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+void WhereAt::reloadTextSearch(QString query) {
+    qDebug() << this << "reloadTextSearch" << query;
+    textSearchStopsModel->clear();
+    textSearchStopsModel->setLoading(true);
+
+    connect(downloader, SIGNAL(stopsTextSearchComplete(int,QNetworkReply*)),
+            this, SLOT(reloadTextSearch_REPLY(int,QNetworkReply*)));
+
+    downloader->getStopsTextSearch(query);
+}
+
+void WhereAt::reloadTextSearch_REPLY(int status, QNetworkReply* reply) {
+    qDebug() << this << "reloadTextSearch_REPLY" << status << reply->error();
+    disconnect(downloader, SIGNAL(stopsTextSearchComplete(int,QNetworkReply*)),
+               this, SLOT(reloadTextSearch_REPLY(int,QNetworkReply*)));
+
+    if (status != 0) {
+        textSearchStopsModel->setLoading(false);
+        textSearchStopsModel->setEmptyState("network_error");
+        reply->deleteLater();
+        return;
+    }
+
+    connect(jsonParser, SIGNAL(parseTextSearchStopsComplete(QList<AbstractItem>)),
+            this, SLOT(reloadTextSearch_JSON(QList<AbstractItem>)));
+
+    jsonParser->parseTextSearchStops(reply);
+}
+
+void WhereAt::reloadTextSearch_JSON(QList<AbstractItem> list) {
+    qDebug() << this << "reloadTextSearch_JSON" << list.size();
+    disconnect(jsonParser, SIGNAL(parseTextSearchStopsComplete(QList<AbstractItem>)),
+               this, SLOT(reloadTextSearch_JSON(QList<AbstractItem>)));
+
+    textSearchStopsModel->append(list);
+    textSearchStopsModel->setLoading(false);
 }

@@ -34,7 +34,7 @@ Page { id: page;
             }
         ]
         searchPlaceholderText: "Search Stops...";
-        onSearchAccepted: console.log("QUERY:", query);
+        onSearchAccepted: WhereAt.reloadTextSearch(query);
     }
 
     ListView { id: side_scroller
@@ -98,7 +98,7 @@ Page { id: page;
                 currentIndex: -1
                 delegate: ListItem {
                     divider.visible: false
-                    height: units.gu(10)
+                    height: units.gu(8)
                     ListItemLayout {
                         anchors.fill: parent
                         title.text: model.ln0;
@@ -106,10 +106,10 @@ Page { id: page;
                         summary.text: model.ln2;
                     }
                 }
-                model: RecentStopsModel;
+                model: TextSearchStopsModel;
                 PullToRefresh {
-                    refreshing: RecentStopsModel.loading;
-                    //onRefresh: WhereAt.reloadNearbyStops();
+                    refreshing: TextSearchStopsModel.loading;
+                    onRefresh: WhereAt.reloadNearbyStops(header.searchQuery);
                 }
             }
         }

@@ -22,12 +22,16 @@ public:
 private:
     // Takes response array from reply (deleting reply).
     QJsonArray takeResponseArray(QNetworkReply* reply);
+    // Returns an empty and clear AbstractItem.
+    AbstractItem getEmptyItem();
 
 signals:
     void parseNearbyStopsComplete(QList<AbstractItem> list);
+    void parseTextSearchStopsComplete(QList<AbstractItem> list);
 
 public slots:
     void parseNearbyStops(QNetworkReply* reply);
+    void parseTextSearchStops(QNetworkReply* reply);
 };
 
 #endif // JSONPARSER_H
