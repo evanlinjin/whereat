@@ -9,6 +9,7 @@
 #include "misc/locator.h"
 #include "misc/downloader.h"
 #include "misc/settingsmanager.h"
+#include "logic/jsonparser.h"
 
 class WhereAt : public QObject {
     Q_OBJECT
@@ -26,6 +27,8 @@ public:
     StopModel* recentStopsModel;
     StopModel* textSearchStopsModel;
 
+    JsonParser* jsonParser;
+
 private:
     QString m_atApiKey;
 
@@ -33,9 +36,10 @@ signals:
     void atApiKeyChanged();
 
 public slots:
-    void reloadNearbyStopsModel();
-    void reloadNearbyStopsModel_COORD(bool status, double lat, double lon);
-    void reloadNearbyStopsModel_REPLY(int status, QNetworkReply* reply);
+    void reloadNearbyStops();
+    void reloadNearbyStops_COORD(bool status, double lat, double lon);
+    void reloadNearbyStops_REPLY(int status, QNetworkReply* reply);
+    void reloadNearbyStops_JSON(QList<AbstractItem> list);
 };
 
 #endif // WHEREAT_H

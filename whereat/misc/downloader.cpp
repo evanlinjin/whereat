@@ -78,5 +78,4 @@ void Downloader::networkReplyHandler(QNetworkReply* reply) {
         qDebug() << this << "REPLY:" << "Unknown" << reply->url();
         return;
     }
-    qDebug() << this << "REPLY:" << reply->error() << reply->url();
 }

@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     view->engine()->rootContext()->setContextProperty("whereat", whereat);
     view->engine()->rootContext()->setContextProperty("locator", whereat->locator);
     view->engine()->rootContext()->setContextProperty("downloader", whereat->downloader);
-    view->engine()->rootContext()->setContextProperty("favouritesModel", whereat->favouriteStopsModel);
+    view->engine()->rootContext()->setContextProperty("NearbyStopsModel", whereat->nearbyStopsModel);
 
     //whereat->setAtApiKey(Keys::atApi);
 

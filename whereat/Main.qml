@@ -17,35 +17,40 @@ MainView {
 
     Page {
         header: PageHeader {
-            id: pageHeader
-            title: i18n.tr("testquick")
+            id: header
+            title: i18n.tr("Where AT?")
             StyleHints {
                 foregroundColor: UbuntuColors.orange
                 backgroundColor: UbuntuColors.porcelain
                 dividerColor: UbuntuColors.slate
             }
+            trailingActionBar.actions: [
+                Action {
+                    iconName: "location"; text: "Reload";
+                    onTriggered: whereat.reloadNearbyStops();
+                }
+            ]
         }
 
         UbuntuListView {
             anchors.fill: parent
-            clip: true
-            //currentIndex: -1
+            anchors.topMargin: header.height
+            currentIndex: -1
             delegate: ListItem {
                 height: units.gu(10)
-                ListItemLayout { id: lol
-                    anchors.fill: parent;
-                    title.text: model.index;
-                    subtitle.text: model.ln0 + model.ln1;
-                    summary.text: model.fav;
+                ListItemLayout {
+                    id: lol
+                    anchors.fill: parent
+                    title.text: model.ln0;
+                    subtitle.text: model.ln1;
+                    summary.text: model.ln2;
                 }
-                onClicked: favouritesModel.removeFavourite(index);
             }
-            model: favouritesModel;
-
-            Component.onCompleted: {
-                whereat.reloadNearbyStopsModel();
+            model: NearbyStopsModel;
+            PullToRefresh {
+                refreshing: NearbyStopsModel.loading;
+                onRefresh: whereat.reloadNearbyStops();
             }
-            PullToRefresh {}
         }
     }
 }

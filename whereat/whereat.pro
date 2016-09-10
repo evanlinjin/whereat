@@ -11,7 +11,8 @@ SOURCES += main.cpp \
     models/stopmodel.cpp \
     misc/locator.cpp \
     misc/downloader.cpp \
-    misc/settingsmanager.cpp
+    misc/settingsmanager.cpp \
+    logic/jsonparser.cpp
 
 RESOURCES += whereat.qrc
 
@@ -53,4 +54,5 @@ HEADERS += \
     models/stopmodel.h \
     misc/locator.h \
     misc/downloader.h \
-    misc/settingsmanager.h
+    misc/settingsmanager.h \
+    logic/jsonparser.h
