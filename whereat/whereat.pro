@@ -10,7 +10,8 @@ SOURCES += main.cpp \
     models/abstractmodel.cpp \
     models/stopmodel.cpp \
     misc/locator.cpp \
-    misc/downloader.cpp
+    misc/downloader.cpp \
+    misc/settingsmanager.cpp
 
 RESOURCES += whereat.qrc
 
@@ -51,4 +52,5 @@ HEADERS += \
     models/abstractmodel.h \
     models/stopmodel.h \
     misc/locator.h \
-    misc/downloader.h
+    misc/downloader.h \
+    misc/settingsmanager.h

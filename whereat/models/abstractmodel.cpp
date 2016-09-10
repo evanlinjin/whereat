@@ -64,6 +64,17 @@ void AbstractModel::setLoading(bool a) {
     }
 }
 
+QString AbstractModel::emptyState() const {
+    return m_emptyState;
+}
+
+void AbstractModel::setEmptyState(QString state) {
+    if (m_emptyState != state) {
+        m_emptyState = state;
+        emit emptyStateChanged(state);
+    }
+}
+
 QModelIndex AbstractModel::getIndex(int i) {
     return index(i);
 }

@@ -11,8 +11,6 @@ public:
     ~StopModel() {AbstractModel::clear();}
 
 signals:
-    void removeFavourite(int index);
-    void removeFavourites(int index, int count);
 
 public slots:
     void reload();

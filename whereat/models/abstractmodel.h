@@ -22,6 +22,7 @@ class AbstractModel : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(bool loading READ loading NOTIFY loadingChanged)
+    Q_PROPERTY(QString emptyState READ emptyState NOTIFY emptyStateChanged)
 
 public:
     explicit AbstractModel(QObject *parent = 0);
@@ -48,13 +49,15 @@ public:
     int loading() const;
     void setLoading(bool a);
 
+    QString emptyState() const;
+    void setEmptyState(QString state);
+
     QModelIndex getIndex(int i);
     QModelIndex getIndex(AbstractItem a);
 
     bool setData(const QModelIndex &index, const QVariant &value, int role);
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
-protected slots:
     bool removeRow(int row, const QModelIndex &index = QModelIndex());
     bool removeRows(int row, int count, const QModelIndex &index = QModelIndex());
     bool moveRow(const QModelIndex &sourceIndex = QModelIndex(), int sourceRow = 0,
@@ -67,10 +70,12 @@ protected slots:
 private:
     QList<AbstractItem> m_list;
     bool m_loading;
+    QString m_emptyState;
 
 signals:
     void countChanged();
     void loadingChanged();
+    void emptyStateChanged(QString state);
 
 public slots:
     bool clear();

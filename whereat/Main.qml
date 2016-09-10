@@ -10,7 +10,7 @@ MainView {
     objectName: "mainView"
 
     // Note! applicationName needs to match the "name" field of the click manifest
-    applicationName: "testquick.evanlinjin"
+    applicationName: "whereat.evanlinjin"
 
     width: units.gu(100)
     height: units.gu(75)
@@ -26,57 +26,8 @@ MainView {
             }
         }
 
-        Label { id: label
-            anchors {
-                horizontalCenter: parent.horizontalCenter;
-                top: pageHeader.bottom;
-                topMargin: units.gu(2);
-            }
-            text: whereat.atApiKey;
-            Component.onCompleted: {
-                locator.response.connect(response);
-            }
-            function response(status, lat, lon) {
-                label.text = "Status: " + status + ", Lat: " + lat + ", Lon: " + lon;
-            }
-        }
-
-        Button { id: button
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                top: label.bottom
-                topMargin: units.gu(2)
-            }
-            width: parent.width
-            text: "Locate";
-            onClicked: locator.request();
-        }
-
-        Button { id: button2
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                top: button.bottom
-                topMargin: units.gu(2)
-            }
-            width: parent.width
-            text: "Download";
-            onClicked: {
-                downloader.getStopsNearbySearch(123.45, 123.45, 123.45);
-                downloader.getStopsTextSearch("test");
-                downloader.getTimeboardSearch("113");
-                downloader.getTimeboardRtSearch("");
-                downloader.getRoutesNearbySearch(123.45, 123.45, 123.45);
-            }
-        }
-
         UbuntuListView {
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                top: button2.bottom;
-                bottom: parent.bottom;
-                topMargin: units.gu(2);
-            }
-            width: parent.width
+            anchors.fill: parent
             clip: true
             //currentIndex: -1
             delegate: ListItem {
@@ -92,7 +43,7 @@ MainView {
             model: favouritesModel;
 
             Component.onCompleted: {
-                //walistmodel.insertRows(0, 5, walistmodel.getIndex(0));
+                whereat.reloadNearbyStopsModel();
             }
             PullToRefresh {}
         }

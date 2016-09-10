@@ -2,29 +2,29 @@
 #define WHEREAT_H
 
 #include <QObject>
+#include <QDebug>
 
 #include "models/abstractmodel.h"
 #include "models/stopmodel.h"
 #include "misc/locator.h"
 #include "misc/downloader.h"
+#include "misc/settingsmanager.h"
 
-class WhereAt : public QObject
-{
+class WhereAt : public QObject {
     Q_OBJECT
-    Q_PROPERTY(QString atApiKey READ atApiKey WRITE setAtApiKey NOTIFY atApiKeyChanged)
 
 public:
     explicit WhereAt(QObject *parent = 0);
     ~WhereAt();
 
-    QString atApiKey() const {return m_atApiKey;}
-    void setAtApiKey(const QString &a) {if (a != m_atApiKey) {m_atApiKey = a; emit atApiKeyChanged();}}
-
     Locator* locator;
     Downloader* downloader;
+    SettingsManager* settingsManager;
 
-    AbstractModel* listModel;
-    StopModel* favouritesModel;
+    StopModel* favouriteStopsModel;
+    StopModel* nearbyStopsModel;
+    StopModel* recentStopsModel;
+    StopModel* textSearchStopsModel;
 
 private:
     QString m_atApiKey;
@@ -33,6 +33,9 @@ signals:
     void atApiKeyChanged();
 
 public slots:
+    void reloadNearbyStopsModel();
+    void reloadNearbyStopsModel_COORD(bool status, double lat, double lon);
+    void reloadNearbyStopsModel_REPLY(int status, QNetworkReply* reply);
 };
 
 #endif // WHEREAT_H
