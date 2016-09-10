@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>Main.qml</file>
+        <file>components/MainHeader.qml</file>
+        <file>pages/PageHome.qml</file>
     </qresource>
 </RCC>

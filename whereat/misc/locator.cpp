@@ -20,18 +20,20 @@ Locator::~Locator() {
 }
 
 void Locator::request() {
-    source->requestUpdate(10000); // 10s timeout.
+    source->requestUpdate(5000); // 5s timeout.
 }
 
 void Locator::getPositionUpdateSuccess(QGeoPositionInfo info) {
     QGeoCoordinate coord = info.coordinate();
     lat = coord.latitude();
     lon = coord.longitude();
+    qDebug() << this << "getPositionUpdateSuccess" << lat << lon;
     emit response(true, lat, lon);
     source->stopUpdates();
 }
 
 void Locator::getPositionUpdateFail() {
+    qDebug() << this << "getPositionUpdateFail" << lat << lon;
     emit response(false, lat, lon);
     source->stopUpdates();
 }

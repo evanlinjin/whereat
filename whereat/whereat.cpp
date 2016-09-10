@@ -28,8 +28,14 @@ WhereAt::~WhereAt() {
     jsonParser->deleteLater();
 }
 
-void WhereAt::reloadNearbyStops() {
+void WhereAt::updateNearbyStops() {
+    if (nearbyStopsModel->count() == 0) {
+        this->reloadNearbyStops();
+    }
+}
 
+void WhereAt::reloadNearbyStops() {
+    qDebug() << this << "reloadNearbyStops";
     nearbyStopsModel->clear();
     nearbyStopsModel->setLoading(true);
 
@@ -40,7 +46,7 @@ void WhereAt::reloadNearbyStops() {
 }
 
 void WhereAt::reloadNearbyStops_COORD(bool status, double lat, double lon) {
-
+    qDebug() << this << "reloadNearbyStops_COORD" << status << lat << lon;
     disconnect(locator, SIGNAL(response(bool,double,double)),
                this, SLOT(reloadNearbyStops_COORD(bool,double,double)));
 
@@ -58,7 +64,7 @@ void WhereAt::reloadNearbyStops_COORD(bool status, double lat, double lon) {
 }
 
 void WhereAt::reloadNearbyStops_REPLY(int status, QNetworkReply* reply) {
-
+    qDebug() << this << "reloadNearbyStops_REPLY" << status << reply;
     disconnect(downloader, SIGNAL(stopsNearbySearchComplete(int,QNetworkReply*)),
                this, SLOT(reloadNearbyStops_REPLY(int,QNetworkReply*)));
 
@@ -76,7 +82,7 @@ void WhereAt::reloadNearbyStops_REPLY(int status, QNetworkReply* reply) {
 }
 
 void WhereAt::reloadNearbyStops_JSON(QList<AbstractItem> list) {
-
+    qDebug() << this << "reloadNearbyStops_JSON" << list.size();
     disconnect(jsonParser, SIGNAL(parseNearbyStopsComplete(QList<AbstractItem>)),
             this, SLOT(reloadNearbyStops_JSON(QList<AbstractItem>)));
 

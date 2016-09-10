@@ -1,56 +1,34 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import "pages"
 
-/*!
-    \brief MainView with a Label and Button elements.
-*/
+MainView { id: main;
 
-MainView {
-    // whereatectName for functional testing purposes (autopilot-qt5)
-    objectName: "mainView"
+    objectName: "mainView";
+    applicationName: "whereat.evanlinjin";
 
-    // Note! applicationName needs to match the "name" field of the click manifest
-    applicationName: "whereat.evanlinjin"
+    // PAGE LAYOUT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-    width: units.gu(100)
-    height: units.gu(75)
+    width: units.gu(100);
+    height: units.gu(70);
 
-    Page {
-        header: PageHeader {
-            id: header
-            title: i18n.tr("Where AT?")
-            StyleHints {
-                foregroundColor: UbuntuColors.orange
-                backgroundColor: UbuntuColors.porcelain
-                dividerColor: UbuntuColors.slate
+    AdaptivePageLayout { id: apl;
+
+        anchors.fill: parent;
+        primaryPage: PageHome {id: pageHome;}
+
+        layouts: PageColumnsLayout {
+            when: width > units.gu(87.5);
+            PageColumn {
+                minimumWidth: preferredWidth;
+                maximumWidth: preferredWidth;
+                preferredWidth: units.gu(30) + width/7.5;
             }
-            trailingActionBar.actions: [
-                Action {
-                    iconName: "location"; text: "Reload";
-                    onTriggered: whereat.reloadNearbyStops();
-                }
-            ]
-        }
-
-        UbuntuListView {
-            anchors.fill: parent
-            anchors.topMargin: header.height
-            currentIndex: -1
-            delegate: ListItem {
-                height: units.gu(10)
-                ListItemLayout {
-                    id: lol
-                    anchors.fill: parent
-                    title.text: model.ln0;
-                    subtitle.text: model.ln1;
-                    summary.text: model.ln2;
-                }
-            }
-            model: NearbyStopsModel;
-            PullToRefresh {
-                refreshing: NearbyStopsModel.loading;
-                onRefresh: whereat.reloadNearbyStops();
-            }
+            PageColumn {fillWidth: true;}
         }
     }
+
+    // SETTINGS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+    property int settings_theme: Settings.themeIndex;
 }

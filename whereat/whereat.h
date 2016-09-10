@@ -36,6 +36,7 @@ signals:
     void atApiKeyChanged();
 
 public slots:
+    void updateNearbyStops();
     void reloadNearbyStops();
     void reloadNearbyStops_COORD(bool status, double lat, double lon);
     void reloadNearbyStops_REPLY(int status, QNetworkReply* reply);

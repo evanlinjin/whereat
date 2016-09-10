@@ -15,12 +15,12 @@ int main(int argc, char *argv[])
 
     WhereAt* whereat = new WhereAt();
 
-    view->engine()->rootContext()->setContextProperty("whereat", whereat);
-    view->engine()->rootContext()->setContextProperty("locator", whereat->locator);
-    view->engine()->rootContext()->setContextProperty("downloader", whereat->downloader);
-    view->engine()->rootContext()->setContextProperty("NearbyStopsModel", whereat->nearbyStopsModel);
+    view->engine()->rootContext()->setContextProperty("WhereAt", whereat);
+    view->engine()->rootContext()->setContextProperty("Settings", whereat->settingsManager);
 
-    //whereat->setAtApiKey(Keys::atApi);
+    view->engine()->rootContext()->setContextProperty("FavouriteStopsModel", whereat->favouriteStopsModel);
+    view->engine()->rootContext()->setContextProperty("NearbyStopsModel", whereat->nearbyStopsModel);
+    view->engine()->rootContext()->setContextProperty("RecentStopsModel", whereat->recentStopsModel);
 
     view->setSource(QUrl(QStringLiteral("qrc:///Main.qml")));
     view->show();
