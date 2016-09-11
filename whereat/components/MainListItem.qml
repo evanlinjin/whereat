@@ -16,7 +16,7 @@ ListItem {
             SlotsLayout.position: SlotsLayout.Leading;
             width: height; height: units.gu(4);
             //source: model.type;
-            source: "bus.svg";
+            source: "../icons/bus.svg";
         }
 
         Item { id: icon_container;
