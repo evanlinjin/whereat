@@ -20,7 +20,9 @@ QML_FILES += $$files(*.qml,true) \
              $$files(*.js,true)
 
 CONF_FILES +=  whereat.apparmor \
-               whereat.png
+               whereat.png \
+               $$files(icons/*.svg,true) \
+               $$files(icons/*.png,true)
 
 AP_TEST_FILES += tests/autopilot/run \
                  $$files(tests/*.py,true)
