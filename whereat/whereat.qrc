@@ -3,5 +3,6 @@
         <file>Main.qml</file>
         <file>components/MainHeader.qml</file>
         <file>pages/PageHome.qml</file>
+        <file>components/MainListItem.qml</file>
     </qresource>
 </RCC>
