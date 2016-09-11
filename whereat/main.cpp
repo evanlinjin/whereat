@@ -4,7 +4,7 @@
 #include <QtQml>
 
 #include "keys.h"
-#include "whereat.h"
+#include "src/whereat.h"
 
 int main(int argc, char *argv[])
 {
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     view->engine()->rootContext()->setContextProperty("NearbyStopsModel", whereat->nearbyStopsModel);
     view->engine()->rootContext()->setContextProperty("TextSearchStopsModel", whereat->textSearchStopsModel);
 
-    view->setSource(QUrl(QStringLiteral("qrc:///Main.qml")));
+    view->setSource(QUrl(QStringLiteral("qrc:///qml/Main.qml")));
     view->show();
 
     return app.exec();

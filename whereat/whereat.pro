@@ -6,13 +6,13 @@ load(ubuntu-click)
 QT += qml quick core positioning concurrent network sql
 
 SOURCES += main.cpp \
-    whereat.cpp \
-    models/abstractmodel.cpp \
-    models/stopmodel.cpp \
-    misc/locator.cpp \
-    misc/downloader.cpp \
-    misc/settingsmanager.cpp \
-    logic/jsonparser.cpp
+    src/whereat.cpp \
+    src/models/abstractmodel.cpp \
+    src/models/stopmodel.cpp \
+    src/locator.cpp \
+    src/downloader.cpp \
+    src/settingsmanager.cpp \
+    src/jsonparser.cpp
 
 RESOURCES += whereat.qrc
 
@@ -51,10 +51,10 @@ INSTALLS+=target
 
 HEADERS += \
     keys.h \
-    whereat.h \
-    models/abstractmodel.h \
-    models/stopmodel.h \
-    misc/locator.h \
-    misc/downloader.h \
-    misc/settingsmanager.h \
-    logic/jsonparser.h
+    src/whereat.h \
+    src/models/abstractmodel.h \
+    src/models/stopmodel.h \
+    src/locator.h \
+    src/downloader.h \
+    src/settingsmanager.h \
+    src/jsonparser.h

@@ -6,10 +6,10 @@
 
 #include "models/abstractmodel.h"
 #include "models/stopmodel.h"
-#include "misc/locator.h"
-#include "misc/downloader.h"
-#include "misc/settingsmanager.h"
-#include "logic/jsonparser.h"
+#include "src/locator.h"
+#include "src/downloader.h"
+#include "src/settingsmanager.h"
+#include "src/jsonparser.h"
 
 class WhereAt : public QObject {
     Q_OBJECT
