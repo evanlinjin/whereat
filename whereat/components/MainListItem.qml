@@ -15,8 +15,7 @@ ListItem {
         Icon {
             SlotsLayout.position: SlotsLayout.Leading;
             width: height; height: units.gu(4);
-            //source: model.type;
-            source: "../icons/bus.svg";
+            source: Qt.resolvedUrl(model.type);
         }
 
         Item { id: icon_container;

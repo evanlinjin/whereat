@@ -24,6 +24,16 @@ AbstractItem JsonParser::getEmptyItem() {
     return item;
 }
 
+QString JsonParser::getIconUrl(QString stop_name) {
+    if (stop_name.contains("Train Station", Qt::CaseSensitive)) {
+        return QString("qrc:/icons/train.svg");
+    }
+    if (stop_name.contains("Ferry Terminal", Qt::CaseSensitive)) {
+        return QString("qrc:/icons/ferry.svg");
+    }
+    return QString("qrc:/icons/bus.svg");
+}
+
 void JsonParser::parseNearbyStops(QNetworkReply* reply) {
 
     QJsonArray response = takeResponseArray(reply);
@@ -43,6 +53,7 @@ void JsonParser::parseNearbyStops(QNetworkReply* reply) {
         item.ln1 = obj["stop_name"].toString();
         item.ln2 = QString::number(obj["st_distance_sphere"].toDouble(), 'f', 0)
                 + QString("m");
+        item.type = this->getIconUrl(item.ln1);
         list.append(item);
     }
 
@@ -66,6 +77,7 @@ void JsonParser::parseTextSearchStops(QNetworkReply* reply) {
         if (item.id.size() >= 5) {continue;} // Get rid of parent stations.
         item.ln0 = obj["stop_code"].toString();
         item.ln1 = obj["stop_name"].toString();
+        item.type = this->getIconUrl(item.ln1);
         list.append(item);
     }
 

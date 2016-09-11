@@ -24,6 +24,8 @@ private:
     QJsonArray takeResponseArray(QNetworkReply* reply);
     // Returns an empty and clear AbstractItem.
     AbstractItem getEmptyItem();
+    // Gets icon URL from stop_name.
+    QString getIconUrl(QString stop_name);
 
 signals:
     void parseNearbyStopsComplete(QList<AbstractItem> list);
