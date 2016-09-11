@@ -12,6 +12,38 @@ Downloader::~Downloader() {
     nm->deleteLater();
 }
 
+void Downloader::getAll() {
+    disconnect(nm, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(networkReplyHandler(QNetworkReply*)));
+    connect(nm, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(getAllOneComplete(QNetworkReply*)));
+
+    QString start_url("https://api.at.govt.nz/v1/gtfs/");
+    QString end_url("?api_key="); end_url.append(Keys::atApi);
+
+    QStringList mid_url; mid_url.reserve(6);
+    mid_url.append("versions");
+    mid_url.append("agency");
+    mid_url.append("routes");
+    mid_url.append("calendar");
+    mid_url.append("stops");
+    mid_url.append("trips");
+
+    for (int i = 0; i < mid_url.size(); i++) {
+        QNetworkReply* reply = nm-> get(QNetworkRequest(
+                    QUrl(start_url + mid_url.at(i) + end_url)));
+        connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
+                this, SIGNAL(getAllOneFailed(QNetworkReply::NetworkError)));
+    }
+}
+
+void Downloader::resetConnections() {
+    connect(nm, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(networkReplyHandler(QNetworkReply*)));
+    disconnect(nm, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(getAllOneComplete(QNetworkReply*)));
+}
+
 void Downloader::getStopsNearbySearch(double lat, double lon, double radius) {
     QString url("https://api.at.govt.nz/v1/gtfs/stops/geosearch?");
     url += "lat=";     url += QString::number(lat, 'f', 6);    url += "&";
@@ -60,22 +92,21 @@ void Downloader::getRoutesNearbySearch(double lat, double lon, double radius) {
 void Downloader::networkReplyHandler(QNetworkReply* reply) {
     QString path = reply->url().path();
     if (path.contains("/v1/gtfs/stops/geosearch")) {
-        stopsNearbySearchComplete(reply->error(), reply);
+        emit stopsNearbySearchComplete(reply->error(), reply);
     }
     else if (path.contains("/v1/gtfs/stops/search")) {
-        stopsTextSearchComplete(reply->error(), reply);
+        emit stopsTextSearchComplete(reply->error(), reply);
     }
     else if (path.contains("/v1/gtfs/stopTimes/stopId")) {
-        timeboardSearchComplete(reply->error(), reply);
+        emit timeboardSearchComplete(reply->error(), reply);
     }
     else if (path.contains("/v1/public/realtime/tripupdates")) {
-        timeboardRtSearchComplete(reply->error(), reply);
+        emit timeboardRtSearchComplete(reply->error(), reply);
     }
     else if (path.contains("/v1/gtfs/routes/geosearch")) {
-        routesNearbySearchComplete(reply->error(), reply);
+        emit routesNearbySearchComplete(reply->error(), reply);
     }
     else {
-        qDebug() << this << "REPLY:" << "Unknown" << reply->url();
-        return;
+        qDebug() << this << "networkReplyHandler" << "Unknown" << reply->url();
     }
 }

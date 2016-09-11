@@ -2,15 +2,14 @@
     "name": "whereat.evanlinjin",
     "description": "description of whereat",
     "architecture": "@CLICK_ARCH@",
-    "title": "whereat",
+    "title": "Where AT?",
     "hooks": {
         "whereat": {
             "apparmor": "whereat/whereat.apparmor",
-            "desktop":  "whereat/whereat.desktop"
+            "desktop": "whereat/whereat.desktop"
         }
     },
-    "version": "0.1",
+    "version": "1.0",
     "maintainer": "Evan Chih-Yu Lin <evan.linjin@gmail.com>",
-    "framework" : "ubuntu-sdk-15.04.6"
+    "framework": "ubuntu-sdk-15.04.6"
 }
-

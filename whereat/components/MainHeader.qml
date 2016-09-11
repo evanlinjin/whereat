@@ -117,7 +117,7 @@ PageHeader { id: header;
                 Timer { id: text_field_timer;
                     running: false; repeat: false; interval: 10;
                     onTriggered: {
-                        text_field.selectAll();
+                        text_field.text = "";
                         text_field.forceActiveFocus();
                     }
                 }

@@ -26,14 +26,15 @@ Page { id: page;
 
         searchPlaceholderText: "Search Stops...";
         onSearchAccepted: WhereAt.reloadTextSearch(query);
-        flickable: listView;
+        //flickable: listView;
     }
 
     UbuntuListView { id: listView
         anchors.fill: parent;
+        anchors.topMargin: header.height;
         currentIndex: -1;
         onCountChanged: currentIndex = -1
-        delegate: MainListItem {}
+        delegate: MainListItem { id: listItem }
         model: switch (header.tabbar_currentIndex) {
                case 0: return FavouriteStopsModel;
                case 1: return NearbyStopsModel;

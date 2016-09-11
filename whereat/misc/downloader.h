@@ -22,6 +22,11 @@ private:
     QNetworkAccessManager* nm;
 
 signals:
+    // For Updating Database >>>
+    void getAllOneComplete(QNetworkReply* reply);
+    void getAllOneFailed(QNetworkReply::NetworkError error);
+
+    // For Filling ListViews >>>
     void stopsNearbySearchComplete(int status, QNetworkReply* reply);
     void stopsTextSearchComplete(int status, QNetworkReply* reply);
     void timeboardSearchComplete(int status, QNetworkReply* reply);
@@ -29,6 +34,11 @@ signals:
     void routesNearbySearchComplete(int status, QNetworkReply* reply);
 
 public slots:
+    // For Updating Database >>>
+    void getAll();
+    void resetConnections();
+
+    // For Filling ListViews >>>
     void getStopsNearbySearch(double lat, double lon, double radius);
     void getStopsTextSearch(QString query);
     void getTimeboardSearch(QString stop_id);
