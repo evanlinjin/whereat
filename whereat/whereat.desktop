@@ -1,7 +1,9 @@
 [Desktop Entry]
-_Name=whereat
+_Name=Where AT? (Dev)
 Exec=whereat
 Icon=whereat/whereat.png
 Terminal=false
 Type=Application
 X-Ubuntu-Touch=true
+X-Ubuntu-Splash-Title=Where AT?
+X-Ubuntu-Splash-Color=white
