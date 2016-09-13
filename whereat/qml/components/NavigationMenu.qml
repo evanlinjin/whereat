@@ -6,10 +6,10 @@ Item { id: mainMenu;
 
     property int pageHeight;
     property int pageWidth;
-    property int gap;
 
     anchors.left: parent.left;
     anchors.top:parent.top;
+    width: pageWidth;
     z: parent.z + 100;
 
     MouseArea {
@@ -17,12 +17,40 @@ Item { id: mainMenu;
         onClicked: mainMenu.close();
     }
 
+    Rectangle { id: titleRectangle;
+        height: units.gu(6);
+        width: parent.width - units.gu(5);
+        anchors.top: parent.top;
+        anchors.right: parent.right;
+        Row {
+            anchors.fill: parent;
+            spacing: units.gu(1);
+            Item { width: height; height: parent.height;
+                UbuntuShape {
+                    anchors.centerIn: parent;
+                    width: units.gu(4); height: units.gu(4); radius: "large";
+                    source: Image {source: "qrc:/whereat.png";}
+                    aspect: UbuntuShape.Flat;
+                    color: theme.palette.normal.backgroundText;
+                }
+            }
+            Label {
+                anchors.verticalCenter: parent.verticalCenter;
+                text: "Where AT?";
+                fontSize: "large";
+                width: parent.width;
+                elide: Text.ElideRight;
+                color: theme.palette.normal.backgroundText;
+            }
+        }
+    }
+
     Rectangle { id: menuRectangle;
         height: parent.height*3/5;
-        width: parent.width*4/5;
         anchors.left: parent.left;
+        anchors.right: parent.right;
         anchors.top: parent.top;
-        anchors.topMargin: gap;
+        anchors.topMargin: units.gu(6);
         color: theme.palette.normal.background;
     }
 
@@ -37,41 +65,7 @@ Item { id: mainMenu;
         }
     }
 
-//    Rectangle { id: shadowTop;
-//        width: menuRectangle.width;
-//        height: units.gu(0.75);
-//        opacity: Settings.themeIndex === 0 ? 0.1 : 0.6;
-//        anchors {bottom: menuRectangle.top; left: parent.left;}
-//        gradient: Gradient {
-//            GradientStop {position: 0.0; color: "#00000000";}
-//            GradientStop {position: 1.0; color: "black";}
-//        }
-//    }
-
-    Rectangle { id: shadowRight;
-        width: menuRectangle.height;
-        height: units.gu(0.75);
-        opacity: Settings.themeIndex === 0 ? 0.1 : 0.6;
-        anchors {
-            left: menuRectangle.right;
-            leftMargin: units.gu(0.75);
-            top: menuRectangle.top;
-        }
-        gradient: Gradient {
-            GradientStop {position: 0.0; color: "#00000000";}
-            GradientStop {position: 1.0; color: "black";}
-        }
-        transform: Rotation {
-            origin.x: shadowRight.horizontalCenter;
-            origin.y: shadowRight.verticalCenter;
-            angle: 90;
-        }
-    }
-
-    function close() {
-        state = "closed";
-        header.hide_tabbar = false;
-    }
+    function close() {state = "closed";}
     function toggle() {state = (state == "open" ? "closed" : "open");}
 
     state: "closed";
@@ -80,7 +74,6 @@ Item { id: mainMenu;
             name: "open"
             PropertyChanges {
                 target: mainMenu;
-                width: pageWidth;
                 height: pageHeight;
                 opacity: 1;
             }
@@ -89,7 +82,6 @@ Item { id: mainMenu;
             name: "closed"
             PropertyChanges {
                 target: mainMenu;
-                width: pageWidth;
                 height: 0;
                 opacity: 0;
             }
@@ -97,10 +89,8 @@ Item { id: mainMenu;
     ]
     transitions: [
         Transition {
-            NumberAnimation {
-                properties: "width,height,opacity";
-                duration: 150;
-            }
+            NumberAnimation {properties: "height"; duration: 150;}
+            NumberAnimation {properties: "opacity"; duration: 100;}
         }
     ]
 }

@@ -7,16 +7,13 @@ Page { id: page;
     header: MainHeader { id: header;
         ln0: "Stops";
         iconName: "clock-app-symbolic";
-        leftbutton: Action { text: "Menu"; iconName: "navigation-menu";
-            onTriggered: {
-                mainMenu.toggle();
-                header.hide_tabbar = !header.hide_tabbar;
-            }
+        leftbutton: Action { id: navButton;
+            text: "Menu"; iconName: "navigation-menu";
+            onTriggered: mainMenu.toggle();
         }
         NavigationMenu {id: mainMenu;
             pageWidth: page.width;
             pageHeight: page.height;
-            gap: header.height;
         }
         tabbar: [
             Action {text: "Starred";

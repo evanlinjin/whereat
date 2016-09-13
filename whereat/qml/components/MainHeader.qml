@@ -15,7 +15,6 @@ PageHeader { id: header;
     property list<Action> tabbar;
     property alias tabbar_currentIndex: sections.selectedIndex;
     property list<Action> leftbutton;
-    property bool hide_tabbar: false;
 
     property list<Action> topbar;
 
@@ -39,8 +38,6 @@ PageHeader { id: header;
 
     extension: Sections { id: sections;
         actions: tabbar;
-
-        height: hide_tabbar ? 0 : units.gu(4);
         StyleHints {
             underlineColor: header.backgroundColor;
             selectedSectionColor: header.foregroundColor;

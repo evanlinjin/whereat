@@ -12,5 +12,6 @@
 	<file>icons/ferry.svg</file>
 	<file>icons/train.svg</file>
 	<file>icons/AT.png</file>
+	<file>whereat.png</file>
     </qresource>
 </RCC>
