@@ -28,6 +28,62 @@ WhereAt::~WhereAt() {
     jsonParser->deleteLater();
 }
 
+// PRIVATE DEFINITIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+void WhereAt::clearDlReplyList() {
+    qDebug() << this << "clearDlReplyList" << dlReplyList.size();
+    for (int i = 0; i < dlReplyList.size(); i++) {
+        dlReplyList.takeAt(0)->deleteLater();
+    }
+}
+
+// DEFINITIONS FOR : UPDATE DATABASE MANUAL >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+void WhereAt::updateDbManual() {
+    qDebug() << this << "updateDbManual";
+    dlCount = dlFails = 0; dlMax = 6;
+    this->clearDlReplyList();
+
+    connect(downloader, SIGNAL(getAllOneComplete(QNetworkReply*)),
+            this, SLOT(updateDbManual_REPLY(QNetworkReply*)));
+    connect(downloader, SIGNAL(getAllOneFailed(QNetworkReply::NetworkError)),
+            this, SLOT(updateDbManual_REPLY(QNetworkReply::NetworkError)));
+
+    downloader->getAll();
+}
+
+void WhereAt::updateDbManual_REPLY(QNetworkReply *reply) {
+    qDebug() << this << "updateDbManual_REPLY" << reply->url().path();
+    dlCount += 1;
+    this->dlReplyList.append(reply);
+
+    // Only Continue if all files downloaded.
+    if (dlCount == dlMax) {
+        disconnect(downloader, SIGNAL(getAllOneComplete(QNetworkReply*)),
+                   this, SLOT(updateDbManual_REPLY(QNetworkReply*)));
+        disconnect(downloader, SIGNAL(getAllOneFailed(QNetworkReply::NetworkError)),
+                   this, SLOT(updateDbManual_REPLY(QNetworkReply::NetworkError)));
+
+        if (dlFails > 0) { // If some downloads fail, stop all & reset.
+            dlCount = dlFails = dlMax = 0;
+            this->clearDlReplyList();
+            downloader->resetConnections();
+        }
+
+        // SIGNAL AND SLOT CONNECTIONS HERE
+
+        connect(jsonParser, SIGNAL(parseAllComplete_clearReplyList()),
+                this, SLOT(clearDlReplyList()));
+
+        jsonParser->parseAll(this->dlReplyList);
+    }
+}
+
+void WhereAt::updateDbManual_REPLY(QNetworkReply::NetworkError error) {
+    qDebug() << this << "updateDbManual_REPLY" << error;
+    dlFails += 1;
+}
+
 // DEFINITIONS FOR : UPDATING NEARBY STOPS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 void WhereAt::updateNearbyStops() {
@@ -86,7 +142,7 @@ void WhereAt::reloadNearbyStops_REPLY(int status, QNetworkReply* reply) {
 void WhereAt::reloadNearbyStops_JSON(QList<AbstractItem> list) {
     qDebug() << this << "reloadNearbyStops_JSON" << list.size();
     disconnect(jsonParser, SIGNAL(parseNearbyStopsComplete(QList<AbstractItem>)),
-            this, SLOT(reloadNearbyStops_JSON(QList<AbstractItem>)));
+               this, SLOT(reloadNearbyStops_JSON(QList<AbstractItem>)));
 
     nearbyStopsModel->append(list);
     nearbyStopsModel->setLoading(false);

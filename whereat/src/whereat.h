@@ -30,12 +30,16 @@ public:
     JsonParser* jsonParser;
 
 private:
-    QString m_atApiKey;
+    int dlCount, dlFails, dlMax;
+    QList<QNetworkReply*> dlReplyList;
 
 signals:
-    void atApiKeyChanged();
 
 public slots:
+    void updateDbManual();
+    void updateDbManual_REPLY(QNetworkReply* reply);
+    void updateDbManual_REPLY(QNetworkReply::NetworkError error);
+
     void updateNearbyStops();
     void reloadNearbyStops();
     void reloadNearbyStops_COORD(bool status, double lat, double lon);
@@ -45,6 +49,10 @@ public slots:
     void reloadTextSearch(QString query);
     void reloadTextSearch_REPLY(int status, QNetworkReply* reply);
     void reloadTextSearch_JSON(QList<AbstractItem> list);
+
+private slots:
+    void clearDlReplyList();
+
 };
 
 #endif // WHEREAT_H

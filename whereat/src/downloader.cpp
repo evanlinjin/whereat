@@ -38,6 +38,7 @@ void Downloader::getAll() {
 }
 
 void Downloader::resetConnections() {
+    qDebug() << this << "resetConnections";
     connect(nm, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(networkReplyHandler(QNetworkReply*)));
     disconnect(nm, SIGNAL(finished(QNetworkReply*)),

@@ -2,6 +2,7 @@
 #define JSONPARSER_H
 
 #include <QObject>
+#include <QList>
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -12,6 +13,7 @@
 #include <QNetworkReply>
 
 #include "models/abstractmodel.h"
+#include "db/all.h"
 
 class JsonParser : public QObject {
     Q_OBJECT
@@ -27,11 +29,20 @@ private:
     // Gets icon URL from stop_name.
     QString getIconUrl(QString stop_name);
 
+    // Used by parseAll for Concurrent Updating.
+    void parseAll_ONE(QString name, QJsonArray response);
+    int pareAll_getPrimaryId(QString n, QStringList keys);
+    QStringList pareAll_getSqlTypes(QJsonObject element);
+
 signals:
+    void parseAllComplete_clearReplyList();
+
     void parseNearbyStopsComplete(QList<AbstractItem> list);
     void parseTextSearchStopsComplete(QList<AbstractItem> list);
 
 public slots:
+    void parseAll(QList<QNetworkReply*> replyList);
+
     void parseNearbyStops(QNetworkReply* reply);
     void parseTextSearchStops(QNetworkReply* reply);
 };

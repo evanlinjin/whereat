@@ -12,7 +12,15 @@ SOURCES += main.cpp \
     src/locator.cpp \
     src/downloader.cpp \
     src/settingsmanager.cpp \
-    src/jsonparser.cpp
+    src/jsonparser.cpp \
+    src/apidbmanager.cpp \
+    src/db/dbabstract.cpp \
+    src/db/dbversions.cpp \
+    src/db/dbagency.cpp \
+    src/db/dbroutes.cpp \
+    src/db/dbcalendar.cpp \
+    src/db/dbstops.cpp \
+    src/db/dbtrips.cpp
 
 RESOURCES += whereat.qrc
 
@@ -57,4 +65,13 @@ HEADERS += \
     src/locator.h \
     src/downloader.h \
     src/settingsmanager.h \
-    src/jsonparser.h
+    src/jsonparser.h \
+    src/apidbmanager.h \
+    src/db/dbabstract.h \
+    src/db/dbversions.h \
+    src/db/dbagency.h \
+    src/db/dbroutes.h \
+    src/db/dbcalendar.h \
+    src/db/dbstops.h \
+    src/db/dbtrips.h \
+    src/db/all.h
