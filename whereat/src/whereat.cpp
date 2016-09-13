@@ -65,9 +65,11 @@ void WhereAt::updateDbManual_REPLY(QNetworkReply *reply) {
                    this, SLOT(updateDbManual_REPLY(QNetworkReply::NetworkError)));
 
         if (dlFails > 0) { // If some downloads fail, stop all & reset.
+            qDebug() << this << "updateDbManual_REPLY FAILED" << dlFails;
             parseCount = dlCount = dlFails = dlMax = 0;
             this->clearDlReplyList();
             downloader->resetConnections();
+            return;
         }
 
         connect(jsonParser, SIGNAL(parseAllComplete_clearReplyList()),

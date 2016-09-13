@@ -40,11 +40,10 @@ QString JsonParser::getIconUrl(QString stop_name) {
 
 void JsonParser::parseAll(QList<QNetworkReply*> replyList) {
     for (int i = 0; i < replyList.size(); i++) {
-        QFuture<void> future = QtConcurrent::run(
+        QtConcurrent::run(
                     this, &JsonParser::parseAll_ONE,
                     replyList.at(i)->url().path(),
                     this->takeResponseArray(replyList.at(i)));
-        future.waitForFinished();
     }
     emit parseAllComplete_clearReplyList();
 }
@@ -71,6 +70,7 @@ void JsonParser::parseAll_ONE(QString name, QJsonArray response) {
     for (int i = 0; i < response.size(); i++) {
         element = response.at(i).toObject(); // Grab element.
         db.updateElement(element, keys);
+        qDebug() << this << "parseAll_ONEProgress" << name << "[" << i+1 << "/" << response.size() << "]";
         emit parseAll_ONEProgress(name, i+1, response.size());
     }
 

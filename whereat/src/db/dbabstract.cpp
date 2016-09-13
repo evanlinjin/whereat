@@ -19,8 +19,8 @@ DbAbstract::DbAbstract(QString name, QObject *parent)
 }
 
 DbAbstract::~DbAbstract() {
-    db.close();
-    QSqlDatabase::removeDatabase(dbName);
+    //db.close();
+    //QSqlDatabase::removeDatabase(dbName);
 }
 
 void DbAbstract::initTable(QStringList keys, QStringList keyTypes, int primaryIndex) {
@@ -39,6 +39,7 @@ void DbAbstract::initTable(QStringList keys, QStringList keyTypes, int primaryIn
     if (!q.exec(q_str)) {
         qDebug() << this << "initTable ERROR" << db.lastError().text();
     }
+    q.finish();
 }
 
 void DbAbstract::updateElement(QJsonObject element, QStringList keys) {
@@ -68,4 +69,5 @@ void DbAbstract::updateElement(QJsonObject element, QStringList keys) {
     }
 
     q.exec();
+    q.finish();
 }
