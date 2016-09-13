@@ -13,7 +13,6 @@ SOURCES += main.cpp \
     src/downloader.cpp \
     src/settingsmanager.cpp \
     src/jsonparser.cpp \
-    src/apidbmanager.cpp \
     src/db/dbabstract.cpp \
     src/db/dbversions.cpp \
     src/db/dbagency.cpp \
@@ -66,7 +65,6 @@ HEADERS += \
     src/downloader.h \
     src/settingsmanager.h \
     src/jsonparser.h \
-    src/apidbmanager.h \
     src/db/dbabstract.h \
     src/db/dbversions.h \
     src/db/dbagency.h \
