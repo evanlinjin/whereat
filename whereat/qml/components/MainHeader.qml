@@ -125,10 +125,28 @@ PageHeader { id: header;
         width: parent.width;
         height: units.gu(0.75);
         opacity: Settings.themeIndex === 0 ? 0.1 : 0.6;
+        state: mainMenu.state;
         anchors {top: header.bottom; left: parent.left; right: parent.right;}
         gradient: Gradient {
             GradientStop {position: 0.0; color: "black";}
             GradientStop {position: 1.0; color: "#00000000";}
         }
+        states: [
+            State {name: "open";
+                PropertyChanges { target: shadow;
+                    opacity: 0;
+                }
+            },
+            State {name: "closed";
+                PropertyChanges { target: shadow;
+                    opacity: Settings.themeIndex === 0 ? 0.1 : 0.6;
+                }
+            }
+        ]
+        transitions: [
+            Transition {
+                NumberAnimation {properties: "opacity"; duration: UbuntuAnimation.FastDuration;}
+            }
+        ]
     }
 }

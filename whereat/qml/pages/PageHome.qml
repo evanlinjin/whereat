@@ -11,10 +11,6 @@ Page { id: page;
             text: "Menu"; iconName: "navigation-menu";
             onTriggered: mainMenu.toggle();
         }
-        NavigationMenu {id: mainMenu;
-            pageWidth: page.width;
-            pageHeight: page.height;
-        }
         tabbar: [
             Action {text: "Starred";
                 onTriggered: {
@@ -28,7 +24,10 @@ Page { id: page;
                 }
             },
             Action {text: "Search";
-                onTriggered: header.headerMode = 1;
+                onTriggered: {
+                    header.headerMode = 1;
+                    WhereAt.reloadTextSearch_forceLoadingOff();
+                }
             }
         ]
 
@@ -63,6 +62,7 @@ Page { id: page;
                        case 2: WhereAt.reloadTextSearch(header.searchQuery); break;
                        }
         }
+        Scrollbar {flickableItem: listView;}
     }
 
 

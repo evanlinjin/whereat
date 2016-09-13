@@ -75,4 +75,5 @@ HEADERS += \
     src/db/all.h
 
 DISTFILES += \
-    qml/components/NavigationMenu.qml
+    qml/components/NavigationMenu.qml \
+    qml/components/listItems/SwitchLI.qml

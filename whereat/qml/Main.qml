@@ -1,11 +1,21 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import "pages"
+import "components"
 
 MainView { id: main;
 
     objectName: "mainView";
     applicationName: "whereat.evanlinjin";
+
+    theme.name: { switch(Settings.themeIndex) {
+        case 0: return "Ubuntu.Components.Themes.Ambiance";
+        case 1: return "Ubuntu.Components.Themes.SuruDark";
+        }
+    }
+
+    // GLOBAL PARAMETERS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 
     // PAGE LAYOUT >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -15,7 +25,7 @@ MainView { id: main;
     AdaptivePageLayout { id: apl;
 
         anchors.fill: parent;
-        primaryPage: PageHome {id: pageHome;}
+        primaryPageSource: pageHome;
 
         layouts: PageColumnsLayout {
             when: width > units.gu(87.5);
@@ -26,5 +36,21 @@ MainView { id: main;
             }
             PageColumn {fillWidth: true;}
         }
+    }
+
+    Component {id: pageHome;
+        PageHome {
+            NumberAnimation on opacity {from: 0; to: 1; duration: UbuntuAnimation.SlowDuration;}
+        }
+    }
+    Component {id: pageSettings;
+        PageSettings {
+            NumberAnimation on opacity {from: 0; to: 1; duration: UbuntuAnimation.SlowDuration;}
+        }
+    }
+
+    NavigationMenu {id: mainMenu;
+        pageWidth: main.width;
+        pageHeight: main.height;
     }
 }

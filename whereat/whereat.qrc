@@ -4,14 +4,18 @@
         <file>qml/components/MainHeader.qml</file>
         <file>qml/pages/PageHome.qml</file>
         <file>qml/components/MainListItem.qml</file>
-	<file>qml/components/NavigationMenu.qml</file>
-	<file>icons/airplane.svg</file>
-	<file>icons/bike.svg</file>
-	<file>icons/bus.svg</file>
-	<file>icons/car.svg</file>
-	<file>icons/ferry.svg</file>
-	<file>icons/train.svg</file>
-	<file>icons/AT.png</file>
-	<file>whereat.png</file>
+        <file>qml/components/NavigationMenu.qml</file>
+        <file>icons/airplane.svg</file>
+        <file>icons/bike.svg</file>
+        <file>icons/bus.svg</file>
+        <file>icons/car.svg</file>
+        <file>icons/ferry.svg</file>
+        <file>icons/train.svg</file>
+        <file>icons/AT.png</file>
+        <file>whereat.png</file>
+        <file>qml/pages/PageSettings.qml</file>
+        <file>qml/components/listItems/SwitchLI.qml</file>
+        <file>qml/components/listItems/HeaderLI.qml</file>
+        <file>qml/components/listItems/PlainLI.qml</file>
     </qresource>
 </RCC>

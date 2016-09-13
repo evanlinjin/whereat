@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QEventLoop>
 
 #include "models/abstractmodel.h"
 #include "models/stopmodel.h"
@@ -30,6 +31,8 @@ public:
     JsonParser* jsonParser;
 
 private:
+    QEventLoop eventLoop;
+
     int parseCount, dlCount, dlFails, dlMax;
     QList<QNetworkReply*> dlReplyList;
 
@@ -52,6 +55,9 @@ public slots:
     void reloadTextSearch(QString query);
     void reloadTextSearch_REPLY(int status, QNetworkReply* reply);
     void reloadTextSearch_JSON(QList<AbstractItem> list);
+
+    // Hacked fix for a bug where loader for text search is enabled randomnly.
+    void reloadTextSearch_forceLoadingOff();
 
 private slots:
     void clearDlReplyList();

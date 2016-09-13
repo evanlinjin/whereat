@@ -9,8 +9,8 @@ Item { id: mainMenu;
 
     anchors.left: parent.left;
     anchors.top:parent.top;
+    height: pageHeight;
     width: pageWidth;
-    z: parent.z + 100;
 
     MouseArea {
         anchors.fill: parent;
@@ -19,39 +19,62 @@ Item { id: mainMenu;
 
     Rectangle { id: titleRectangle;
         height: units.gu(6);
-        width: parent.width - units.gu(5);
         anchors.top: parent.top;
-        anchors.right: parent.right;
-        Row {
-            anchors.fill: parent;
-            spacing: units.gu(1);
-            Item { width: height; height: parent.height;
-                UbuntuShape {
-                    anchors.centerIn: parent;
-                    width: units.gu(4); height: units.gu(4); radius: "large";
-                    source: Image {source: "qrc:/whereat.png";}
-                    aspect: UbuntuShape.Flat;
-                    color: theme.palette.normal.backgroundText;
-                }
-            }
-            Label {
-                anchors.verticalCenter: parent.verticalCenter;
-                text: "Where AT?";
-                fontSize: "large";
-                width: parent.width;
-                elide: Text.ElideRight;
-                color: theme.palette.normal.backgroundText;
-            }
+        anchors.left: menuRectangle.left;
+        anchors.right: menuRectangle.right;
+        anchors.leftMargin: units.gu(6);
+        color: theme.palette.normal.background;
+
+        Label {
+            anchors.verticalCenter: parent.verticalCenter;
+            text: "Where AT?";
+            fontSize: "large";
+            width: parent.width;
+            elide: Text.ElideRight;
+            color: theme.palette.normal.backgroundText;
         }
     }
 
     Rectangle { id: menuRectangle;
-        height: parent.height*3/5;
+        height: listView.count * units.gu(7) + units.gu(2);
+        width: units.gu(25);
         anchors.left: parent.left;
-        anchors.right: parent.right;
         anchors.top: parent.top;
         anchors.topMargin: units.gu(6);
         color: theme.palette.normal.background;
+
+        ListView { id: listView
+            anchors.fill: parent;
+            clip: true;
+            delegate: ListItem {
+                height: units.gu(7);
+                divider.visible: false;
+                ListItemLayout {
+                    anchors.fill: parent
+                    title.text: model.text;
+                    Icon {
+                        SlotsLayout.position: SlotsLayout.Leading;
+                        color: theme.palette.normal.backgroundText;
+                        width: units.gu(3); height: units.gu(3);
+                        name: model.icon;
+                    }
+                }
+                onClicked: {close(); listModel.actions[model.i]();}
+            }
+
+            model: ListModel { id: listModel
+                ListElement {i: 0; text: "Stops"; icon: "clock-app-symbolic";}
+                ListElement {i: 1; text: "Journey Planner"; icon: "swap";}
+                ListElement {i: 2; text: "Settings"; icon: "settings";}
+                ListElement {i: 3; text: "About"; icon: "info";}
+                property var actions: {
+                    0: function() {apl.primaryPageSource = pageHome;},
+                    1: function() {apl.primaryPageSource = pageHome;},
+                    2: function() {apl.primaryPageSource = pageSettings;},
+                    3: function() {apl.primaryPageSource = pageHome;}
+                }
+            }
+        }
     }
 
     Rectangle { id: shadowBottom;
@@ -65,32 +88,39 @@ Item { id: mainMenu;
         }
     }
 
+    Rectangle { id: shadowRight;
+        width: menuRectangle.height + units.gu(6);
+        height: units.gu(0.75);
+        opacity: Settings.themeIndex === 0 ? 0.1 : 0.6;
+        anchors {
+            top: parent.top;
+            left: menuRectangle.right;
+            leftMargin: units.gu(0.75);
+        }
+        gradient: Gradient {
+            GradientStop {position: 0.0; color: "#00000000";}
+            GradientStop {position: 1.0; color: "black";}
+        }
+        transform: Rotation {angle: 90;}
+    }
+
     function close() {state = "closed";}
     function toggle() {state = (state == "open" ? "closed" : "open");}
 
     state: "closed";
     states: [
+        State {name: "open";},
         State {
-            name: "open"
-            PropertyChanges {
-                target: mainMenu;
-                height: pageHeight;
-                opacity: 1;
-            }
-        },
-        State {
-            name: "closed"
-            PropertyChanges {
-                target: mainMenu;
-                height: 0;
-                opacity: 0;
-            }
+            name: "closed";
+            PropertyChanges {target: mainMenu; width: 0;}
+            PropertyChanges {target: menuRectangle; width: 0;}
+            PropertyChanges {target: shadowRight; opacity: 0;}
+            PropertyChanges {target: shadowBottom; opacity: 0;}
         }
     ]
     transitions: [
         Transition {
-            NumberAnimation {properties: "height"; duration: 150;}
-            NumberAnimation {properties: "opacity"; duration: 100;}
+            NumberAnimation {properties: "width, opacity"; duration: UbuntuAnimation.FastDuration;}
         }
     ]
 }

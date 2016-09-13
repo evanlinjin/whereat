@@ -40,10 +40,11 @@ QString JsonParser::getIconUrl(QString stop_name) {
 
 void JsonParser::parseAll(QList<QNetworkReply*> replyList) {
     for (int i = 0; i < replyList.size(); i++) {
-        QtConcurrent::run(
+        QFuture<void> future = QtConcurrent::run(
                     this, &JsonParser::parseAll_ONE,
                     replyList.at(i)->url().path(),
                     this->takeResponseArray(replyList.at(i)));
+        future.waitForFinished();
     }
     emit parseAllComplete_clearReplyList();
 }
@@ -78,12 +79,12 @@ void JsonParser::parseAll_ONE(QString name, QJsonArray response) {
 }
 
 int JsonParser::pareAll_getPrimaryId(QString n, QStringList keys) {
-    if (n == "/v1/gtfs/versions") return keys.indexOf("version");
-    if (n == "/v1/gtfs/agency") return keys.indexOf("agency_id");
-    if (n == "/v1/gtfs/routes") return keys.indexOf("route_id");
-    if (n == "/v1/gtfs/calendar") return keys.indexOf("service_id");
-    if (n == "/v1/gtfs/stops") return keys.indexOf("stop_id");
-    if (n == "/v1/gtfs/trips") return keys.indexOf("trip_id");
+    if (n == "versions") return keys.indexOf("version");
+    if (n == "agency") return keys.indexOf("agency_id");
+    if (n == "routes") return keys.indexOf("route_id");
+    if (n == "calendar") return keys.indexOf("service_id");
+    if (n == "stops") return keys.indexOf("stop_id");
+    if (n == "trips") return keys.indexOf("trip_id");
     return -1;
 }
 

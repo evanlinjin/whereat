@@ -16,7 +16,7 @@ void Downloader::getAll() {
     disconnect(nm, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(networkReplyHandler(QNetworkReply*)));
     connect(nm, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(getAllOneComplete(QNetworkReply*)));
+            this, SIGNAL(getAllOneComplete(QNetworkReply*)));
 
     QString start_url("https://api.at.govt.nz/v1/gtfs/");
     QString end_url("?api_key="); end_url.append(Keys::atApi);

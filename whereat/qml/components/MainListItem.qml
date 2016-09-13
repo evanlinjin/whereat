@@ -3,7 +3,7 @@ import Ubuntu.Components 1.3
 
 ListItem {
 
-    NumberAnimation on opacity {from: 0; to: 1; duration: 200;}
+    //NumberAnimation on opacity {from: 0; to: 1; duration: 200;}
     divider.visible: false
     height: units.gu(8)
 

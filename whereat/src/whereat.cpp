@@ -116,6 +116,7 @@ void WhereAt::reloadNearbyStops() {
     qDebug() << this << "reloadNearbyStops";
     nearbyStopsModel->clear();
     nearbyStopsModel->setLoading(true);
+    eventLoop.processEvents();
 
     connect(locator, SIGNAL(response(bool,double,double)),
             this, SLOT(reloadNearbyStops_COORD(bool,double,double)));
@@ -174,6 +175,14 @@ void WhereAt::reloadTextSearch(QString query) {
     qDebug() << this << "reloadTextSearch" << query;
     textSearchStopsModel->clear();
     textSearchStopsModel->setLoading(true);
+    eventLoop.processEvents();
+
+    // For disabling API calls with empty searches.
+    if (query == "") {
+        textSearchStopsModel->setLoading(false);
+        eventLoop.processEvents();
+        return;
+    }
 
     connect(downloader, SIGNAL(stopsTextSearchComplete(int,QNetworkReply*)),
             this, SLOT(reloadTextSearch_REPLY(int,QNetworkReply*)));
@@ -205,5 +214,10 @@ void WhereAt::reloadTextSearch_JSON(QList<AbstractItem> list) {
                this, SLOT(reloadTextSearch_JSON(QList<AbstractItem>)));
 
     textSearchStopsModel->append(list);
+    textSearchStopsModel->setLoading(false);
+}
+
+// Hacked fix for a bug where loader for text search is enabled randomnly.
+void  WhereAt::reloadTextSearch_forceLoadingOff() {
     textSearchStopsModel->setLoading(false);
 }
