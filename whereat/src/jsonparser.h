@@ -13,7 +13,7 @@
 #include <QNetworkReply>
 
 #include "models/abstractmodel.h"
-#include "db/all.h"
+#include "db/dbabstract.h"
 
 class JsonParser : public QObject {
     Q_OBJECT
@@ -36,6 +36,8 @@ private:
 
 signals:
     void parseAllComplete_clearReplyList();
+    void parseAll_ONEProgress(QString name, int done, int max);
+    void parseAll_ONEComplete(QString name);
 
     void parseNearbyStopsComplete(QList<AbstractItem> list);
     void parseTextSearchStopsComplete(QList<AbstractItem> list);

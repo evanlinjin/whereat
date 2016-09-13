@@ -41,7 +41,7 @@ void WhereAt::clearDlReplyList() {
 
 void WhereAt::updateDbManual() {
     qDebug() << this << "updateDbManual";
-    dlCount = dlFails = 0; dlMax = 6;
+    parseCount = dlCount = dlFails = 0; dlMax = 6;
     this->clearDlReplyList();
 
     connect(downloader, SIGNAL(getAllOneComplete(QNetworkReply*)),
@@ -65,15 +65,17 @@ void WhereAt::updateDbManual_REPLY(QNetworkReply *reply) {
                    this, SLOT(updateDbManual_REPLY(QNetworkReply::NetworkError)));
 
         if (dlFails > 0) { // If some downloads fail, stop all & reset.
-            dlCount = dlFails = dlMax = 0;
+            parseCount = dlCount = dlFails = dlMax = 0;
             this->clearDlReplyList();
             downloader->resetConnections();
         }
 
-        // SIGNAL AND SLOT CONNECTIONS HERE
-
         connect(jsonParser, SIGNAL(parseAllComplete_clearReplyList()),
                 this, SLOT(clearDlReplyList()));
+        connect(jsonParser, SIGNAL(parseAll_ONEComplete(QString)),
+                this, SLOT(updateDbManual_JSON(QString)));
+        connect(jsonParser, SIGNAL(parseAll_ONEProgress(QString,int,int)),
+                this, SIGNAL(progress(QString,int,int)));
 
         jsonParser->parseAll(this->dlReplyList);
     }
@@ -82,6 +84,24 @@ void WhereAt::updateDbManual_REPLY(QNetworkReply *reply) {
 void WhereAt::updateDbManual_REPLY(QNetworkReply::NetworkError error) {
     qDebug() << this << "updateDbManual_REPLY" << error;
     dlFails += 1;
+}
+
+void WhereAt::updateDbManual_JSON(QString name) {
+    qDebug() << this << "updateDbManual_JSON DONE" << name;
+    parseCount += 1;
+
+    if (parseCount == dlMax) {
+        disconnect(jsonParser, SIGNAL(parseAllComplete_clearReplyList()),
+                this, SLOT(clearDlReplyList()));
+        disconnect(jsonParser, SIGNAL(parseAll_ONEComplete(QString)),
+                this, SLOT(updateDbManual_JSON(QString)));
+        disconnect(jsonParser, SIGNAL(parseAll_ONEProgress(QString,int,int)),
+                this, SIGNAL(progress(QString,int,int)));
+
+        parseCount = dlCount = dlFails = dlMax = 0;
+        downloader->resetConnections();
+        emit updateDbManualComplete();
+    }
 }
 
 // DEFINITIONS FOR : UPDATING NEARBY STOPS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

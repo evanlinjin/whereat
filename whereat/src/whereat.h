@@ -30,15 +30,18 @@ public:
     JsonParser* jsonParser;
 
 private:
-    int dlCount, dlFails, dlMax;
+    int parseCount, dlCount, dlFails, dlMax;
     QList<QNetworkReply*> dlReplyList;
 
 signals:
+    void progress(QString n, int done, int max);
+    void updateDbManualComplete();
 
 public slots:
     void updateDbManual();
     void updateDbManual_REPLY(QNetworkReply* reply);
     void updateDbManual_REPLY(QNetworkReply::NetworkError error);
+    void updateDbManual_JSON(QString name);
 
     void updateNearbyStops();
     void reloadNearbyStops();

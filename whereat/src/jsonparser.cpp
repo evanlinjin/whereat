@@ -49,26 +49,32 @@ void JsonParser::parseAll(QList<QNetworkReply*> replyList) {
 }
 
 void JsonParser::parseAll_ONE(QString name, QJsonArray response) {
-
-    // Get first element, keys, keySqlTypes, primaryId and lastKeyIndex of Table.
+    name = name.remove(QString("/v1/gtfs/"), Qt::CaseInsensitive);
     QJsonObject element      = response.at(0).toObject();
     QStringList keys         = element.keys();
     QStringList keySqlTypes  = this->pareAll_getSqlTypes(element);
     int         primaryId    = this->pareAll_getPrimaryId(name, keys);
-    int         lastKeyIndex = keys.size() - 1;
 
-    // Show keys.
     qDebug() << this << "KEYS OF TABLE [" << name << "] :";
     for (int i = 0; i < keys.size(); i++) {
         qDebug() << "   " << i << ":" << keys.at(i)
                  << (i == primaryId ? "(PRIMARY)" : "");
     }
 
-    // Get file & table name.
-    QString fileName = name.remove(QString("/v1/gtfs/"), Qt::CaseInsensitive);
+    // Create, if appropriate, .db file and table.
+    DbAbstract db(name);
+    db.initTable(keys, keySqlTypes, primaryId);
 
-    // Make table creation string.
+    // Fill database table >>>
+    QString prep_str;
+    for (int i = 0; i < response.size(); i++) {
+        element = response.at(i).toObject(); // Grab element.
+        db.updateElement(element, keys);
+        emit parseAll_ONEProgress(name, i+1, response.size());
+    }
 
+    emit parseAll_ONEComplete(name);
+    return;
 }
 
 int JsonParser::pareAll_getPrimaryId(QString n, QStringList keys) {
@@ -95,6 +101,7 @@ QStringList JsonParser::pareAll_getSqlTypes(QJsonObject element) {
         default: sql_types.append("TEXT");
         }
     }
+    return sql_types;
 }
 
 // PARSE SINGLE LISTS DEFINITIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

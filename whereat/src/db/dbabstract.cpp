@@ -40,3 +40,32 @@ void DbAbstract::initTable(QStringList keys, QStringList keyTypes, int primaryIn
         qDebug() << this << "initTable ERROR" << db.lastError().text();
     }
 }
+
+void DbAbstract::updateElement(QJsonObject element, QStringList keys) {
+    QString q_str = "INSERT OR IGNORE INTO " + dbName + "(";
+    for (int j = 0; j < keys.size(); j++) {
+        q_str += keys.at(j); if (j != keys.size() - 1) {q_str += ", ";}
+    }
+    q_str += ") VALUES(";
+    for (int j = 0; j < keys.size(); j++) {
+        q_str += "?"; if (j != keys.size() - 1) {q_str += ", ";}
+    }
+    q_str += ")";
+
+    QSqlQuery q(db);
+    q.prepare(q_str);
+
+    for (int j = 0; j < element.size(); j++) {
+        switch (element[keys.at(j)].type()) {
+        case 0: q.addBindValue(element[keys.at(j)].toString()); break;
+        case 1: q.addBindValue(element[keys.at(j)].toBool()); break;
+        case 2: q.addBindValue(element[keys.at(j)].toDouble()); break;
+        case 3: q.addBindValue(element[keys.at(j)].toString()); break;
+        case 4: q.addBindValue(element[keys.at(j)].toString()); break;
+        case 5: q.addBindValue(element[keys.at(j)].toString()); break;
+        default: q.addBindValue(element[keys.at(j)].toString());
+        }
+    }
+
+    q.exec();
+}

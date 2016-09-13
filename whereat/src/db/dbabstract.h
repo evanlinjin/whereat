@@ -5,6 +5,7 @@
 #include <QtSql>
 #include <QList>
 #include <QStandardPaths>
+#include <QJsonObject>
 #include <QDebug>
 
 class DbAbstract : public QObject
@@ -22,6 +23,7 @@ signals:
 
 public slots:
     void initTable(QStringList keys, QStringList keyTypes, int primaryIndex);
+    void updateElement(QJsonObject element, QStringList keys);
 
 };
 
