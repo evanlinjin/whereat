@@ -4,6 +4,7 @@
         <file>qml/components/MainHeader.qml</file>
         <file>qml/pages/PageHome.qml</file>
         <file>qml/components/MainListItem.qml</file>
+	<file>qml/components/NavigationMenu.qml</file>
 	<file>icons/airplane.svg</file>
 	<file>icons/bike.svg</file>
 	<file>icons/bus.svg</file>

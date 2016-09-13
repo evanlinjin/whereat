@@ -15,6 +15,7 @@ PageHeader { id: header;
     property list<Action> tabbar;
     property alias tabbar_currentIndex: sections.selectedIndex;
     property list<Action> leftbutton;
+    property bool hide_tabbar: false;
 
     property list<Action> topbar;
 
@@ -34,11 +35,12 @@ PageHeader { id: header;
         dividerColor: header.backgroundColor;
     }
 
-    contents: headerModeList
+    contents: headerModeList;
 
     extension: Sections { id: sections;
         actions: tabbar;
 
+        height: hide_tabbar ? 0 : units.gu(4);
         StyleHints {
             underlineColor: header.backgroundColor;
             selectedSectionColor: header.foregroundColor;
@@ -49,7 +51,7 @@ PageHeader { id: header;
     leadingActionBar.actions: leftbutton;
 
     // HEADER CONTENTS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    Row { id:headerModeList//id: header_normal;
+    Row { id:headerModeList;
         anchors.fill: parent;
         Item { width: height; height: parent.height;
             Icon { id: icon;
@@ -59,11 +61,8 @@ PageHeader { id: header;
             }
         }
         Loader { width: parent.width - units.gu(6); height: parent.height;
-            //sourceComponent: dual_heading ? head1 : head2;
             sourceComponent: switch(headerMode) {
-                             case 0: return dual_heading ? head1 : head2;
                              case 1: return head1_search;
-                             //case 3: return head1_radius;
                              default: return dual_heading ? head1 : head2;
                              }
         }
@@ -123,29 +122,12 @@ PageHeader { id: header;
                 }
             }
         }
-
-//        Component { id: head1_radius;
-//            Row {
-//                width: parent.width;
-//                Slider {
-//                    anchors.left: parent.left
-//                    anchors.leftMargin: units.gu(1)
-//                    anchors.verticalCenter: parent.verticalCenter
-//                    //width: parent.width - units.gu(2);
-//                    function formatValue(v) { return v.toFixed(0) }
-//                    minimumValue: 0
-//                    maximumValue: 2000
-//                    value: 0
-//                    live: true
-//                }
-//            }
-//        }
     }
 
     Rectangle { id: shadow;
         width: parent.width;
         height: units.gu(0.75);
-        opacity: settings_theme === 0 ? 0.1 : 0.6;
+        opacity: Settings.themeIndex === 0 ? 0.1 : 0.6;
         anchors {top: header.bottom; left: parent.left; right: parent.right;}
         gradient: Gradient {
             GradientStop {position: 0.0; color: "black";}

@@ -73,3 +73,6 @@ HEADERS += \
     src/db/dbstops.h \
     src/db/dbtrips.h \
     src/db/all.h
+
+DISTFILES += \
+    qml/components/NavigationMenu.qml

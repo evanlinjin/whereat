@@ -27,8 +27,4 @@ MainView { id: main;
             PageColumn {fillWidth: true;}
         }
     }
-
-    // SETTINGS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-
-    property int settings_theme: Settings.themeIndex;
 }
