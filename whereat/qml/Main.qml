@@ -48,6 +48,11 @@ MainView { id: main;
             NumberAnimation on opacity {from: 0; to: 1; duration: UbuntuAnimation.SlowDuration;}
         }
     }
+    Component { id: pageDbUpdate;
+        PageDbUpdate {
+            NumberAnimation on opacity {from: 0; to: 1; duration: UbuntuAnimation.SlowDuration;}
+        }
+    }
 
     NavigationMenu {id: mainMenu;
         pageWidth: main.width;

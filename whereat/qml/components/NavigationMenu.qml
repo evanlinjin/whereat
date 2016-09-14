@@ -17,34 +17,35 @@ Item { id: mainMenu;
         onClicked: mainMenu.close();
     }
 
-    Rectangle { id: titleRectangle;
-        height: units.gu(6);
-        anchors.top: parent.top;
-        anchors.left: menuRectangle.left;
-        anchors.right: menuRectangle.right;
-        anchors.leftMargin: units.gu(6);
-        color: theme.palette.normal.background;
-
-        Label {
-            anchors.verticalCenter: parent.verticalCenter;
-            text: "Where AT?";
-            fontSize: "large";
-            width: parent.width;
-            elide: Text.ElideRight;
-            color: theme.palette.normal.backgroundText;
-        }
-    }
-
     Rectangle { id: menuRectangle;
-        height: listView.count * units.gu(7) + units.gu(2);
+        height: listView.count * units.gu(7) + units.gu(2) + units.gu(6);
         width: units.gu(25);
         anchors.left: parent.left;
         anchors.top: parent.top;
-        anchors.topMargin: units.gu(6);
         color: theme.palette.normal.background;
+
+        PageHeader { id: header;
+            anchors.top: parent.top;
+            anchors.left: parent.left;
+            anchors.right: parent.right;
+            title: "  Where AT?";
+
+            StyleHints { id: style;
+                foregroundColor: theme.palette.normal.backgroundText;
+                backgroundColor: theme.palette.normal.background;
+                dividerColor: theme.palette.normal.background;
+            }
+
+            leadingActionBar.actions: Action {
+                iconName: "navigation-menu";
+                onTriggered: mainMenu.toggle();
+                visible: mainMenu.state === "open";
+            }
+        }
 
         ListView { id: listView
             anchors.fill: parent;
+            anchors.topMargin: header.height;
             clip: true;
             delegate: ListItem {
                 height: units.gu(7);
@@ -89,7 +90,7 @@ Item { id: mainMenu;
     }
 
     Rectangle { id: shadowRight;
-        width: menuRectangle.height + units.gu(6);
+        width: menuRectangle.height + units.gu(0.5);
         height: units.gu(0.75);
         opacity: Settings.themeIndex === 0 ? 0.1 : 0.6;
         anchors {
@@ -114,6 +115,7 @@ Item { id: mainMenu;
             name: "closed";
             PropertyChanges {target: mainMenu; width: 0;}
             PropertyChanges {target: menuRectangle; width: 0;}
+            PropertyChanges {target: header; width: 0;}
             PropertyChanges {target: shadowRight; opacity: 0;}
             PropertyChanges {target: shadowBottom; opacity: 0;}
         }

@@ -56,6 +56,7 @@ void WhereAt::updateDbManual_REPLY(QNetworkReply *reply) {
     qDebug() << this << "updateDbManual_REPLY" << reply->url().path();
     dlCount += 1;
     this->dlReplyList.append(reply);
+    emit progress(reply->url().path(), dlCount, dlMax);
 
     // Only Continue if all files downloaded.
     if (dlCount == dlMax) {

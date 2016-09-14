@@ -60,7 +60,7 @@ Page { id: page;
 
             PlainLI {
                 title: "Update Database...";
-                trigger: function() {apl.addPageToNextColumn(apl.primaryPage, pageUpdateDb, {update_method:0});}
+                trigger: function() {apl.addPageToNextColumn(apl.primaryPage, pageDbUpdate, {update_method:0});}
             }
 
             HeaderLI {text: "Miscellaneous";}
@@ -77,7 +77,7 @@ Page { id: page;
             PlainLI {
                 title: "Update Database Manually (Very Slow)";
                 subtitle: "Locally compiles database from AT api data.";
-                trigger: function() {WhereAt.updateDbManual();}
+                trigger: function() {apl.addPageToNextColumn(apl.primaryPage, pageDbUpdate, {update_method:1});}
             }
         }
     }

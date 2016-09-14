@@ -17,5 +17,7 @@
         <file>qml/components/listItems/SwitchLI.qml</file>
         <file>qml/components/listItems/HeaderLI.qml</file>
         <file>qml/components/listItems/PlainLI.qml</file>
+        <file>qml/pages/PageDbUpdate.qml</file>
+        <file>js/appInfo.js</file>
     </qresource>
 </RCC>
