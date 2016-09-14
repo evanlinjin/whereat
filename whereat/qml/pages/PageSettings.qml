@@ -4,7 +4,7 @@ import Ubuntu.Components.ListItems 1.3 as LI
 import "../components"
 import "../components/listItems"
 
-Page { id: page;
+PageAbstract { id: page;
 
     header: MainHeader { id: header;
         ln0: "Settings";

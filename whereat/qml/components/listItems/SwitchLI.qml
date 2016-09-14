@@ -19,5 +19,4 @@ ListItem { id: toggle_item;
         }
     }
     onClicked: toggle_switch.trigger();
-    NumberAnimation on opacity {from: 0; to: 1; duration: 200;}
 }

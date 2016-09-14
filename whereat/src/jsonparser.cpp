@@ -71,7 +71,8 @@ void JsonParser::parseAll_ONE(QString name, QJsonArray response) {
         element = response.at(i).toObject(); // Grab element.
         db.updateElement(element, keys);
         qDebug() << this << "parseAll_ONEProgress" << name << "[" << i+1 << "/" << response.size() << "]";
-        emit parseAll_ONEProgress(name, i+1, response.size());
+        emit parseAll_ONEProgress("Processing " + name + QString("..."),
+                                  i+1, response.size());
     }
 
     emit parseAll_ONEComplete(name);

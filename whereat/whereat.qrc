@@ -19,5 +19,6 @@
         <file>qml/components/listItems/PlainLI.qml</file>
         <file>qml/pages/PageDbUpdate.qml</file>
         <file>js/appInfo.js</file>
+        <file>qml/pages/PageAbstract.qml</file>
     </qresource>
 </RCC>

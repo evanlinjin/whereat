@@ -38,21 +38,9 @@ MainView { id: main;
         }
     }
 
-    Component {id: pageHome;
-        PageHome {
-            NumberAnimation on opacity {from: 0; to: 1; duration: UbuntuAnimation.SlowDuration;}
-        }
-    }
-    Component {id: pageSettings;
-        PageSettings {
-            NumberAnimation on opacity {from: 0; to: 1; duration: UbuntuAnimation.SlowDuration;}
-        }
-    }
-    Component { id: pageDbUpdate;
-        PageDbUpdate {
-            NumberAnimation on opacity {from: 0; to: 1; duration: UbuntuAnimation.SlowDuration;}
-        }
-    }
+    Component {id: pageHome; PageHome {} }
+    Component {id: pageSettings; PageSettings {} }
+    Component { id: pageDbUpdate; PageDbUpdate {} }
 
     NavigationMenu {id: mainMenu;
         pageWidth: main.width;

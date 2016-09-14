@@ -37,7 +37,9 @@ private:
     QList<QNetworkReply*> dlReplyList;
 
 signals:
+    void quit(); // Connect this to QGuiApplication::quit.
     void progress(QString n, int done, int max);
+    void progress0(int done, int max);
     void updateDbManualComplete();
 
 public slots:
@@ -56,7 +58,7 @@ public slots:
     void reloadTextSearch_REPLY(int status, QNetworkReply* reply);
     void reloadTextSearch_JSON(QList<AbstractItem> list);
 
-    // Hacked fix for a bug where loader for text search is enabled randomnly.
+    // Hack for bug where text search loading is enabled randomnly.
     void reloadTextSearch_forceLoadingOff();
 
 private slots:

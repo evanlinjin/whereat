@@ -5,7 +5,7 @@ import QtQuick.Window 2.2
 import "../../js/appInfo.js" as INFO
 import "../components"
 
-Page { id: page;
+PageAbstract { id: page;
 
     property int update_method: 0; // 0:NORMAL, 1:MANUAL
 
@@ -71,40 +71,54 @@ Page { id: page;
         }
     }
 
-    property string info_text: "Working...";
     property bool show_finish: false;
 
     Component {id: manual_update_dialog;
         Dialog { id: dialog;
-            text: info_text;
+            text: "";
+            ProgressBar { id: progressBar0;
+                minimumValue: 0;
+                maximumValue: 1;
+                value: 0;
+                visible: false;
+                height: visible ? units.gu(2.5) : 0;
+            }
             ProgressBar { id: progressBar;
                 minimumValue: 0;
-                maximumValue: 0;
+                maximumValue: 1;
                 value: 0;
                 visible: !show_finish;
-                height: visible ? units.gu(2) : 0;
+                height: visible ? units.gu(2.5) : 0;
             }
             Button {
                 strokeColor: theme.palette.normal.backgroundSecondaryText;
                 text: show_finish ? "Close App" : "Cancel";
                 color: theme.palette.normal.foreground;
-                onClicked: show_finish ? Qt.quit() : cancel_update();
+                onClicked: show_finish ? WhereAt.quit() : cancel_update();
             }
 
             Component.onCompleted: {
+                WhereAt.progress0.connect(updateProgress0);
                 WhereAt.progress.connect(updateProgress);
                 WhereAt.updateDbManualComplete.connect(updateComplete);
+            }
+
+            function updateProgress0(done, max) {
+                progressBar0.visible = true;
+                progressBar0.maximumValue = max;
+                progressBar0.value = done;
             }
 
             function updateProgress(n, done, max) {
                 progressBar.maximumValue = max;
                 progressBar.value = done;
-                info_text = n;
+                dialog.text = n;
             }
 
             function updateComplete() {
                 show_finish = true;
-                info_text = "Update Complete!\nPlease close the app to continue.";
+                progressBar0.visible = false;
+                dialog.text = "Update Complete!\nPlease close the app to continue.";
             }
         }
     }

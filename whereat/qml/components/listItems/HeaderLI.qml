@@ -4,5 +4,4 @@ import Ubuntu.Components.ListItems 1.3 as LI
 
 LI.Header {
     text: "";
-    NumberAnimation on opacity {from: 0; to: 1; duration: 200;}
 }

@@ -56,7 +56,7 @@ void WhereAt::updateDbManual_REPLY(QNetworkReply *reply) {
     qDebug() << this << "updateDbManual_REPLY" << reply->url().path();
     dlCount += 1;
     this->dlReplyList.append(reply);
-    emit progress(reply->url().path(), dlCount, dlMax);
+    emit progress(QString("Downloading..."), dlCount+1, dlMax);
 
     // Only Continue if all files downloaded.
     if (dlCount == dlMax) {
@@ -92,14 +92,15 @@ void WhereAt::updateDbManual_REPLY(QNetworkReply::NetworkError error) {
 void WhereAt::updateDbManual_JSON(QString name) {
     qDebug() << this << "updateDbManual_JSON DONE" << name;
     parseCount += 1;
+    emit progress0(parseCount, dlMax);
 
     if (parseCount == dlMax) {
         disconnect(jsonParser, SIGNAL(parseAllComplete_clearReplyList()),
-                this, SLOT(clearDlReplyList()));
+                   this, SLOT(clearDlReplyList()));
         disconnect(jsonParser, SIGNAL(parseAll_ONEComplete(QString)),
-                this, SLOT(updateDbManual_JSON(QString)));
+                   this, SLOT(updateDbManual_JSON(QString)));
         disconnect(jsonParser, SIGNAL(parseAll_ONEProgress(QString,int,int)),
-                this, SIGNAL(progress(QString,int,int)));
+                   this, SIGNAL(progress(QString,int,int)));
 
         parseCount = dlCount = dlFails = dlMax = 0;
         downloader->resetConnections();

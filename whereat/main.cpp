@@ -15,6 +15,8 @@ int main(int argc, char *argv[])
 
     WhereAt* whereat = new WhereAt();
 
+    QObject::connect(whereat, SIGNAL(quit()), &app, SLOT(quit()));
+
     view->engine()->rootContext()->setContextProperty("WhereAt", whereat);
     view->engine()->rootContext()->setContextProperty("Settings", whereat->settingsManager);
 

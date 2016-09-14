@@ -2,7 +2,7 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import "../components"
 
-Page { id: page;
+PageAbstract { id: page;
 
     header: MainHeader { id: header;
         ln0: "Stops";
@@ -64,6 +64,4 @@ Page { id: page;
         }
         Scrollbar {flickableItem: listView;}
     }
-
-
 }
