@@ -9,7 +9,6 @@ WhereAt::WhereAt(QObject *parent) : QObject(parent) {
 
     favouriteStopsModel = new StopModel(this);
     nearbyStopsModel = new StopModel(this);
-//    recentStopsModel = new StopModel(this);
     textSearchStopsModel = new StopModel(this);
 
     dbSavedStops = new DbSavedStops(this);
@@ -24,7 +23,6 @@ WhereAt::~WhereAt() {
 
     favouriteStopsModel->deleteLater();
     nearbyStopsModel->deleteLater();
-//    recentStopsModel->deleteLater();
     textSearchStopsModel->deleteLater();
 
     dbSavedStops->deleteLater();

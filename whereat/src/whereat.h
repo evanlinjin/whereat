@@ -27,7 +27,6 @@ public:
 
     StopModel* favouriteStopsModel;
     StopModel* nearbyStopsModel;
-//    StopModel* recentStopsModel;
     StopModel* textSearchStopsModel;
 
     DbSavedStops* dbSavedStops;

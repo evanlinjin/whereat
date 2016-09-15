@@ -8,6 +8,9 @@ class DbSavedStops : public DbAbstract {
 public:
     explicit DbSavedStops(QObject *parent = 0);
     ~DbSavedStops();
+private:
+    QStringList keys, keyTypes;
+    void connectIfNeeded();
 
 signals:
     void updateFavouriteComplete(QString id, bool fav);

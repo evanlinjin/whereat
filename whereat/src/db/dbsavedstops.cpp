@@ -1,7 +1,6 @@
 #include "dbsavedstops.h"
 
 DbSavedStops::DbSavedStops(QObject *parent) : DbAbstract("saved_stops", parent) {
-    QStringList keys, keyTypes;
     keys     << "id"   << "fav"     << "fav_index" << "visits" << "color";
     keyTypes << "TEXT" << "BOOLEAN" << "INT"       << "INT"    << "TEXT";
     DbAbstract::initTable(keys, keyTypes, 0);
@@ -11,59 +10,56 @@ DbSavedStops::~DbSavedStops() {
 
 }
 
+void DbSavedStops::connectIfNeeded() {
+    if (DbAbstract::connectIfNeeded()) {
+        DbAbstract::initTable(keys, keyTypes, 0);
+    }
+}
+
 void DbSavedStops::updateFavourite(QString id, bool fav) {
+    connectIfNeeded();
     QSqlQuery q(db);
+    int insert_index = 0;
 
     if (fav == true) { // SET FAVOURITE :
 
         // Get max "indexFavourite" value.
-        q.prepare("SELECT MAX(fav_index) FROM ? WHERE fav == 1");
-        q.addBindValue(dbName);
-        q.first();
-        int insert_index = q.value(0).toInt() + 1;
+        q.exec("SELECT MAX(fav_index) FROM " + QString(dbName) + " WHERE fav == 1");
+        if (q.first()) {
+            insert_index = q.value(0).toInt() + 1;
+        }
+        qDebug() << this << "updateFavourite insert_index" << insert_index;
+
 
         // Add favourite in database.
-        q.prepare("INSERT OR IGNORE INTO ?(id, fav, fav_index) VALUES(?,1,?)");
-        q.addBindValue(dbName);
+        q.prepare("INSERT OR IGNORE INTO " + QString(dbName) + "(id, fav, fav_index) VALUES(?,1,?)");
         q.addBindValue(id);
         q.addBindValue(insert_index);
         q.exec();
+        qDebug() << this << "updateFavourite" << q.executedQuery();
 
-        q.prepare("UPDATE ? SET fav = 1, fav_index = ? WHERE id == ?");
-        q.addBindValue(dbName);
+        q.prepare("UPDATE " + QString(dbName) + " SET fav = 1, fav_index = ? WHERE id == ?");
         q.addBindValue(insert_index);
         q.addBindValue(id);
         q.exec();
+        qDebug() << this << "updateFavourite" << q.executedQuery();
 
     } else { // CLEAR FAVOURITE :
 
-        q.prepare("UPDATE ? SET fav = 0, fav_index = null WHERE id = ?");
-        q.addBindValue(dbName);
+        q.prepare("UPDATE " + QString(dbName) + " SET fav = 0, fav_index = null WHERE id = ?");
         q.addBindValue(id);
         q.exec();
+        qDebug() << this << "updateFavourite" << q.executedQuery();
 
-        // Get ordered id list.
-        q.prepare("SELECT id FROM ? WHERE fav >= 0 ORDER BY fav_index");
-        q.addBindValue(dbName);
-        q.exec();
+        QStringList id_list = getFavouritesList();
 
-        QStringList id_list;
-
-        int i = 0;
-        while (q.next()) {
-            id_list.append(q.value(0).toString());
-            i++;
-        }
-
-        q.last(); const int j = q.at() + 1;
         // Normalize indexFavourite values in database.
-        for (int i = 1; i <= j; i++) {
-            q.next();
-            q.prepare("UPDATE ? SET fav_index = ? WHERE id == ?");
-            q.addBindValue(dbName);
+        for (int i = 1; i <= id_list.size(); i++) {
+            q.prepare("UPDATE " + QString(dbName) + " SET fav_index = ? WHERE id == ?");
             q.addBindValue(i);
             q.addBindValue(id_list.at(i - 1));
             q.exec();
+            qDebug() << this << "updateFavourite" << q.executedQuery();
         }
     }
 
@@ -71,14 +67,14 @@ void DbSavedStops::updateFavourite(QString id, bool fav) {
 }
 
 void DbSavedStops::getOne(QString id) {
+    connectIfNeeded();
     QSqlQuery q(db);
     bool fav = false;
     int fav_index = -1;
     int visits = 0;
     QString color = "";
 
-    q.prepare("SELECT * FROM ? WHERE id == ?");
-    q.addBindValue(dbName);
+    q.prepare("SELECT * FROM " + QString(dbName) + " WHERE id == ?");
     q.addBindValue(id);
     q.exec();
 
@@ -92,11 +88,11 @@ void DbSavedStops::getOne(QString id) {
 }
 
 QStringList DbSavedStops::getFavouritesList() {
+    connectIfNeeded();
     QStringList list;
     QSqlQuery q(db);
 
-    q.prepare("SELECT * FROM ? WHERE fav = 1 ORDER BY fav_index");
-    q.addBindValue(dbName);
+    q.prepare("SELECT * FROM " + QString(dbName) + " WHERE fav = 1 ORDER BY fav_index");
     q.exec();
 
     while (q.next()) {
@@ -105,6 +101,7 @@ QStringList DbSavedStops::getFavouritesList() {
             list.append(q.value("id").toString());
         }
     }
+    qDebug() << this << "getFavouritesList" << list;
     emit getFavouritesListComplete(list);
     return list;
 }
