@@ -44,6 +44,9 @@ signals:
     void progress0(int done, int max);
     void updateDbManualComplete();
 
+    void updateStopTimeboardComplete_StopData(QStringList ln, QList<double> coord);
+    void updateStopTimeboardComplete_SavedStopData(QString id, bool fav, int fav_index, int visits, QString color);
+
 public slots:
     void updateDbManual();
     void updateDbManual_REPLY(QNetworkReply* reply);
@@ -64,7 +67,9 @@ public slots:
     // Hack for bug where text search loading is enabled randomnly.
     void reloadTextSearch_forceLoadingOff();
 
-    void updateStopFavourite(QString id, bool fav);
+    void updateStopFavourite(QString id, bool fav); /*Individual Stop Items*/
+
+    void updateStopTimeboard(QString id);
 
 private slots:
     void clearDlReplyList();

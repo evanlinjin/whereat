@@ -6,8 +6,8 @@ ListItem { id: listItem;
     property var updateFavourite;
     property var open;
     property var open0;
+    property alias showRemove: leftRemoveAction.visible;
 
-    //NumberAnimation on opacity {from: 0; to: 1; duration: 200;}
     divider.visible: false
     height: units.gu(8)
 
@@ -44,10 +44,10 @@ ListItem { id: listItem;
     // LEADING ACTIONS *********************************************************
 
     leadingActions: ListItemActions {
-        actions: Action {
+        actions: Action { id: leftRemoveAction;
             iconName: "remove"; name: "Remove Favourite";
             onTriggered: listItem.updateFavourite(model.id, false);
-            visible: header.tabbar_currentIndex === 0;
+            visible: listItem.showRemove;
         }
     }
 

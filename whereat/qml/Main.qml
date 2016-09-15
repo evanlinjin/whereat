@@ -42,6 +42,7 @@ MainView { id: main;
     Component {id: pageSettings; PageSettings {} }
     Component {id: pageDbUpdate; PageDbUpdate {} }
     Component {id: pageAbout; PageAbout {} }
+    Component {id: pageTimeboard; PageTimeboard {} }
 
     NavigationMenu {id: mainMenu;
         pageWidth: main.width;

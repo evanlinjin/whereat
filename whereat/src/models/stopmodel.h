@@ -17,6 +17,7 @@ signals:
 public slots:
     void reload();
     bool updateFavourite(QString id, bool fav);
+    bool removeRowWithId(QString id, bool fav);
 };
 
 #endif // STOPMODEL_H

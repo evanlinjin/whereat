@@ -44,8 +44,9 @@ PageAbstract { id: page;
         onCountChanged: currentIndex = -1;
         delegate: MainListItem {id: listItem;
             updateFavourite: function(id,fav) {WhereAt.updateStopFavourite(id, fav);}
-            open: function() {console.log("open triggered.");}
+            open: function(id) {apl.addPageToNextColumn(apl.primaryPage, pageTimeboard, {id:id});}
             open0: function() {console.log("open0 triggered.");}
+            showRemove: header.tabbar_currentIndex === 0;
         }
 
         model: switch (header.tabbar_currentIndex) {

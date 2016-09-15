@@ -20,3 +20,9 @@ bool StopModel::updateFavourite(QString id, bool fav) {
     QModelIndex index = AbstractModel::getIndex(id);
     return AbstractModel::setData(index, fav, AbstractModel::favRole);
 }
+
+bool StopModel::removeRowWithId(QString id, bool fav) {
+    if (fav == true) {return -1;}
+    int index = AbstractModel::getIndex(id, false);
+    return AbstractModel::removeRow(index);
+}

@@ -254,9 +254,29 @@ void WhereAt::updateStopFavourite(QString id, bool fav) {
     connect(dbSavedStops, SIGNAL(updateFavouriteComplete(QString,bool)),
             favouriteStopsModel, SLOT(updateFavourite(QString,bool)));
     connect(dbSavedStops, SIGNAL(updateFavouriteComplete(QString,bool)),
+            favouriteStopsModel, SLOT(removeRowWithId(QString,bool)));
+    connect(dbSavedStops, SIGNAL(updateFavouriteComplete(QString,bool)),
             nearbyStopsModel, SLOT(updateFavourite(QString,bool)));
     connect(dbSavedStops, SIGNAL(updateFavouriteComplete(QString,bool)),
             textSearchStopsModel, SLOT(updateFavourite(QString,bool)));
 
     dbSavedStops->updateFavourite(id, fav);
 }
+
+// DEFINITIONS FOR : UPDATING STOP TIMEBOARD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+void WhereAt::updateStopTimeboard(QString id) {
+    qDebug() << this << "updateStopTimeboard" << id;
+    connect(dbStops, SIGNAL(getStopDataComplete(QStringList,QList<double>)),
+            this, SIGNAL(updateStopTimeboardComplete_StopData(QStringList,QList<double>)));
+    connect(dbSavedStops, SIGNAL(getOneComplete(QString,bool,int,int,QString)),
+            this, SIGNAL(updateStopTimeboardComplete_SavedStopData(QString,bool,int,int,QString)));
+
+    dbStops->getStopData(id);
+    dbSavedStops->getOne(id);
+}
+
+
+
+
+

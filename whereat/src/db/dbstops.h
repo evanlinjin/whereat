@@ -9,10 +9,16 @@ class DbStops : public DbAbstract {
 public:
     explicit DbStops(QObject *parent = 0);
     ~DbStops();
+
 private:
     QString getIconUrl(QString stop_name);
+
+signals:
+    void getStopDataComplete(QStringList ln, QList<double> coord);
+
 public slots:
     QList<AbstractItem> fillList(QStringList ids);
+    void getStopData(QString id);
 };
 
 #endif // DBSTOPS_H

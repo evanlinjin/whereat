@@ -21,5 +21,7 @@
         <file>js/appInfo.js</file>
         <file>qml/pages/PageAbstract.qml</file>
         <file>qml/pages/PageAbout.qml</file>
+        <file>qml/pages/PageTimeboard.qml</file>
+        <file>qml/components/TB_Label.qml</file>
     </qresource>
 </RCC>

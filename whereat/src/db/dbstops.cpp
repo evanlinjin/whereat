@@ -43,3 +43,25 @@ QList<AbstractItem> DbStops::fillList(QStringList ids) {
     }
     return list;
 }
+
+void DbStops::getStopData(QString id) {
+    DbAbstract::connectIfNeeded();
+
+    QSqlQuery q(db);
+    q.prepare("SELECT * FROM stops WHERE stop_id = ?");
+    q.addBindValue(id);
+    q.exec();
+
+    QStringList ln;
+    QList<double> coord;
+
+    if (q.first()) {
+        ln.append(q.value("stop_code").toString());
+        ln.append(q.value("stop_name").toString());
+        ln.append(getIconUrl(ln[1]));
+        coord.append(q.value("stop_lat").toDouble());
+        coord.append(q.value("stop_lon").toDouble());
+    }
+
+    emit getStopDataComplete(ln, coord);
+}

@@ -18,7 +18,7 @@ Item { id: mainMenu;
     }
 
     Rectangle { id: menuRectangle;
-        height: listView.count * units.gu(7) + units.gu(2) + units.gu(6);
+        height: listView.count * units.gu(6) + units.gu(8);
         width: units.gu(25);
         anchors.left: parent.left;
         anchors.top: parent.top;
@@ -48,7 +48,7 @@ Item { id: mainMenu;
             anchors.topMargin: header.height;
             clip: true;
             delegate: ListItem {
-                height: units.gu(7);
+                height: units.gu(6);
                 divider.visible: false;
                 ListItemLayout {
                     anchors.fill: parent
