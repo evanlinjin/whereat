@@ -1,7 +1,11 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 
-ListItem {
+ListItem { id: listItem;
+
+    property var updateFavourite;
+    property var open;
+    property var open0;
 
     //NumberAnimation on opacity {from: 0; to: 1; duration: 200;}
     divider.visible: false
@@ -42,7 +46,7 @@ ListItem {
     leadingActions: ListItemActions {
         actions: Action {
             iconName: "remove"; name: "Remove Favourite";
-            onTriggered: {}
+            onTriggered: listItem.updateFavourite(model.id, false);
             visible: header.tabbar_currentIndex === 0;
         }
     }
@@ -53,18 +57,18 @@ ListItem {
             Action {
                 iconName: model.fav ? "starred" : "non-starred";
                 text: model.fav ? "Remove from Favourites" : "Add to Favourites"
-                onTriggered: {}
+                onTriggered: listItem.updateFavourite(model.id, !model.fav);
             },
             Action {
                 iconName: "info";
                 text: "View Information Board";
-                onTriggered: {}
+                onTriggered: listItem.open0(model.id);
             }
         ]
     }
 
     // CLICKABLE ***************************************************************
 
-    onClicked: {}
+    onClicked: {listView.currentIndex = -1; listItem.open(model.id);}
     onPressAndHold: {}
 }

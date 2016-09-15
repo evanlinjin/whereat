@@ -72,7 +72,7 @@ Item { id: mainMenu;
                     0: function() {apl.primaryPageSource = pageHome;},
                     1: function() {apl.primaryPageSource = pageHome;},
                     2: function() {apl.primaryPageSource = pageSettings;},
-                    3: function() {apl.primaryPageSource = pageHome;}
+                    3: function() {apl.addPageToNextColumn(apl.primaryPage, pageAbout);}
                 }
             }
         }

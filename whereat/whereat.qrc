@@ -20,5 +20,6 @@
         <file>qml/pages/PageDbUpdate.qml</file>
         <file>js/appInfo.js</file>
         <file>qml/pages/PageAbstract.qml</file>
+        <file>qml/pages/PageAbout.qml</file>
     </qresource>
 </RCC>

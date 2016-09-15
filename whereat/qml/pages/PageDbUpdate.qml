@@ -10,7 +10,8 @@ PageAbstract { id: page;
     property int update_method: 0; // 0:NORMAL, 1:MANUAL
 
     header: MainHeader { id: header;
-        ln0: "Update Database"; iconName: "sync";
+        ln0: "Update Database";
+        iconName: "sync";
         leftbutton: Action {iconName: "back"; onTriggered: apl.removePages(page);}
     }
 

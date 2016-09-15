@@ -54,6 +54,7 @@ public:
 
     QModelIndex getIndex(int i);
     QModelIndex getIndex(AbstractItem a);
+    QModelIndex getIndex(QString id);
 
     bool setData(const QModelIndex &index, const QVariant &value, int role);
     Qt::ItemFlags flags(const QModelIndex &index) const;

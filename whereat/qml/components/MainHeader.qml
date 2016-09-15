@@ -38,6 +38,7 @@ PageHeader { id: header;
 
     extension: Sections { id: sections;
         actions: tabbar;
+        height: tabbar.length === 0 ? 0 : units.gu(4);
         StyleHints {
             underlineColor: header.backgroundColor;
             selectedSectionColor: header.foregroundColor;

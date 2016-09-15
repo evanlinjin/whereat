@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QEventLoop>
 
+#include "db/all.h"
 #include "models/abstractmodel.h"
 #include "models/stopmodel.h"
 #include "src/locator.h"
@@ -22,13 +23,14 @@ public:
     Locator* locator;
     Downloader* downloader;
     SettingsManager* settingsManager;
+    JsonParser* jsonParser;
 
     StopModel* favouriteStopsModel;
     StopModel* nearbyStopsModel;
-    StopModel* recentStopsModel;
+//    StopModel* recentStopsModel;
     StopModel* textSearchStopsModel;
 
-    JsonParser* jsonParser;
+    DbSavedStops* dbSavedStops;
 
 private:
     QEventLoop eventLoop;
@@ -57,9 +59,10 @@ public slots:
     void reloadTextSearch(QString query);
     void reloadTextSearch_REPLY(int status, QNetworkReply* reply);
     void reloadTextSearch_JSON(QList<AbstractItem> list);
-
     // Hack for bug where text search loading is enabled randomnly.
     void reloadTextSearch_forceLoadingOff();
+
+    void updateStopFavourite(QString id, bool fav);
 
 private slots:
     void clearDlReplyList();

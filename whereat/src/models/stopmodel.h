@@ -10,11 +10,13 @@ public:
     explicit StopModel(QObject *parent = 0);
     ~StopModel() {AbstractModel::clear();}
 
+    void append(QList<AbstractItem> list, QStringList favList);
+
 signals:
 
 public slots:
     void reload();
-    //bool removeFavourite(int index);
+    bool updateFavourite(QString id, bool fav);
 };
 
 #endif // STOPMODEL_H

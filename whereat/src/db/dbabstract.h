@@ -8,8 +8,7 @@
 #include <QJsonObject>
 #include <QDebug>
 
-class DbAbstract : public QObject
-{
+class DbAbstract : public QObject {
     Q_OBJECT
 public:
     explicit DbAbstract(QString name, QObject *parent = 0);

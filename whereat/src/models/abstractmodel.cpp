@@ -88,6 +88,15 @@ QModelIndex AbstractModel::getIndex(AbstractItem a) {
     return QModelIndex();
 }
 
+QModelIndex AbstractModel::getIndex(QString id) {
+    for (int i = 0; i < this->count(); i++) {
+        if (m_list[i].id == id) {
+            return index(i);
+        }
+    }
+    return QModelIndex();
+}
+
 bool AbstractModel::setData(const QModelIndex &index, const QVariant &value, int role) {
     if (index.row() < 0 || index.row() >= m_list.size()) {
         return false;

@@ -36,12 +36,17 @@ PageAbstract { id: page;
     }
 
 
-    UbuntuListView { id: listView
+    UbuntuListView { id: listView;
         anchors.fill: parent;
         anchors.topMargin: header.height;
         currentIndex: -1;
-        onCountChanged: currentIndex = -1
-        delegate: MainListItem { id: listItem }
+        onCountChanged: currentIndex = -1;
+        delegate: MainListItem {id: listItem;
+            updateFavourite: function(id,fav) {WhereAt.updateStopFavourite(id, fav);}
+            open: function() {console.log("open triggered.");}
+            open0: function() {console.log("open0 triggered.");}
+        }
+
         model: switch (header.tabbar_currentIndex) {
                case 0: return FavouriteStopsModel;
                case 1: return NearbyStopsModel;
@@ -49,7 +54,7 @@ PageAbstract { id: page;
                default: return 0;
                }
 
-        PullToRefresh {
+        PullToRefresh { id: ptr;
             refreshing: switch (header.tabbar_currentIndex) {
                         case 0: return FavouriteStopsModel.loading;
                         case 1: return NearbyStopsModel.loading;

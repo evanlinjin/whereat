@@ -19,7 +19,8 @@ SOURCES += main.cpp \
     src/db/dbroutes.cpp \
     src/db/dbcalendar.cpp \
     src/db/dbstops.cpp \
-    src/db/dbtrips.cpp
+    src/db/dbtrips.cpp \
+    src/db/dbsavedstops.cpp
 
 RESOURCES += whereat.qrc
 
@@ -72,7 +73,8 @@ HEADERS += \
     src/db/dbcalendar.h \
     src/db/dbstops.h \
     src/db/dbtrips.h \
-    src/db/all.h
+    src/db/all.h \
+    src/db/dbsavedstops.h
 
 DISTFILES += \
     qml/components/NavigationMenu.qml \

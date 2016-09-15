@@ -5,13 +5,14 @@ WhereAt::WhereAt(QObject *parent) : QObject(parent) {
     locator = new Locator(this);
     downloader = new Downloader(this);
     settingsManager = new SettingsManager(this);
+    jsonParser = new JsonParser(this);
 
     favouriteStopsModel = new StopModel(this);
     nearbyStopsModel = new StopModel(this);
-    recentStopsModel = new StopModel(this);
+//    recentStopsModel = new StopModel(this);
     textSearchStopsModel = new StopModel(this);
 
-    jsonParser = new JsonParser(this);
+    dbSavedStops = new DbSavedStops(this);
 }
 
 WhereAt::~WhereAt() {
@@ -19,13 +20,14 @@ WhereAt::~WhereAt() {
     locator->deleteLater();
     downloader->deleteLater();
     settingsManager->deleteLater();
+    jsonParser->deleteLater();
 
     favouriteStopsModel->deleteLater();
     nearbyStopsModel->deleteLater();
-    recentStopsModel->deleteLater();
+//    recentStopsModel->deleteLater();
     textSearchStopsModel->deleteLater();
 
-    jsonParser->deleteLater();
+    dbSavedStops->deleteLater();
 }
 
 // PRIVATE DEFINITIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -169,7 +171,8 @@ void WhereAt::reloadNearbyStops_JSON(QList<AbstractItem> list) {
     disconnect(jsonParser, SIGNAL(parseNearbyStopsComplete(QList<AbstractItem>)),
                this, SLOT(reloadNearbyStops_JSON(QList<AbstractItem>)));
 
-    nearbyStopsModel->append(list);
+    QStringList favList = dbSavedStops->getFavouritesList();
+    nearbyStopsModel->append(list, favList);
     nearbyStopsModel->setLoading(false);
 }
 
@@ -217,11 +220,26 @@ void WhereAt::reloadTextSearch_JSON(QList<AbstractItem> list) {
     disconnect(jsonParser, SIGNAL(parseTextSearchStopsComplete(QList<AbstractItem>)),
                this, SLOT(reloadTextSearch_JSON(QList<AbstractItem>)));
 
-    textSearchStopsModel->append(list);
+    QStringList favList = dbSavedStops->getFavouritesList();
+    textSearchStopsModel->append(list, favList);
     textSearchStopsModel->setLoading(false);
 }
 
 // Hacked fix for a bug where loader for text search is enabled randomnly.
 void  WhereAt::reloadTextSearch_forceLoadingOff() {
     textSearchStopsModel->setLoading(false);
+}
+
+// DEFINITIONS FOR : UPDATING SAVED STOPS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+void WhereAt::updateStopFavourite(QString id, bool fav) {
+    qDebug() << this << "updateStopFavourite" << id << fav;
+    connect(dbSavedStops, SIGNAL(updateFavouriteComplete(QString,bool)),
+            favouriteStopsModel, SLOT(updateFavourite(QString,bool)));
+    connect(dbSavedStops, SIGNAL(updateFavouriteComplete(QString,bool)),
+            nearbyStopsModel, SLOT(updateFavourite(QString,bool)));
+    connect(dbSavedStops, SIGNAL(updateFavouriteComplete(QString,bool)),
+            textSearchStopsModel, SLOT(updateFavourite(QString,bool)));
+
+    dbSavedStops->updateFavourite(id, fav);
 }

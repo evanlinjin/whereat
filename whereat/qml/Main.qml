@@ -40,7 +40,8 @@ MainView { id: main;
 
     Component {id: pageHome; PageHome {} }
     Component {id: pageSettings; PageSettings {} }
-    Component { id: pageDbUpdate; PageDbUpdate {} }
+    Component {id: pageDbUpdate; PageDbUpdate {} }
+    Component {id: pageAbout; PageAbout {} }
 
     NavigationMenu {id: mainMenu;
         pageWidth: main.width;
