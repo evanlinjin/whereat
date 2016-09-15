@@ -12,6 +12,7 @@ WhereAt::WhereAt(QObject *parent) : QObject(parent) {
     textSearchStopsModel = new StopModel(this);
 
     dbSavedStops = new DbSavedStops(this);
+    dbStops = new DbStops(this);
 }
 
 WhereAt::~WhereAt() {
@@ -26,6 +27,7 @@ WhereAt::~WhereAt() {
     textSearchStopsModel->deleteLater();
 
     dbSavedStops->deleteLater();
+    dbStops->deleteLater();
 }
 
 // PRIVATE DEFINITIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -106,6 +108,23 @@ void WhereAt::updateDbManual_JSON(QString name) {
         downloader->resetConnections();
         emit updateDbManualComplete();
     }
+}
+
+// DEFINITIONS FOR : UPDATING FAVOURITE STOPS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+void WhereAt::reloadFavouriteStops() {
+    qDebug() << this << "reloadFavouriteStops";
+    favouriteStopsModel->clear();
+    favouriteStopsModel->setLoading(true);
+    eventLoop.processEvents();
+
+    QStringList idList = dbSavedStops->getFavouritesList();
+    QList<AbstractItem> favList = dbStops->fillList(idList);
+    qDebug() << "SIZE OF FAV LIST:" << favList.size();
+    favouriteStopsModel->append(favList, idList);
+
+    favouriteStopsModel->setLoading(false);
+    eventLoop.processEvents();
 }
 
 // DEFINITIONS FOR : UPDATING NEARBY STOPS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

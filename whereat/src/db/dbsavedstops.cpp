@@ -105,23 +105,3 @@ QStringList DbSavedStops::getFavouritesList() {
     emit getFavouritesListComplete(list);
     return list;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

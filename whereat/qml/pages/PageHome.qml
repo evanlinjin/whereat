@@ -62,7 +62,7 @@ PageAbstract { id: page;
                         default: return 0;
                         }
             onRefresh: switch (header.tabbar_currentIndex) {
-                       case 0: break;
+                       case 0: WhereAt.reloadFavouriteStops(); break;
                        case 1: WhereAt.reloadNearbyStops(); break;
                        case 2: WhereAt.reloadTextSearch(header.searchQuery); break;
                        }

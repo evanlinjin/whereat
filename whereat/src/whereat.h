@@ -30,6 +30,7 @@ public:
     StopModel* textSearchStopsModel;
 
     DbSavedStops* dbSavedStops;
+    DbStops* dbStops;
 
 private:
     QEventLoop eventLoop;
@@ -48,6 +49,8 @@ public slots:
     void updateDbManual_REPLY(QNetworkReply* reply);
     void updateDbManual_REPLY(QNetworkReply::NetworkError error);
     void updateDbManual_JSON(QString name);
+
+    void reloadFavouriteStops();
 
     void updateNearbyStops();
     void reloadNearbyStops();
