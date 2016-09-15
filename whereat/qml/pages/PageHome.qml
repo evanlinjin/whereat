@@ -15,6 +15,7 @@ PageAbstract { id: page;
             Action {text: "Starred";
                 onTriggered: {
                     header.headerMode = 0;
+                    WhereAt.reloadFavouriteStops();
                 }
             },
             Action {text: "Nearby";
