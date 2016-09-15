@@ -6,6 +6,16 @@ DbStops::DbStops(QObject *parent) : DbAbstract("stops", parent) {
 DbStops::~DbStops() {
 }
 
+QString DbStops::getIconUrl(QString stop_name) {
+    if (stop_name.contains("Train Station", Qt::CaseSensitive)) {
+        return QString("qrc:/icons/train.svg");
+    }
+    if (stop_name.contains("Ferry Terminal", Qt::CaseSensitive)) {
+        return QString("qrc:/icons/ferry.svg");
+    }
+    return QString("qrc:/icons/bus.svg");
+}
+
 QList<AbstractItem> DbStops::fillList(QStringList ids) {
     DbAbstract::connectIfNeeded();
     QList<AbstractItem> list;
@@ -23,6 +33,7 @@ QList<AbstractItem> DbStops::fillList(QStringList ids) {
             item.ln1 = q.value("stop_name").toString();
             item.ln2 = "";
             item.ln3 = "";
+            item.type = getIconUrl(item.ln1);
             item.color = "";
             item.fav = true;
             item.header = false;
