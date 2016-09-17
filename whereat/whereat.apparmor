@@ -2,7 +2,8 @@
     "policy_groups": [
         "networking",
         "location",
-        "keep-display-on"
+        "keep-display-on",
+        "connectivity"
     ],
     "policy_version": 1.3
 }

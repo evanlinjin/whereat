@@ -23,7 +23,7 @@ Page { id: page;
 
         topbar: [
             Action {iconName: fav ? "starred" : "non-starred";
-                onTriggered: {}
+                onTriggered: {WhereAt.updateStopFavourite(page.id, !page.fav);}
             },
             Action {iconName: "reload"; text: "Reload";
                 onTriggered: {}
@@ -81,9 +81,14 @@ Page { id: page;
     // LOGIC >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     Component.onCompleted: {
+        // CONNECTIONS >>
+        // For updating header:
         WhereAt.updateStopTimeboardComplete_StopData.connect(updateStopData);
         WhereAt.updateStopTimeboardComplete_SavedStopData.connect(updateSavedStopData);
+        // For updating 'fav':
+        WhereAt.updateStopFavouriteComplete.connect(updateFavourite);
 
+        // GET TIMEBOARD INFORMATION >>
         WhereAt.updateStopTimeboard(page.id);
     }
 
@@ -98,6 +103,12 @@ Page { id: page;
     function updateSavedStopData(id, fav, fav_index, visits, color) {
         page.fav = fav ? true : false;
         page.color = color ? "" : color;
+    }
+
+    function updateFavourite(id, fav) {
+        if (id === page.id) {
+            page.fav = fav;
+        }
     }
 
     // ACTION FUNCTIONS ********************************************************

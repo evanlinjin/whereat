@@ -13,6 +13,29 @@ WhereAt::WhereAt(QObject *parent) : QObject(parent) {
 
     dbSavedStops = new DbSavedStops(this);
     dbStops = new DbStops(this);
+
+    // PERMANENT CONNECTIONS : UPDATING SAVED STOPS >>>
+
+    connect(dbSavedStops, SIGNAL(updateFavouriteComplete(QString,bool)),
+            favouriteStopsModel, SLOT(updateFavourite(QString,bool)));
+
+    connect(dbSavedStops, SIGNAL(updateFavouriteComplete(QString,bool)),
+            favouriteStopsModel, SLOT(removeRowWithId(QString,bool)));
+
+    connect(dbSavedStops, SIGNAL(updateFavouriteComplete(QString,bool)),
+            nearbyStopsModel, SLOT(updateFavourite(QString,bool)));
+
+    connect(dbSavedStops, SIGNAL(updateFavouriteComplete(QString,bool)),
+            textSearchStopsModel, SLOT(updateFavourite(QString,bool)));
+
+    // PERMANENT CONNECTIONS : UPDATING STOP TIMEBOARD >>>
+
+    connect(dbStops, SIGNAL(getStopDataComplete(QStringList,QList<double>)),
+            this, SIGNAL(updateStopTimeboardComplete_StopData(QStringList,QList<double>)));
+
+    connect(dbSavedStops, SIGNAL(getOneComplete(QString,bool,int,int,QString)),
+            this, SIGNAL(updateStopTimeboardComplete_SavedStopData(QString,bool,int,int,QString)));
+
 }
 
 WhereAt::~WhereAt() {
@@ -28,6 +51,12 @@ WhereAt::~WhereAt() {
 
     dbSavedStops->deleteLater();
     dbStops->deleteLater();
+
+    // Remove all db connections.
+    QStringList dbConnections = QSqlDatabase::connectionNames();
+    for (int i = 0; i < dbConnections.size(); i++) {
+        QSqlDatabase::removeDatabase(dbConnections.at(i));
+    }
 }
 
 // PRIVATE DEFINITIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -251,26 +280,17 @@ void  WhereAt::reloadTextSearch_forceLoadingOff() {
 
 void WhereAt::updateStopFavourite(QString id, bool fav) {
     qDebug() << this << "updateStopFavourite" << id << fav;
-    connect(dbSavedStops, SIGNAL(updateFavouriteComplete(QString,bool)),
-            favouriteStopsModel, SLOT(updateFavourite(QString,bool)));
-    connect(dbSavedStops, SIGNAL(updateFavouriteComplete(QString,bool)),
-            favouriteStopsModel, SLOT(removeRowWithId(QString,bool)));
-    connect(dbSavedStops, SIGNAL(updateFavouriteComplete(QString,bool)),
-            nearbyStopsModel, SLOT(updateFavourite(QString,bool)));
-    connect(dbSavedStops, SIGNAL(updateFavouriteComplete(QString,bool)),
-            textSearchStopsModel, SLOT(updateFavourite(QString,bool)));
 
     dbSavedStops->updateFavourite(id, fav);
+
+    // Let QML PageTimeboard know if to update timeboard header information.
+    emit updateStopFavouriteComplete(id, fav);
 }
 
 // DEFINITIONS FOR : UPDATING STOP TIMEBOARD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 void WhereAt::updateStopTimeboard(QString id) {
     qDebug() << this << "updateStopTimeboard" << id;
-    connect(dbStops, SIGNAL(getStopDataComplete(QStringList,QList<double>)),
-            this, SIGNAL(updateStopTimeboardComplete_StopData(QStringList,QList<double>)));
-    connect(dbSavedStops, SIGNAL(getOneComplete(QString,bool,int,int,QString)),
-            this, SIGNAL(updateStopTimeboardComplete_SavedStopData(QString,bool,int,int,QString)));
 
     dbStops->getStopData(id);
     dbSavedStops->getOne(id);
