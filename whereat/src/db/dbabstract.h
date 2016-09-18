@@ -24,7 +24,8 @@ signals:
 public slots:
     bool connectIfNeeded();
     void initTable(QStringList keys, QStringList keyTypes, int primaryIndex);
-    void updateElement(QJsonObject element, QStringList keys);
+    void initTable(QString tableName, QStringList keys, QStringList keyTypes, int primaryIndex);
+    void updateElement(QString tableName, QJsonObject element, QStringList keys);
 
 };
 

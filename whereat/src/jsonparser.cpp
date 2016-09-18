@@ -49,6 +49,7 @@ void JsonParser::parseAll(QList<QNetworkReply*> replyList) {
 }
 
 void JsonParser::parseAll_ONE(QString name, QJsonArray response) {
+    QString db_name("api");
     name = name.remove(QString("/v1/gtfs/"), Qt::CaseInsensitive);
     QJsonObject element      = response.at(0).toObject();
     QStringList keys         = element.keys();
@@ -62,14 +63,14 @@ void JsonParser::parseAll_ONE(QString name, QJsonArray response) {
     }
 
     // Create, if appropriate, .db file and table.
-    DbAbstract db(name);
-    db.initTable(keys, keySqlTypes, primaryId);
+    DbAbstract db(db_name);
+    db.initTable(name, keys, keySqlTypes, primaryId);
 
     // Fill database table >>>
     QString prep_str;
     for (int i = 0; i < response.size(); i++) {
         element = response.at(i).toObject(); // Grab element.
-        db.updateElement(element, keys);
+        db.updateElement(name, element, keys);
         qDebug() << this << "parseAll_ONEProgress" << name << "[" << i+1 << "/" << response.size() << "]";
         emit parseAll_ONEProgress("Processing " + name + QString("..."),
                                   i+1, response.size());
@@ -155,3 +156,45 @@ void JsonParser::parseTextSearchStops(QNetworkReply* reply) {
 
     emit parseTextSearchStopsComplete(list);
 }
+
+// PARSE STOP TIMEBOARD >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+void JsonParser::parseStopTimeboard(QNetworkReply* reply) {
+    QJsonArray response = takeResponseArray(reply);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

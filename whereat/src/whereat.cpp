@@ -7,9 +7,10 @@ WhereAt::WhereAt(QObject *parent) : QObject(parent) {
     settingsManager = new SettingsManager(this);
     jsonParser = new JsonParser(this);
 
-    favouriteStopsModel = new StopModel(this);
-    nearbyStopsModel = new StopModel(this);
-    textSearchStopsModel = new StopModel(this);
+    favouriteStopsModel = new AbstractModel(this);
+    nearbyStopsModel = new AbstractModel(this);
+    textSearchStopsModel = new AbstractModel(this);
+    timeboardModel = new TimeboardModel(this);
 
     dbSavedStops = new DbSavedStops(this);
     dbStops = new DbStops(this);
@@ -48,6 +49,7 @@ WhereAt::~WhereAt() {
     favouriteStopsModel->deleteLater();
     nearbyStopsModel->deleteLater();
     textSearchStopsModel->deleteLater();
+    timeboardModel->deleteLater();
 
     dbSavedStops->deleteLater();
     dbStops->deleteLater();
@@ -291,9 +293,31 @@ void WhereAt::updateStopFavourite(QString id, bool fav) {
 
 void WhereAt::updateStopTimeboard(QString id) {
     qDebug() << this << "updateStopTimeboard" << id;
+    timeboardModel->clear();
+    timeboardModel->setLoading(true);
+    eventLoop.processEvents();
 
     dbStops->getStopData(id);
     dbSavedStops->getOne(id);
+    eventLoop.processEvents();
+
+    connect(downloader, SIGNAL(timeboardSearchComplete(int,QNetworkReply*)),
+            this, SLOT(updateStopTimeboard_REPLY(int,QNetworkReply*)));
+
+    downloader->getTimeboardSearch(id);
+}
+
+void WhereAt::updateStopTimeboard_REPLY(int status, QNetworkReply *reply) {
+    qDebug() << this << "updateStopTimeboard_REPLY" << status << reply->error();
+    disconnect(downloader, SIGNAL(timeboardSearchComplete(int,QNetworkReply*)),
+            this, SLOT(updateStopTimeboard_REPLY(int,QNetworkReply*)));
+
+    if (status != 0) {
+        timeboardModel->setLoading(false);
+        timeboardModel->setEmptyState("network_error");
+        reply->deleteLater();
+        return;
+    }
 }
 
 

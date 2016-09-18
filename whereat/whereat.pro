@@ -8,19 +8,16 @@ QT += qml quick core positioning concurrent network sql
 SOURCES += main.cpp \
     src/whereat.cpp \
     src/models/abstractmodel.cpp \
-    src/models/stopmodel.cpp \
     src/locator.cpp \
     src/downloader.cpp \
     src/settingsmanager.cpp \
     src/jsonparser.cpp \
     src/db/dbabstract.cpp \
-    src/db/dbversions.cpp \
-    src/db/dbagency.cpp \
-    src/db/dbroutes.cpp \
-    src/db/dbcalendar.cpp \
     src/db/dbstops.cpp \
-    src/db/dbtrips.cpp \
-    src/db/dbsavedstops.cpp
+    src/db/dbsavedstops.cpp \
+    src/models/timeboardmodel.cpp \
+    src/models/favouritestopsmodel.cpp \
+    src/db/dbmanager.cpp
 
 RESOURCES += whereat.qrc
 
@@ -61,20 +58,17 @@ HEADERS += \
     keys.h \
     src/whereat.h \
     src/models/abstractmodel.h \
-    src/models/stopmodel.h \
     src/locator.h \
     src/downloader.h \
     src/settingsmanager.h \
     src/jsonparser.h \
     src/db/dbabstract.h \
-    src/db/dbversions.h \
-    src/db/dbagency.h \
-    src/db/dbroutes.h \
-    src/db/dbcalendar.h \
     src/db/dbstops.h \
-    src/db/dbtrips.h \
     src/db/all.h \
-    src/db/dbsavedstops.h
+    src/db/dbsavedstops.h \
+    src/models/timeboardmodel.h \
+    src/models/favouritestopsmodel.h \
+    src/db/dbmanager.h
 
 DISTFILES += \
     qml/components/NavigationMenu.qml \

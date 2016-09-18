@@ -151,12 +151,12 @@ bool AbstractModel::removeRows(int row, int count, const QModelIndex &index) {
 }
 
 bool AbstractModel::moveRow(const QModelIndex &sourceIndex, int sourceRow,
-             const QModelIndex &destinationIndex, int destinationRow) {
+                            const QModelIndex &destinationIndex, int destinationRow) {
     return this->moveRows(sourceIndex, sourceRow, 1, destinationIndex, destinationRow);
 }
 
 bool AbstractModel::moveRows(const QModelIndex &sourceIndex, int sourceRow,
-              int count, const QModelIndex &destinationIndex, int destinationRow) {
+                             int count, const QModelIndex &destinationIndex, int destinationRow) {
     if (sourceRow < 0 || destinationRow < 0 ||
             (sourceRow+count-1) > this->count() || destinationRow > this->count()) {
         return false;
@@ -181,6 +181,23 @@ bool AbstractModel::clear() {
     return this->removeRows(0, this->count(), QModelIndex());
 }
 
+void AbstractModel::reload() {
+    this->setLoading(true);
+    this->clear();
+}
+
+bool AbstractModel::updateFavourite(QString id, bool fav) {
+    QModelIndex index = this->getIndex(id);
+    return this->setData(index, fav, AbstractModel::favRole);
+}
+
+bool AbstractModel::removeRowWithId(QString id, bool fav) {
+    if (fav == true) {return -1;}
+    int index = this->getIndex(id, false);
+    return this->removeRow(index);
+}
+
+
 void AbstractModel::append(AbstractItem item) {
     beginInsertRows(QModelIndex(), this->count(), this->count());
     m_list.append(item);
@@ -196,3 +213,104 @@ void AbstractModel::append(QList<AbstractItem> list) {
     emit countChanged();
     endInsertRows();
 }
+
+void AbstractModel::append(QList<AbstractItem> list, QStringList favList) {
+    this->append(list);
+    for (int i = 0; i < favList.size(); i++) {
+        this->updateFavourite(favList.at(i), true);
+    }
+}
+
+QString AbstractModel::getIconUrl(QString stop_name) {
+    if (stop_name.contains("Train Station", Qt::CaseSensitive)) {
+        return QString("qrc:/icons/train.svg");
+    }
+    if (stop_name.contains("Ferry Terminal", Qt::CaseSensitive)) {
+        return QString("qrc:/icons/ferry.svg");
+    }
+    return QString("qrc:/icons/bus.svg");
+}
+
+// DATABASE DEFINITIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.
+
+QSqlDatabase AbstractModel::openDB(QString name) {
+    QSqlDatabase db;
+
+    // Setup directory.
+    QString path =
+            QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)
+            + QString("/db/");
+    QDir dir(path);
+    if (!dir.exists()) {dir.mkdir(path);}
+
+    // Get current db connections.
+    QStringList dbConnections = QSqlDatabase::connectionNames();
+    for (int i = 0; i < dbConnections.size(); i++) {
+        if (dbConnections.at(i) == name) {
+            db = QSqlDatabase::database(name);
+            goto finish_init;
+        }
+    }
+    db = QSqlDatabase::addDatabase("QSQLITE", name);
+    db.setDatabaseName(path + name + QString(".db"));
+
+    if (!db.open()) {
+        qDebug() << this << "openDB ERROR" << db.lastError().text();
+        db.close();
+        QSqlDatabase::removeDatabase(name);
+    }
+
+finish_init:
+    return db;
+}
+
+void AbstractModel::initTable(
+        QString dbName, QString tableName,
+        QStringList keys, QStringList keyTypes, int primaryIndex)
+{
+    QSqlDatabase db = openDB(dbName);
+    QString q_str = "CREATE TABLE IF NOT EXISTS " + tableName + "(";
+    for (int i = 0; i < keys.size(); i++) {
+        if (i == primaryIndex) { q_str += keys.at(i) + " TEXT PRIMARY KEY"; }
+        else                   { q_str += keys.at(i) + " " + keyTypes.at(i); }
+
+        // Add comma to entry if not last column.
+        if (i != keys.size() - 1) {q_str += ", ";}
+    }
+    q_str += ")";
+    qDebug() << this << "initTable" << q_str;
+
+    QSqlQuery q(db);
+    if (!q.exec(q_str)) {
+        qDebug() << this << "initTable ERROR" << db.lastError().text();
+    }
+    q.finish();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

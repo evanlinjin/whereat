@@ -55,8 +55,29 @@ void DbAbstract::initTable(QStringList keys, QStringList keyTypes, int primaryIn
     q.finish();
 }
 
-void DbAbstract::updateElement(QJsonObject element, QStringList keys) {
-    QString q_str = "INSERT OR IGNORE INTO " + dbName + "(";
+void DbAbstract::initTable(QString tableName,
+        QStringList keys, QStringList keyTypes, int primaryIndex)
+{
+    QString q_str = "CREATE TABLE IF NOT EXISTS " + tableName + "(";
+    for (int i = 0; i < keys.size(); i++) {
+        if (i == primaryIndex) { q_str += keys.at(i) + " TEXT PRIMARY KEY"; }
+        else                   { q_str += keys.at(i) + " " + keyTypes.at(i); }
+
+        // Add comma to entry if not last column.
+        if (i != keys.size() - 1) {q_str += ", ";}
+    }
+    q_str += ")";
+    qDebug() << this << "initTable" << q_str;
+
+    QSqlQuery q(db);
+    if (!q.exec(q_str)) {
+        qDebug() << this << "initTable ERROR" << db.lastError().text();
+    }
+    q.finish();
+}
+
+void DbAbstract::updateElement(QString tableName, QJsonObject element, QStringList keys) {
+    QString q_str = "INSERT OR IGNORE INTO " + tableName + "(";
     for (int j = 0; j < keys.size(); j++) {
         q_str += keys.at(j); if (j != keys.size() - 1) {q_str += ", ";}
     }

@@ -41,12 +41,14 @@ signals:
 
     void parseNearbyStopsComplete(QList<AbstractItem> list);
     void parseTextSearchStopsComplete(QList<AbstractItem> list);
+    void parseStopTimeboardComplete(QList<AbstractItem> list);
 
 public slots:
     void parseAll(QList<QNetworkReply*> replyList);
 
     void parseNearbyStops(QNetworkReply* reply);
     void parseTextSearchStops(QNetworkReply* reply);
+    void parseStopTimeboard(QNetworkReply* reply);
 };
 
 #endif // JSONPARSER_H

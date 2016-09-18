@@ -7,7 +7,7 @@
 
 #include "db/all.h"
 #include "models/abstractmodel.h"
-#include "models/stopmodel.h"
+#include "models/timeboardmodel.h"
 #include "src/locator.h"
 #include "src/downloader.h"
 #include "src/settingsmanager.h"
@@ -25,9 +25,10 @@ public:
     SettingsManager* settingsManager;
     JsonParser* jsonParser;
 
-    StopModel* favouriteStopsModel;
-    StopModel* nearbyStopsModel;
-    StopModel* textSearchStopsModel;
+    AbstractModel* favouriteStopsModel;
+    AbstractModel* nearbyStopsModel;
+    AbstractModel* textSearchStopsModel;
+    TimeboardModel* timeboardModel;
 
     DbSavedStops* dbSavedStops;
     DbStops* dbStops;
@@ -84,6 +85,8 @@ private slots:
 
     void reloadTextSearch_REPLY(int status, QNetworkReply* reply);
     void reloadTextSearch_JSON(QList<AbstractItem> list);
+
+    void updateStopTimeboard_REPLY(int status, QNetworkReply* reply);
 
 };
 

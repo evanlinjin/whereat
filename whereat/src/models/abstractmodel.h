@@ -3,6 +3,10 @@
 
 #include <QObject>
 #include <QAbstractListModel>
+#include <QtSql>
+#include <QList>
+#include <QStandardPaths>
+#include <QJsonObject>
 #include <QDebug>
 
 struct AbstractItem {
@@ -66,13 +70,21 @@ public:
                  const QModelIndex &destinationIndex = QModelIndex(), int destinationRow = 0);
     bool moveRows(const QModelIndex &sourceIndex = QModelIndex(), int sourceRow = 0,
                   int count = 0, const QModelIndex &destinationIndex = QModelIndex(), int destinationRow = 0);
+
     void append(AbstractItem item);
     void append(QList<AbstractItem> list);
+    void append(QList<AbstractItem> list, QStringList favList);
+
+protected:
+    QSqlDatabase openDB(QString name);
+    void initTable(QString dbName, QString tableName, QStringList keys, QStringList keyTypes, int primaryIndex);
 
 private:
     QList<AbstractItem> m_list;
     bool m_loading;
     QString m_emptyState;
+
+    QString getIconUrl(QString stop_name);
 
 signals:
     void countChanged();
@@ -81,6 +93,9 @@ signals:
 
 public slots:
     bool clear();
+    void reload();
+    bool updateFavourite(QString id, bool fav);
+    bool removeRowWithId(QString id, bool fav);
 
 };
 
