@@ -24,18 +24,18 @@ QSqlDatabase DbManager::openDb(QString dbName) {
     // Get current db connections.
     QStringList dbConnections = QSqlDatabase::connectionNames();
     for (int i = 0; i < dbConnections.size(); i++) {
-        if (dbConnections.at(i) == name) {
-            db = QSqlDatabase::database(name);
+        if (dbConnections.at(i) == dbName) {
+            db = QSqlDatabase::database(dbName);
             goto finish_init;
         }
     }
-    db = QSqlDatabase::addDatabase("QSQLITE", name);
-    db.setDatabaseName(path + name + QString(".db"));
+    db = QSqlDatabase::addDatabase("QSQLITE", dbName);
+    db.setDatabaseName(path + dbName + QString(".db"));
 
     if (!db.open()) {
         qDebug() << this << "openDB ERROR" << db.lastError().text();
         db.close();
-        QSqlDatabase::removeDatabase(name);
+        QSqlDatabase::removeDatabase(dbName);
     }
 
 finish_init:
@@ -46,7 +46,7 @@ QSqlDatabase DbManager::initTable(
         QString dbName, QString tableName,
         QStringList keys, QStringList keyTypes, int primaryIndex)
 {
-    QSqlDatabase db = openDB(dbName);
+    QSqlDatabase db = openDb(dbName);
     QString q_str = "CREATE TABLE IF NOT EXISTS " + tableName + "(";
     for (int i = 0; i < keys.size(); i++) {
         if (i == primaryIndex) { q_str += keys.at(i) + " TEXT PRIMARY KEY"; }
@@ -64,11 +64,34 @@ QSqlDatabase DbManager::initTable(
     return db;
 }
 
+// DEFINITIONS : PRIATE OTHERS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+QString DbManager::getIconUrl(QString stop_name) {
+    if (stop_name == "") {
+        return QString("qrc:/icons/AT.png");
+    }
+    if (stop_name.contains("Train Station", Qt::CaseSensitive)) {
+        return QString("qrc:/icons/train.svg");
+    }
+    if (stop_name.contains("Ferry Terminal", Qt::CaseSensitive)) {
+        return QString("qrc:/icons/ferry.svg");
+    }
+    return QString("qrc:/icons/bus.svg");
+}
+
+
+// DEFINITIONS : GET QUERYS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 QSqlQuery DbManager::getSavedStopsQuery() {
     QStringList keys, keyTypes;
     keys     << "id"   << "fav"     << "fav_index" << "visits" << "color";
     keyTypes << "TEXT" << "BOOLEAN" << "INT"       << "INT"    << "TEXT";
     QSqlDatabase db = initTable("saved", "stops", keys, keyTypes, 0);
+    return QSqlQuery(db);
+}
+
+QSqlQuery DbManager::getApiQuery() {
+    QSqlDatabase db = openDb("api");
     return QSqlQuery(db);
 }
 
@@ -108,19 +131,19 @@ void DbManager::updateSavedStopFavourite(QString id, bool fav) {
         q.exec();
         qDebug() << this << "updateFavourite" << q.executedQuery();
 
-        QStringList id_list = getFavouritesList();
+        QList<SavedStopItem> id_list = getStopFavouritesList();
 
         // Normalize indexFavourite values in database.
         for (int i = 1; i <= id_list.size(); i++) {
             q.prepare("UPDATE stops SET fav_index = ? WHERE id == ?");
             q.addBindValue(i);
-            q.addBindValue(id_list.at(i - 1));
+            q.addBindValue(id_list.at(i - 1).id);
             q.exec();
             qDebug() << this << "updateFavourite" << q.executedQuery();
         }
     }
 
-    emit updateFavouriteComplete(id, fav);
+    emit updateSavedStopFavouriteComplete(id, fav);
 }
 
 SavedStopItem DbManager::getOneSavedStop(QString id) {
@@ -143,29 +166,93 @@ SavedStopItem DbManager::getOneSavedStop(QString id) {
         item.color     = q.value("color").toString();
     }
 
-    emit getOneComplete(item.id, item.fav, item.fav_index, item.visits, item.color);
+    emit getOneSavedStopComplete(item.id, item.fav, item.fav_index, item.visits, item.color);
     return item;
 }
 
-// MAKE THIS USE SavedStopItem !!!
-QStringList DbManager::getStopFavouritesList() {
+void DbManager::getOneApiStop(QString id) {
+    QSqlQuery q = getApiQuery();
+
+    q.prepare("SELECT * FROM stops WHERE stop_id = ?");
+    q.addBindValue(id);
+    q.exec();
+
+    QStringList ln;
+    QList<double> coord;
+
+    if (q.first()) {
+        ln.append(q.value("stop_code").toString());
+        ln.append(q.value("stop_name").toString());
+        ln.append(getIconUrl(ln[1]));
+        coord.append(q.value("stop_lat").toDouble());
+        coord.append(q.value("stop_lon").toDouble());
+    }
+
+    emit getOneApiStopComplete(ln, coord);
+}
+
+QList<SavedStopItem> DbManager::getStopFavouritesList() {
     QSqlQuery q = getSavedStopsQuery();
 
     QStringList list;
+    QList<SavedStopItem> fullList;
 
-    q.prepare("SELECT * FROM " + QString(dbName) + " WHERE fav = 1 ORDER BY fav_index");
+    q.prepare("SELECT * FROM stops WHERE fav = 1 ORDER BY fav_index");
     q.exec();
 
     while (q.next()) {
-        bool isFav = q.value("fav").isNull() ? false : q.value("fav").toBool();
-        if (isFav) {
-            list.append(q.value("id").toString());
-        }
+        SavedStopItem temp;
+        temp.id = q.value("id").toString();
+        temp.fav = q.value("fav").toBool();
+        temp.fav_index = q.value("fav_index").toInt();
+        temp.visits = q.value("visits").toInt();
+        temp.color = q.value("color").toString();
+        fullList.append(temp);
+        list.append(temp.id);
+
     }
     qDebug() << this << "getFavouritesList" << list;
-    emit getFavouritesListComplete(list);
+    emit getStopFavouritesListComplete(list);
+    return fullList;
+}
+
+QList<AbstractItem> DbManager::getStopFavouritesListForModel() {
+    QList<AbstractItem> list;
+    QSqlQuery q = getApiQuery();
+
+    QList<SavedStopItem> favList = this->getStopFavouritesList();
+
+    for (int i = 0; i < favList.size(); i++) {
+        AbstractItem temp;
+
+        q.prepare("SELECT * FROM stops WHERE stop_id = ?");
+        q.addBindValue(favList.at(i).id);
+        q.exec();
+
+        if (q.first()) {
+            temp.id = q.value("stop_id").toString();
+            temp.ln0 = q.value("stop_code").toString();
+            temp.ln1 = q.value("stop_name").toString();
+            temp.type = getIconUrl(temp.ln1);
+        } else {
+            temp.id = favList.at(i).id;
+            temp.ln0 = "No entry in database";
+            temp.ln1 = "Database update might be needed.";
+            temp.type = getIconUrl("");
+        }
+        temp.color = favList.at(i).color;
+        temp.fav = favList.at(i).fav;
+        temp.header = false;
+
+        list.append(temp);
+    }
+
     return list;
 }
+
+
+
+
 
 
 
