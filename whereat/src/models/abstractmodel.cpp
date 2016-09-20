@@ -1,7 +1,7 @@
 #include "abstractmodel.h"
 
 AbstractModel::AbstractModel(QObject *parent) : QAbstractListModel(parent) {
-
+//    qRegisterMetaType<QList<AbstractItem> >();
 }
 
 AbstractModel::~AbstractModel() {

@@ -6,6 +6,8 @@
 #include <QList>
 #include <QStandardPaths>
 #include <QJsonObject>
+#include <QTime>
+#include <QDate>
 #include <QDebug>
 
 #include "../models/abstractmodel.h"
@@ -16,6 +18,19 @@ struct SavedStopItem {
     int fav_index;
     int visits;
     QString color;
+};
+
+struct TimeboardItem {
+    QString trip_id;
+    QString route_id;
+    QString route_short_name; // "007"
+    int time;
+    int due;
+    QString due_str;
+    int stop_sequence; // Position of stop on trip.
+    int direction_id;
+    QString time_str;
+    QString trip_headsign; // "Panmure"
 };
 
 class DbManager : public QObject
@@ -32,6 +47,9 @@ private:
             QStringList keys, QStringList keyTypes, int primaryIndex);
 
     QString getIconUrl(QString stop_name);
+    QString getWeekday();
+    QString getTimeString(int h);
+    int getCurrentTimeInSeconds();
 
     QSqlQuery getSavedStopsQuery();
     QSqlQuery getApiQuery();
@@ -43,6 +61,7 @@ signals:
     void getOneSavedStopComplete(QString id, bool fav, int fav_index, int visits, QString color);
     void getOneApiStopComplete(QStringList ln, QList<double> coord);
     void getStopFavouritesListComplete(QStringList list);
+    void rtTimeboardTripsListComplete(QStringList tripIdList);
 
 public slots:
     void updateSavedStopFavourite(QString id, bool fav); // emits.
@@ -50,7 +69,10 @@ public slots:
     void getOneApiStop(QString id); // emits.
     QList<SavedStopItem> getStopFavouritesList(); // emits.
     QList<AbstractItem> getStopFavouritesListForModel();
+
     QVariantList getTimeboardBasicData(QString id);
+    QString getVersion();
+    QList<TimeboardItem> getTimeboardList(QList<TimeboardItem> raw);
 };
 
 #endif // DBMANAGER_H

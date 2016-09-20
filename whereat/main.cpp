@@ -22,9 +22,9 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<WhereAt>("WhereAt", 1, 0, "WhereAt");
-
     // OBJECTS >>>
+
+    qmlRegisterType<WhereAt>("WhereAt", 1, 0, "WhereAt");
 
     Locator* locator = new Locator();
     Downloader* downloader = new Downloader(); // needed by WhereAt...

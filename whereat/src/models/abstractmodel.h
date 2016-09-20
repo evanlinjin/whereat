@@ -11,6 +11,7 @@
 #include <QJsonArray>
 #include <QNetworkReply>
 #include <QDebug>
+#include <QMetaType>
 
 struct AbstractItem {
     QString id;     // Identifier String.
@@ -103,5 +104,8 @@ public slots:
     bool ifContains(QString id);
 
 };
+
+//Q_DECLARE_METATYPE(QList<AbstractItem>);
+
 
 #endif // ABSTRACTMODEL_H

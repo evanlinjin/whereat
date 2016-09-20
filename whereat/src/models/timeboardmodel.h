@@ -2,6 +2,11 @@
 #define TIMEBOARDMODEL_H
 
 #include <QVariant>
+#include <QTime>
+#include <QDate>
+#include <QDebug>
+#include <QtConcurrent>
+
 #include "abstractmodel.h"
 #include "src/db/dbmanager.h"
 #include "src/downloader.h"
@@ -20,10 +25,15 @@ private:
     Downloader &downloader;
     DbManager &dbManager;
 
+    QList<TimeboardItem> tempList;
     QVariantList m_ln;
+    QTime time;
+
+    int getCurrentTimeInSeconds();
 
 signals:
     void lnChanged();
+    void end();
 
 public slots:
     void updateLn(QString id);
@@ -31,7 +41,10 @@ public slots:
 
 private slots:
     void reload_REPLY(int status, QNetworkReply* reply);
-
+    void reload_THREAD(QJsonArray response);
+    void reload_rtREPLY(int status, QNetworkReply* reply);
+    //void reload_rtTHREAD();
+    void reload_END();
 
 };
 

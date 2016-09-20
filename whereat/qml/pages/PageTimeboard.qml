@@ -53,33 +53,24 @@ Page { id: page;
         delegate: ListItem {
             divider.visible: false;
 
-            property string main_color: model.modelData.color === "" ? theme.palette.normal.backgroundSecondaryText : model.modelData.color;
+            property string main_color: model.color === "" ? theme.palette.normal.backgroundSecondaryText : model.modelData.color;
             Row { height: parent.height; spacing: units.gu(0.5); anchors {left: parent.left; right: parent.right;}
                 Item { height: parent.height; width: units.gu(0.5);}
-                TB_Label {text: model.modelData.ln0; fontSize: "small"; color: main_color;}
-                TB_Label {text: model.modelData.ln1.toUpperCase(); width: parent.width - units.gu(17); fontSize: "small"; color: main_color;}
-                TB_Label {text: model.modelData.ln2; width: units.gu(4.5); fontSize: "small"; color: main_color;}
-                TB_Label { id: rt_label;
-                    text: model.modelData.ln3; al_r: true; width: units.gu(3.5); fontSize: "small"; color: main_color;
-                    NumberAnimation on opacity {id: an1; from: 0; to: 1; duration: 350;}
-                    NumberAnimation on opacity {id: an2; from: 1; to: 0; duration: 350;}
-                }
-                Timer {
-                    repeat: true; running: model.modelData.ln3 === "~"; interval: 700;
-                    onTriggered: { if (!rt_label.opacity) {an1.start();} else {an2.start();}}
-
-                }
+                TB_Label {text: model.ln0; fontSize: "small"; color: main_color;}
+                TB_Label {text: model.ln1.toUpperCase(); width: parent.width - units.gu(17); fontSize: "small"; color: main_color;}
+                TB_Label {text: model.ln2; width: units.gu(4.5); fontSize: "small"; color: main_color;}
+                TB_Label { id: rt_label; text: model.ln3; al_r: true; width: units.gu(3.5); fontSize: "small"; color: main_color;}
             }
-            height: model.modelData.due < 0 ? 0 : units.gu(6);
-
-            NumberAnimation on opacity {from: 0; to: 1; duration: 200;}
-            NumberAnimation on opacity {from: 1; to: 0; duration: 200;}
+            height: model.due < 0 ? 0 : units.gu(6);
         }
 
+        PullToRefresh { id: ptr;
+            refreshing: TimeboardModel.loading;
+            onRefresh: TimeboardModel.reload(page.id);
+        }
+
+        Scrollbar {flickableItem: list;}
     }
-
-    Scrollbar {flickableItem: list;}
-
 
     // LOGIC >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 

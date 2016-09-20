@@ -78,6 +78,27 @@ QString DbManager::getIconUrl(QString stop_name) {
     return QString("qrc:/icons/bus.svg");
 }
 
+QString DbManager::getWeekday() {
+    switch (QDate::currentDate().dayOfWeek()) {
+    case 1: return "monday";
+    case 2: return "tuesday";
+    case 3: return "wednesday";
+    case 4: return "thursday";
+    case 5: return "friday";
+    case 6: return "saturday";
+    case 7: return "sunday";
+    } return "";
+}
+
+QString DbManager::getTimeString(int h) {
+    int m; h /= 60; m = h % 60; h /= 60;
+    return (h < 10 ? "0" : "") + QString::number(h)
+            + ":" + (m < 10 ? "0" : "") + QString::number(m);
+}
+
+int DbManager::getCurrentTimeInSeconds() {
+    return QTime(0,0).secsTo(QTime::currentTime());
+}
 
 // DEFINITIONS : GET QUERYS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -292,9 +313,63 @@ QVariantList DbManager::getTimeboardBasicData(QString id) {
     return list;
 }
 
+QString DbManager::getVersion() {
+    QSqlQuery q = getApiQuery();
 
+    q.exec("SELECT version FROM versions");
+    if (q.first()) {
+        return q.value("version").toString();
+    }
+    return "";
+}
 
+bool sortTimes(TimeboardItem i, TimeboardItem j) {return (i.time < j.time);}
 
+QList<TimeboardItem> DbManager::getTimeboardList(QList<TimeboardItem> raw) {
+
+    QSqlQuery q = getApiQuery();
+    int currentTime = getCurrentTimeInSeconds();
+    QString weekday = getWeekday();
+    QStringList tripIdList;
+    QString cmd;
+
+    for (int i = raw.size() - 1; i >= 0; i--) {
+
+        // Remove items on different day.
+        cmd = "SELECT * FROM calendar WHERE service_id == '" + raw.at(i).trip_id + "' AND " + weekday + " == 1";
+        q.exec(cmd);
+        if (!q.first()) {raw.removeAt(i); continue;}
+
+        // Add data from trips.
+        cmd = "SELECT trip_headsign, route_id, direction_id FROM trips WHERE trip_id == '" + raw.at(i).trip_id + "'";
+        q.exec(cmd);
+        if (!q.first()) {qDebug() << this << "NO DATA:" << i << cmd;}
+        raw[i].trip_headsign = q.value("trip_headsign").toString();
+        raw[i].route_id = q.value("route_id").toString();
+        raw[i].direction_id = q.value("direction_id").toInt();
+
+        // Add data from routes.
+        cmd = "SELECT route_short_name FROM routes WHERE route_id == '" + raw.at(i).route_id + "'";
+        q.exec(cmd);
+        if (!q.first()) {qDebug() << this << "NO DATA:" << i << cmd;}
+        raw[i].route_short_name = q.value("route_short_name").toString();
+
+        // Add time data.
+        raw[i].time_str = this->getTimeString(raw.at(i).time);
+        raw[i].due = (raw.at(i).time - currentTime)/60;
+
+        // Append to tripIdList.
+        tripIdList.append(raw[i].trip_id);
+    }
+    emit rtTimeboardTripsListComplete(tripIdList);
+
+    // Sort.
+    std::sort(raw.begin(), raw.end(), sortTimes);
+
+    qDebug() << this << "getTimeboardList LIST SIZE :" << raw.size();
+    return raw;
+
+}
 
 
 

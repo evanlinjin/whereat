@@ -70,6 +70,10 @@ void Downloader::getTimeboardSearch(QString stop_id) {
 }
 
 void Downloader::getTimeboardRtSearch(QStringList trip_ids) {
+    if (trip_ids.size() == 0) {
+        emit timeboardRtSearchComplete(-1, NULL);
+        return;
+    }
     QString url("https://api.at.govt.nz/v1/public/realtime/tripupdates?tripid=");
     for (int i = 0; i < trip_ids.size(); i++) {
         url += trip_ids.at(i) + ",";
