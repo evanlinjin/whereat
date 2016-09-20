@@ -4,26 +4,28 @@ import "../components"
 
 Page { id: page;
 
+    // 0:id, 1:code, 2:name, 3:lat, 4:lon, 5:type, 6:fav, 7:color
     property string id;
-    property string ln0;
-    property string ln1;
-    property string ln2;
-    property double lat;
-    property double lon;
-    property string color;
-    property bool fav;
+    property string ln0 : TimeboardModel.ln[1];
+    property string ln1 : TimeboardModel.ln[2];
+    property double lat : TimeboardModel.ln[3];
+    property double lon : TimeboardModel.ln[4];
+    property string src : TimeboardModel.ln[5];
+    property bool fav : TimeboardModel.ln[6];
+    property string color : TimeboardModel.ln[7];
     property bool info: false;
 
     header: MainHeader {id: header;
-        ln0:page.ln0; ln1:page.ln1;
-        iconSource: page.ln2;
+        ln0: page.ln0;
+        ln1: page.ln1;
+        iconSource: page.src;
         dual_heading: false;
 
         leftbutton: Action {iconName: "back"; onTriggered: apl.removePages(page);}
 
         topbar: [
             Action {iconName: fav ? "starred" : "non-starred";
-                onTriggered: {WhereAt.updateStopFavourite(page.id, !page.fav);}
+                onTriggered: {DbManager.updateSavedStopFavourite(page.id, !page.fav);}
             },
             Action {iconName: "reload"; text: "Reload";
                 onTriggered: {}
@@ -47,6 +49,7 @@ Page { id: page;
         Component.onCompleted: currentIndex = -1;
         onCountChanged: currentIndex = -1;
 
+        model: TimeboardModel;
         delegate: ListItem {
             divider.visible: false;
 
@@ -80,36 +83,7 @@ Page { id: page;
 
     // LOGIC >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-    Component.onCompleted: {
-        // CONNECTIONS >>
-        // For updating header:
-        WhereAt.updateStopTimeboardComplete_StopData.connect(updateStopData);
-        WhereAt.updateStopTimeboardComplete_SavedStopData.connect(updateSavedStopData);
-        // For updating 'fav':
-        WhereAt.updateStopFavouriteComplete.connect(updateFavourite);
-
-        // GET TIMEBOARD INFORMATION >>
-        WhereAt.updateStopTimeboard(page.id);
-    }
-
-    function updateStopData(ln, coord) {
-        page.ln0 = ln[0];
-        page.ln1 = ln[1];
-        page.ln2 = ln[2];
-        page.lat = coord[0];
-        page.lon = coord[1];
-    }
-
-    function updateSavedStopData(id, fav, fav_index, visits, color) {
-        page.fav = fav ? true : false;
-        page.color = color ? "" : color;
-    }
-
-    function updateFavourite(id, fav) {
-        if (id === page.id) {
-            page.fav = fav;
-        }
-    }
+    Component.onCompleted: {TimeboardModel.reload(page.id);}
 
     // ACTION FUNCTIONS ********************************************************
 

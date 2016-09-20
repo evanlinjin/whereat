@@ -2,6 +2,7 @@ import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
 import QtQuick.Window 2.2
+import WhereAt 1.0
 import "../../js/appInfo.js" as INFO
 import "../components"
 
@@ -63,7 +64,7 @@ PageAbstract { id: page;
     function begin_update() {
         if (update_method === 1) {
             PopupUtils.open(manual_update_dialog);
-            WhereAt.updateDbManual();
+            whereat.updateDbManual();
         }
     }
 
@@ -93,15 +94,15 @@ PageAbstract { id: page;
             }
             Button {
                 strokeColor: theme.palette.normal.backgroundSecondaryText;
-                text: show_finish ? "Close App" : "Cancel";
+                text: show_finish ? "Close" : "Cancel";
                 color: theme.palette.normal.foreground;
-                onClicked: show_finish ? WhereAt.quit() : cancel_update();
+                onClicked: show_finish ? PopupUtils.close(manual_update_dialog) : cancel_update();
             }
 
             Component.onCompleted: {
-                WhereAt.progress0.connect(updateProgress0);
-                WhereAt.progress.connect(updateProgress);
-                WhereAt.updateDbManualComplete.connect(updateComplete);
+                whereat.progress0.connect(updateProgress0);
+                whereat.progress.connect(updateProgress);
+                whereat.updateDbManualComplete.connect(updateComplete);
             }
 
             function updateProgress0(done, max) {
@@ -119,8 +120,10 @@ PageAbstract { id: page;
             function updateComplete() {
                 show_finish = true;
                 progressBar0.visible = false;
-                dialog.text = "Update Complete!\nPlease close the app to continue.";
+                dialog.text = "Update Complete!";
             }
         }
     }
+
+    WhereAt { id: whereat;}
 }

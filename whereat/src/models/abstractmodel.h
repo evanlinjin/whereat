@@ -3,10 +3,13 @@
 
 #include <QObject>
 #include <QAbstractListModel>
+#include <QEventLoop>
 #include <QtSql>
 #include <QList>
 #include <QStandardPaths>
 #include <QJsonObject>
+#include <QJsonArray>
+#include <QNetworkReply>
 #include <QDebug>
 
 struct AbstractItem {
@@ -75,16 +78,16 @@ public:
     void append(QList<AbstractItem> list);
     void append(QList<AbstractItem> list, QStringList favList);
 
-protected:
-    QSqlDatabase openDB(QString name);
-    void initTable(QString dbName, QString tableName, QStringList keys, QStringList keyTypes, int primaryIndex);
-
 private:
     QList<AbstractItem> m_list;
     bool m_loading;
     QString m_emptyState;
 
+protected:
+    QEventLoop eventLoop;
     QString getIconUrl(QString stop_name);
+    AbstractItem getEmptyItem();
+    QJsonArray takeResponseArray(QNetworkReply* reply);
 
 signals:
     void countChanged();
@@ -93,9 +96,11 @@ signals:
 
 public slots:
     bool clear();
-    void reload();
+    void startReload();
+    void endReload();
     bool updateFavourite(QString id, bool fav);
     bool removeRowWithId(QString id, bool fav);
+    bool ifContains(QString id);
 
 };
 

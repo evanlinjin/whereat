@@ -3,7 +3,7 @@
 DbAbstract::DbAbstract(QString name, QObject *parent)
     : QObject(parent), dbName(name), isOpen(false) {
 
-    this->connectIfNeeded();
+    //this->connectIfNeeded();
 }
 
 DbAbstract::~DbAbstract() {
@@ -11,30 +11,65 @@ DbAbstract::~DbAbstract() {
     //QSqlDatabase::removeDatabase(dbName);
 }
 
-bool DbAbstract::connectIfNeeded() {
-    qDebug() << this << "isOpen:" << isOpen;
-    if (!isOpen) {
-        // Setup directory.
-        QString path =
-                QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)
-                + QString("/db/");
-        QDir dir(path);
-        if (!dir.exists()) {dir.mkdir(path);}
+QSqlDatabase DbAbstract::openDb() {
+    QSqlDatabase db;
 
-        // Setup database connection.
-        db = QSqlDatabase::addDatabase("QSQLITE", dbName);
-        db.setDatabaseName(path + dbName + QString(".db"));
-        if (!db.open()) {
-            qDebug() << this << "constructor ERROR" << db.lastError().text();
-            isOpen = false;
-        } else {
-            isOpen = true;
-            qDebug() << this << "constructor SUCCESS";
+    // Setup directory.
+    QString path =
+            QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)
+            + QString("/db/");
+    QDir dir(path);
+    if (!dir.exists()) {dir.mkdir(path);}
+
+    // Get current db connections.
+    QStringList dbConnections = QSqlDatabase::connectionNames();
+    for (int i = 0; i < dbConnections.size(); i++) {
+        if (dbConnections.at(i) == dbName) {
+            db = QSqlDatabase::database(dbName);
+            goto finish_init;
         }
-        return true;
     }
-    return false;
+    db = QSqlDatabase::addDatabase("QSQLITE", dbName);
+finish_init:
+    db.setDatabaseName(path + dbName + QString(".db"));
+
+    if (!db.open()) {
+        qDebug() << this << "openDB ERROR" << db.lastError().text();
+        db.close();
+        QSqlDatabase::removeDatabase(dbName);
+    }
+    return db;
 }
+
+QSqlQuery DbAbstract::getApiQuery() {
+    QSqlDatabase db = openDb();
+    return QSqlQuery(db);
+}
+
+//bool DbAbstract::connectIfNeeded() {
+//    qDebug() << this << "isOpen:" << isOpen;
+//    if (!isOpen) {
+//        // Setup directory.
+//        QString path =
+//                QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)
+//                + QString("/db/");
+//        QDir dir(path);
+//        if (!dir.exists()) {dir.mkdir(path);}
+
+//        // Setup database connection.
+//        db = QSqlDatabase::addDatabase("QSQLITE", dbName);
+//        db.setDatabaseName(path + dbName + QString(".db"));
+//        if (!db.open()) {
+//            qDebug() << this << "constructor ERROR" << db.lastError().text();
+//            isOpen = false;
+//        } else {
+//            isOpen = true;
+//            qDebug() << this << "constructor SUCCESS";
+//        }
+//        return true;
+//    }
+//    return false;
+//}
 
 void DbAbstract::initTable(QStringList keys, QStringList keyTypes, int primaryIndex) {
     QString q_str = "CREATE TABLE IF NOT EXISTS " + dbName + "(";
@@ -48,7 +83,7 @@ void DbAbstract::initTable(QStringList keys, QStringList keyTypes, int primaryIn
     q_str += ")";
     qDebug() << this << "initTable" << q_str;
 
-    QSqlQuery q(db);
+    QSqlQuery q = getApiQuery();
     if (!q.exec(q_str)) {
         qDebug() << this << "initTable ERROR" << db.lastError().text();
     }
@@ -69,7 +104,7 @@ void DbAbstract::initTable(QString tableName,
     q_str += ")";
     qDebug() << this << "initTable" << q_str;
 
-    QSqlQuery q(db);
+    QSqlQuery q = getApiQuery();
     if (!q.exec(q_str)) {
         qDebug() << this << "initTable ERROR" << db.lastError().text();
     }
@@ -87,7 +122,7 @@ void DbAbstract::updateElement(QString tableName, QJsonObject element, QStringLi
     }
     q_str += ")";
 
-    QSqlQuery q(db);
+    QSqlQuery q = getApiQuery();
     q.prepare(q_str);
 
     for (int j = 0; j < element.size(); j++) {

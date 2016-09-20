@@ -30,6 +30,7 @@ QSqlDatabase DbManager::openDb(QString dbName) {
         }
     }
     db = QSqlDatabase::addDatabase("QSQLITE", dbName);
+finish_init:
     db.setDatabaseName(path + dbName + QString(".db"));
 
     if (!db.open()) {
@@ -37,8 +38,6 @@ QSqlDatabase DbManager::openDb(QString dbName) {
         db.close();
         QSqlDatabase::removeDatabase(dbName);
     }
-
-finish_init:
     return db;
 }
 
@@ -250,7 +249,48 @@ QList<AbstractItem> DbManager::getStopFavouritesListForModel() {
     return list;
 }
 
+// 0:id, 1:code, 2:name, 3:lat, 4:lon, 5:type, 6:fav, 7:color
+QVariantList DbManager::getTimeboardBasicData(QString id) {
+    QVariantList list;
+    list.reserve(8);
+    for (int i = 0; i < 8; i++) {
+        list.append(QVariant());
+    }
 
+    QSqlQuery q = getApiQuery();
+    q.prepare("SELECT * FROM stops WHERE stop_id = ?");
+    q.addBindValue(id);
+    q.exec();
+
+    QSqlQuery qs = getSavedStopsQuery();
+    qs.prepare("SELECT * FROM stops WHERE id == ?");
+    qs.addBindValue(id);
+    qs.exec();
+
+    list[0] = id;
+    if (q.first()) {
+        list[1] = q.value("stop_code").toString();
+        list[2] = q.value("stop_name").toString();
+        list[3] = q.value("stop_lat").toDouble();
+        list[4] = q.value("stop_lon").toDouble();
+        list[5] = getIconUrl(list[2].toString());
+    } else {
+        list[1] = "No entry in database";
+        list[2] = "Database update might be needed.";
+        list[3] = -1.0;
+        list[4] = -1.0;
+        list[5] = getIconUrl("");
+    }
+    if (qs.first()) {
+        list[6] = qs.value("fav").toBool();
+        list[7] = qs.value("color").toString();
+    } else {
+        list[6] = false;
+        list[7] = "";
+    }
+
+    return list;
+}
 
 
 

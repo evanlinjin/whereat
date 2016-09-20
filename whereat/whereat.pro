@@ -13,11 +13,11 @@ SOURCES += main.cpp \
     src/settingsmanager.cpp \
     src/jsonparser.cpp \
     src/db/dbabstract.cpp \
-    src/db/dbstops.cpp \
-    src/db/dbsavedstops.cpp \
     src/models/timeboardmodel.cpp \
     src/models/favouritestopsmodel.cpp \
-    src/db/dbmanager.cpp
+    src/db/dbmanager.cpp \
+    src/models/nearbystopsmodel.cpp \
+    src/models/searchstopsmodel.cpp
 
 RESOURCES += whereat.qrc
 
@@ -63,12 +63,12 @@ HEADERS += \
     src/settingsmanager.h \
     src/jsonparser.h \
     src/db/dbabstract.h \
-    src/db/dbstops.h \
     src/db/all.h \
-    src/db/dbsavedstops.h \
     src/models/timeboardmodel.h \
     src/models/favouritestopsmodel.h \
-    src/db/dbmanager.h
+    src/db/dbmanager.h \
+    src/models/nearbystopsmodel.h \
+    src/models/searchstopsmodel.h
 
 DISTFILES += \
     qml/components/NavigationMenu.qml \

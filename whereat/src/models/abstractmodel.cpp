@@ -181,9 +181,15 @@ bool AbstractModel::clear() {
     return this->removeRows(0, this->count(), QModelIndex());
 }
 
-void AbstractModel::reload() {
+void AbstractModel::startReload() {
     this->setLoading(true);
     this->clear();
+    eventLoop.processEvents();
+}
+
+void AbstractModel::endReload() {
+    this->setLoading(false);
+    eventLoop.processEvents();
 }
 
 bool AbstractModel::updateFavourite(QString id, bool fav) {
@@ -231,86 +237,31 @@ QString AbstractModel::getIconUrl(QString stop_name) {
     return QString("qrc:/icons/bus.svg");
 }
 
-// DATABASE DEFINITIONS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>.
+AbstractItem AbstractModel::getEmptyItem() {
+    AbstractItem item;
+    item.color = "";
+    item.fav = false;
+    item.header = false;
+    item.id = "";
+    item.ln0 = "";
+    item.ln1 = "";
+    item.ln2 = "";
+    item.ln3 = "";
+    item.type = "";
+    return item;
+}
 
-QSqlDatabase AbstractModel::openDB(QString name) {
-    QSqlDatabase db;
+QJsonArray AbstractModel::takeResponseArray(QNetworkReply* reply) {
+    QJsonObject object = QJsonDocument::fromJson(reply->readAll()).object();
+    reply->deleteLater();
+    return object["response"].toArray();
+}
 
-    // Setup directory.
-    QString path =
-            QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)
-            + QString("/db/");
-    QDir dir(path);
-    if (!dir.exists()) {dir.mkdir(path);}
-
-    // Get current db connections.
-    QStringList dbConnections = QSqlDatabase::connectionNames();
-    for (int i = 0; i < dbConnections.size(); i++) {
-        if (dbConnections.at(i) == name) {
-            db = QSqlDatabase::database(name);
-            goto finish_init;
+bool AbstractModel::ifContains(QString id) {
+    for (int i = 0; i < count(); i++) {
+        if (id == data(getIndex(i), idRole).toString()) {
+            return true;
         }
     }
-    db = QSqlDatabase::addDatabase("QSQLITE", name);
-    db.setDatabaseName(path + name + QString(".db"));
-
-    if (!db.open()) {
-        qDebug() << this << "openDB ERROR" << db.lastError().text();
-        db.close();
-        QSqlDatabase::removeDatabase(name);
-    }
-
-finish_init:
-    return db;
+    return false;
 }
-
-void AbstractModel::initTable(
-        QString dbName, QString tableName,
-        QStringList keys, QStringList keyTypes, int primaryIndex)
-{
-    QSqlDatabase db = openDB(dbName);
-    QString q_str = "CREATE TABLE IF NOT EXISTS " + tableName + "(";
-    for (int i = 0; i < keys.size(); i++) {
-        if (i == primaryIndex) { q_str += keys.at(i) + " TEXT PRIMARY KEY"; }
-        else                   { q_str += keys.at(i) + " " + keyTypes.at(i); }
-
-        // Add comma to entry if not last column.
-        if (i != keys.size() - 1) {q_str += ", ";}
-    }
-    q_str += ")";
-    qDebug() << this << "initTable" << q_str;
-
-    QSqlQuery q(db);
-    if (!q.exec(q_str)) {
-        qDebug() << this << "initTable ERROR" << db.lastError().text();
-    }
-    q.finish();
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

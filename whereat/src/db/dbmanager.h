@@ -50,6 +50,7 @@ public slots:
     void getOneApiStop(QString id); // emits.
     QList<SavedStopItem> getStopFavouritesList(); // emits.
     QList<AbstractItem> getStopFavouritesListForModel();
+    QVariantList getTimeboardBasicData(QString id);
 };
 
 #endif // DBMANAGER_H

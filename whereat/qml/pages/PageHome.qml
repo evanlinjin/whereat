@@ -15,25 +15,25 @@ PageAbstract { id: page;
             Action {text: "Starred";
                 onTriggered: {
                     header.headerMode = 0;
-                    WhereAt.reloadFavouriteStops();
+                    FavouriteStopsModel.reload();
                 }
             },
             Action {text: "Nearby";
                 onTriggered: {
                     header.headerMode = 0;
-                    WhereAt.updateNearbyStops();
+                    NearbyStopsModel.update();
                 }
             },
             Action {text: "Search";
                 onTriggered: {
                     header.headerMode = 1;
-                    WhereAt.reloadTextSearch_forceLoadingOff();
+                    //WhereAt.reloadTextSearch_forceLoadingOff();
                 }
             }
         ]
 
         searchPlaceholderText: "Search Stops...";
-        onSearchAccepted: WhereAt.reloadTextSearch(query);
+        onSearchAccepted: TextSearchStopsModel.reload(query);
     }
 
 
@@ -43,7 +43,7 @@ PageAbstract { id: page;
         currentIndex: -1;
         onCountChanged: currentIndex = -1;
         delegate: MainListItem {id: listItem;
-            updateFavourite: function(id,fav) {WhereAt.updateStopFavourite(id, fav);}
+            updateFavourite: function(id,fav) {DbManager.updateSavedStopFavourite(id, fav);}
             open: function(id) {apl.addPageToNextColumn(apl.primaryPage, pageTimeboard, {id:id});}
             open0: function() {console.log("open0 triggered.");}
             showRemove: header.tabbar_currentIndex === 0;
@@ -64,9 +64,9 @@ PageAbstract { id: page;
                         default: return 0;
                         }
             onRefresh: switch (header.tabbar_currentIndex) {
-                       case 0: WhereAt.reloadFavouriteStops(); break;
-                       case 1: WhereAt.reloadNearbyStops(); break;
-                       case 2: WhereAt.reloadTextSearch(header.searchQuery); break;
+                       case 0: FavouriteStopsModel.reload(); break;
+                       case 1: NearbyStopsModel.reload(); break;
+                       case 2: TextSearchStopsModel.reload(header.searchQuery); break;
                        }
         }
         Scrollbar {flickableItem: listView;}
