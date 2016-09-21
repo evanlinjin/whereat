@@ -1,15 +1,24 @@
 <RCC>
     <qresource prefix="/">
         <file>android/main.qml</file>
-        <file>android/Page1.qml</file>
-        <file>android/Page1Form.ui.qml</file>
-	<!--<file>whereat/js/appInfo.js</file>
-	<file>whereat/icons/airplane.svg</file>
-	<file>whereat/icons/bike.svg</file>
-	<file>whereat/icons/bus.svg</file>
-	<file>whereat/icons/car.svg</file>
-	<file>whereat/icons/ferry.svg</file>
-	<file>whereat/icons/train.svg</file>
-	<file>whereat/icons/AT.png</file>-->
+        <file>android/pages/PageHome.qml</file>
+        <file>android/icons/back.svg</file>
+        <file>android/icons/clock.svg</file>
+        <file>android/icons/close.svg</file>
+        <file>android/icons/erase.svg</file>
+        <file>android/icons/filters.svg</file>
+        <file>android/icons/find.svg</file>
+        <file>android/icons/help.svg</file>
+        <file>android/icons/info.svg</file>
+        <file>android/icons/location.svg</file>
+        <file>android/icons/navigation-menu.svg</file>
+        <file>android/icons/non-starred.svg</file>
+        <file>android/icons/reload.svg</file>
+        <file>android/icons/security-alert.svg</file>
+        <file>android/icons/starred.svg</file>
+        <file>android/icons/swap.svg</file>
+        <file>android/components/ToolbarButton.qml</file>
+        <file>android/components/MainPageHeader.qml</file>
+        <file>android/components/MainListView.qml</file>
     </qresource>
 </RCC>
