@@ -1,6 +1,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.3 as LI
+import "../../js/appInfo.js" as INFO
 import "../components"
 import "../components/listItems"
 
@@ -67,7 +68,7 @@ PageAbstract { id: page;
 
             PlainLI {
                 title: "About 'Where AT?'";
-                subtitle: "Version: 1.0 Pre-Alpha";
+                subtitle: "Version: " + INFO.version + " (alpha)";
                 trigger: function() {apl.addPageToNextColumn(apl.primaryPage, pageAbout);}
             }
         }

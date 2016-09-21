@@ -362,7 +362,7 @@ QList<TimeboardItem> DbManager::getTimeboardList(QList<TimeboardItem> raw) {
 
     // Get trips list.
     QStringList tripIdList;
-    for (int i = 0; i < (raw.size() > 20 ? 20 : raw.size()); i++) {
+    for (int i = 0; i < (raw.size() > 10 ? 10 : raw.size()); i++) {
         tripIdList.append(raw[i].trip_id);
     }
     emit rtTimeboardTripsListComplete(tripIdList);

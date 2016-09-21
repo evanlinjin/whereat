@@ -31,6 +31,10 @@ PageAbstract { id: page;
                 }
             }
         ]
+        topbar: Action {text: "Reload"; iconName: "reload";
+            visible: ptr.refreshing === false;
+            onTriggered: ptr.refresh();
+        }
 
         searchPlaceholderText: "Search Stops...";
         onSearchAccepted: TextSearchStopsModel.reload(query);

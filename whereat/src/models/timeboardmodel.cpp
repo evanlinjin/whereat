@@ -151,11 +151,12 @@ void TimeboardModel::reload_rtREPLY(int status, QNetworkReply* reply) {
         qDebug() << this << "TIME [FROM RT]" << (int)time << "(-)";
         qDebug() << this << "TIME [  DELAY]" << delay;
         due = (delay - (QDateTime::currentMSecsSinceEpoch()/1000 - time) )/60;
+        //due = delay/60;
         qDebug() << this << "TIME [    DUE]" << due;
-        if (due < 0) {
-            qDebug() << this << "[" << trip_id << "] NEGATIVE DUE TIME : no changes";
-            continue;
-        }
+//        if (due < 0) {
+//            qDebug() << this << "[" << trip_id << "] NEGATIVE DUE TIME : no changes";
+//            continue;
+//        }
 
         for (int j = tempList.size() - 1; j >= 0; j--) {
 
@@ -173,11 +174,11 @@ void TimeboardModel::reload_rtREPLY(int status, QNetworkReply* reply) {
 //                bool isDirectionValid = tempList[j].direction_id ?
 //                            (tempList[j].stop_sequence >= stop_seq) : // direction_id : 1
 //                            (tempList[j].stop_sequence <= stop_seq);  // direction_id : 0
-                bool isDirectionValid = tempList[j].stop_sequence >= stop_seq;
-                if (isDirectionValid) {
-                    qDebug() << this << "[" << tempList[j].trip_id << "]" << "DIRECTION VALID : changing DUE from"
-                             << tempList[j].due << "to" << due;
-                    tempList[j].due = due;
+//                bool isDirectionValid = tempList[j].stop_sequence >= stop_seq;
+                if (true) {
+                    qDebug() << this << "[" << tempList[j].trip_id << "]" << "DIRECTION VALID : changing DUE to"
+                             << tempList[j].due << "+" << due;
+                    tempList[j].due += due;
                 } else {
                     qDebug() << this << "[" << tempList[j].trip_id << "]" << "DIRECTION INVALID : no changes";
                 }
@@ -191,7 +192,7 @@ void TimeboardModel::reload_rtREPLY(int status, QNetworkReply* reply) {
         if (tempList[j].due >= 0.0 && tempList[j].due < 1.0) {
             tempList[j].due_str = "*";
         }
-        else if (tempList[j].due > 60.0) {
+        else if (tempList[j].due > 30.0) {
             tempList[j].due_str = "-";
         }
         else {
