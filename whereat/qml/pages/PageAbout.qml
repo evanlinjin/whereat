@@ -102,7 +102,7 @@ PageAbstract { id: page;
             }
 
             Label {
-                text: ("Source code available on %1").arg("<a href=\"https://github.com/evanlinjin/whereat2\">Github</a>")
+                text: ("Source code available on %1").arg("<a href=\"https://github.com/evanlinjin/whereat\">Github</a>")
                 width: parent.width
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter

@@ -70,5 +70,5 @@ ListItem { id: listItem;
     // CLICKABLE ***************************************************************
 
     onClicked: {listView.currentIndex = -1; listItem.open(model.id);}
-    onPressAndHold: {}
+    //onPressAndHold: {}
 }

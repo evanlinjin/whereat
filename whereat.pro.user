@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.1.0, 2016-09-17T11:58:37. -->
+<!-- Written by QtCreator 4.1.0, 2016-09-21T16:26:58. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -510,10 +510,14 @@
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">UbuntuProjectManager.UploadStep</value>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedFiles">
        <value type="QString">/home/evan/ubuntusdk/build-whereat-UbuntuSDK_for_i686_armhf_GCC_armhf_ubuntu_sdk_15_04-Debug/whereat.evanlinjin_0.1_armhf.click</value>
-       <value type="QString">/usr/ubuntu-sdk-ide/share/qtcreator/ubuntu/scripts/qtc_device_applaunch.py</value>
        <value type="QString">/home/evan/ubuntusdk/build-whereat-UbuntuSDK_for_i686_armhf_GCC_armhf_ubuntu_sdk_15_04-Debug/whereat.evanlinjin_1.0_armhf.click</value>
+       <value type="QString">/usr/ubuntu-sdk-ide/share/qtcreator/ubuntu/scripts/qtc_device_applaunch.py</value>
+       <value type="QString">/home/evan/ubuntusdk/build-whereat-UbuntuSDK_for_i686_armhf_GCC_armhf_ubuntu_sdk_15_04-Debug/whereat.evanlinjin_1.1.1.1_armhf.click</value>
+       <value type="QString">/home/evan/ubuntusdk/build-whereat-UbuntuSDK_for_i686_armhf_GCC_armhf_ubuntu_sdk_15_04-Debug/whereat.evanlinjin_1.1.1.2_armhf.click</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedHosts">
+       <value type="QString">127.0.0.1</value>
+       <value type="QString">127.0.0.1</value>
        <value type="QString">127.0.0.1</value>
        <value type="QString">127.0.0.1</value>
        <value type="QString">127.0.0.1</value>
@@ -522,8 +526,12 @@
        <value type="QString">/tmp</value>
        <value type="QString">/tmp</value>
        <value type="QString">/tmp</value>
+       <value type="QString">/tmp</value>
+       <value type="QString">/tmp</value>
       </valuelist>
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedSysroots">
+       <value type="QString">/var/lib/lxd/containers/i686-armhf/rootfs</value>
+       <value type="QString">/var/lib/lxd/containers/i686-armhf/rootfs</value>
        <value type="QString">/var/lib/lxd/containers/i686-armhf/rootfs</value>
        <value type="QString">/var/lib/lxd/containers/i686-armhf/rootfs</value>
        <value type="QString">/var/lib/lxd/containers/i686-armhf/rootfs</value>
@@ -531,7 +539,9 @@
       <valuelist type="QVariantList" key="Qt4ProjectManager.MaemoRunConfiguration.LastDeployedTimes">
        <value type="QDateTime">2016-09-11T18:19:00</value>
        <value type="QDateTime">2016-09-15T12:57:58</value>
-       <value type="QDateTime">2016-09-15T12:57:58</value>
+       <value type="QDateTime">2016-09-21T16:16:28</value>
+       <value type="QDateTime">2016-09-21T15:29:54</value>
+       <value type="QDateTime">2016-09-21T16:16:28</value>
       </valuelist>
      </valuemap>
      <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>

@@ -19,7 +19,7 @@ Page { id: page;
         ln0: page.ln0;
         ln1: page.ln1;
         iconSource: page.src;
-        dual_heading: false;
+        dual_heading: true;
 
         leftbutton: Action {iconName: "back"; onTriggered: apl.removePages(page);}
 
@@ -28,7 +28,7 @@ Page { id: page;
                 onTriggered: {DbManager.updateSavedStopFavourite(page.id, !page.fav);}
             },
             Action {iconName: "reload"; text: "Reload";
-                onTriggered: {}
+                onTriggered: {ptr.refresh();}
             }
         ]
 
