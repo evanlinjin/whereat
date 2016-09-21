@@ -6,7 +6,7 @@ import "pages"
 ApplicationWindow {
     visible: true;
     width: 480;
-    height: 640;
+    height: 760;
     title: qsTr("Where AT?");
 
     StackView { id: stack;

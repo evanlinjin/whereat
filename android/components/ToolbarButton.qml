@@ -7,5 +7,7 @@ ToolButton {
         source: "qrc:/android/icons/navigation-menu.svg";
         anchors.fill: parent;
         anchors.margins: 10;
+        mipmap: true;
+        smooth: true;
     }
 }

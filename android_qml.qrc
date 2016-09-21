@@ -20,5 +20,6 @@
         <file>android/components/ToolbarButton.qml</file>
         <file>android/components/MainPageHeader.qml</file>
         <file>android/components/MainListView.qml</file>
+        <file>android/components/MainTabButton.qml</file>
     </qresource>
 </RCC>
