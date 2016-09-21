@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>android/main.qml</file>
+        <file>android/Page1.qml</file>
+        <file>android/Page1Form.ui.qml</file>
+	<!--<file>whereat/js/appInfo.js</file>
+	<file>whereat/icons/airplane.svg</file>
+	<file>whereat/icons/bike.svg</file>
+	<file>whereat/icons/bus.svg</file>
+	<file>whereat/icons/car.svg</file>
+	<file>whereat/icons/ferry.svg</file>
+	<file>whereat/icons/train.svg</file>
+	<file>whereat/icons/AT.png</file>-->
+    </qresource>
+</RCC>
