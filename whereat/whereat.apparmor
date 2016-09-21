@@ -3,7 +3,6 @@
         "networking",
         "location",
         "keep-display-on",
-        "connectivity",
         "connectivity"
     ],
     "policy_version": 1.3

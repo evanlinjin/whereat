@@ -7,7 +7,7 @@ DbAbstract::DbAbstract(QString name, QObject *parent)
 }
 
 DbAbstract::~DbAbstract() {
-    db.close();
+    //db.close();
     //QSqlDatabase::removeDatabase(dbName);
 }
 

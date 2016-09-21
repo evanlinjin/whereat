@@ -77,7 +77,7 @@ PageAbstract { id: page;
 
     Component {id: manual_update_dialog;
         Dialog { id: dialog;
-            text: "";
+            text: "Downloading...";
             ProgressBar { id: progressBar0;
                 minimumValue: 0;
                 maximumValue: 1;
@@ -96,7 +96,7 @@ PageAbstract { id: page;
                 strokeColor: theme.palette.normal.backgroundSecondaryText;
                 text: show_finish ? "Close" : "Cancel";
                 color: theme.palette.normal.foreground;
-                onClicked: show_finish ? PopupUtils.close(manual_update_dialog) : cancel_update();
+                onClicked: show_finish ? PopupUtils.close(dialog) : cancel_update();
             }
 
             Component.onCompleted: {

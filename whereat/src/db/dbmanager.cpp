@@ -324,13 +324,11 @@ QString DbManager::getVersion() {
 }
 
 bool sortTimes(TimeboardItem i, TimeboardItem j) {return (i.time < j.time);}
-
 QList<TimeboardItem> DbManager::getTimeboardList(QList<TimeboardItem> raw) {
 
     QSqlQuery q = getApiQuery();
     int currentTime = getCurrentTimeInSeconds();
     QString weekday = getWeekday();
-    QStringList tripIdList;
     QString cmd;
 
     for (int i = raw.size() - 1; i >= 0; i--) {
@@ -357,18 +355,20 @@ QList<TimeboardItem> DbManager::getTimeboardList(QList<TimeboardItem> raw) {
         // Add time data.
         raw[i].time_str = this->getTimeString(raw.at(i).time);
         raw[i].due = (raw.at(i).time - currentTime)/60;
-
-        // Append to tripIdList.
-        tripIdList.append(raw[i].trip_id);
     }
-    emit rtTimeboardTripsListComplete(tripIdList);
 
     // Sort.
     std::sort(raw.begin(), raw.end(), sortTimes);
 
+    // Get trips list.
+    QStringList tripIdList;
+    for (int i = 0; i < (raw.size() > 20 ? 20 : raw.size()); i++) {
+        tripIdList.append(raw[i].trip_id);
+    }
+    emit rtTimeboardTripsListComplete(tripIdList);
+
     qDebug() << this << "getTimeboardList LIST SIZE :" << raw.size();
     return raw;
-
 }
 
 

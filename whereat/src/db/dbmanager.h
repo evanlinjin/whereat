@@ -24,8 +24,8 @@ struct TimeboardItem {
     QString trip_id;
     QString route_id;
     QString route_short_name; // "007"
-    int time;
-    int due;
+    double time;
+    double due;
     QString due_str;
     int stop_sequence; // Position of stop on trip.
     int direction_id;
@@ -40,21 +40,20 @@ public:
     explicit DbManager(QObject *parent = 0);
     ~DbManager();
 
+    QString getIconUrl(QString stop_name);
+    QString getWeekday();
+    QString getTimeString(int h);
+    int getCurrentTimeInSeconds();
+
 private:
     QSqlDatabase openDb(QString dbName);
     QSqlDatabase initTable(
             QString dbName, QString tableName,
             QStringList keys, QStringList keyTypes, int primaryIndex);
 
-    QString getIconUrl(QString stop_name);
-    QString getWeekday();
-    QString getTimeString(int h);
-    int getCurrentTimeInSeconds();
-
     QSqlQuery getSavedStopsQuery();
     QSqlQuery getApiQuery();
 
-    // FOR : STOPS >>>
 
 signals:
     void updateSavedStopFavouriteComplete(QString id, bool fav);
