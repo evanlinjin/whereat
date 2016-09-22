@@ -13,7 +13,6 @@ TabButton {
     }
     Image { id: image;
         source: "qrc:/icons/location.svg";
-        //anchors.left: parent.left;
         anchors.horizontalCenter: parent.horizontalCenter;
         anchors.top: parent.top;
         anchors.bottom: parent.bottom;
@@ -25,7 +24,7 @@ TabButton {
     ColorOverlay { id: overlay;
         anchors.fill: image;
         source: image;
-        color: checked ? "black" : "dimgrey";
+        color: checked ? "black" : "grey";
     }
     Rectangle {
         width: parent.width;

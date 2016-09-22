@@ -6,14 +6,12 @@ import "../components"
 
 Page { id: page;
 
-    property alias pageIndex: swipeView.currentIndex;
-
     header: MainPageHeader { id: header;
         ln0: "Stops";
         titleIcon: "qrc:/icons/clock.svg";
         actionNavMenu: function() {mainMenu.toggle();}
         actionReload: function() {
-            switch(pageIndex) {
+            switch(swipeView.currentIndex) {
             case 0: FavouriteStopsModel.reload(); break;
             case 1: NearbyStopsModel.reload(); break;
             }
@@ -30,20 +28,30 @@ Page { id: page;
         Item {
             MainListView {
                 model: FavouriteStopsModel;
-                esText: "Starred";
+                esText: "Favourites";
+                listItemType: "Stop";
             }
         }
         Item {
             MainListView {
                 model: NearbyStopsModel;
                 esText: "Nearby";
+                listItemType: "Stop";
             }
         }
         Item {
             MainListView {
                 model: TextSearchStopsModel;
                 esText: "Search";
+                listItemType: "Stop";
             }
         }
+
+        onCurrentIndexChanged: switch (currentIndex) {
+                               case 0: FavouriteStopsModel.reload(); break;
+                               case 1: NearbyStopsModel.update(); break;
+                               case 2: break;
+                               }
+        Component.onCompleted: FavouriteStopsModel.reload();
     }
 }

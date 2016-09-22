@@ -35,7 +35,7 @@ ToolBar { id: toolbar;
         anchors.fill: parent;
         RowLayout { id: row0;
             width: parent.width;
-            height: 45;
+            height: showTabBar ? 50 : 55;
             anchors.left: parent.left;
             anchors.right: parent.right;
             Item {width: 5;}
@@ -48,16 +48,18 @@ ToolBar { id: toolbar;
                 height: 50;
                 width: 50;
                 Image { id: titleIconImg;
-                    source: "qrc:/icons/clock.svg";
                     height: 30;
                     width: 30;
                     anchors.centerIn: parent;
                     anchors.horizontalCenterOffset: -5;
-
-                    ColorOverlay { id: overlay;
-                        anchors.fill: parent;
-                        source: parent;
-                        color: "black";
+                    mipmap: true;
+                    smooth: true;
+                }
+                ColorOverlay { id: overlay;
+                    Component.onCompleted: {
+                        source = titleIconImg;
+                        anchors.fill = titleIconImg;
+                        color = "black";
                     }
                 }
             }
@@ -80,17 +82,9 @@ ToolBar { id: toolbar;
             visible: showTabBar;
             currentIndex: 0;
             background: Rectangle {color: "white"; anchors.fill: parent;}
-            MainTabButton {
-                src: "qrc:/icons/starred.svg";
-                onClicked: FavouriteStopsModel.reload();
-            }
-            MainTabButton {
-                src: "qrc:/icons/location.svg";
-                onClicked: NearbyStopsModel.update();
-            }
-            MainTabButton {
-                src: "qrc:/icons/find.svg";
-            }
+            MainTabButton {src: "qrc:/icons/starred.svg";}
+            MainTabButton {src: "qrc:/icons/location.svg";}
+            MainTabButton {src: "qrc:/icons/find.svg";}
         }
     }
 
@@ -112,6 +106,17 @@ ToolBar { id: toolbar;
                 placeholderText: qsTr("Enter query");
                 onAccepted: actionSearch(text);
                 color: "black";
+
+                background: Rectangle {
+                    implicitWidth: 200
+                    implicitHeight: 40
+                    color: "transparent";
+                    border.color: textField.enabled ? "grey" : "whitesmoke";
+                    border.width: 0.5;
+                    radius: 10;
+                }
+
+                Component.onCompleted: textField.forceActiveFocus();
             }
         }
     }

@@ -16,6 +16,7 @@ ApplicationWindow { id: main;
     }
 
     Component {id: pageHome; PageHome {}}
+    Component {id: pageSettings; PageSettings {}}
 
     NavigationMenu {id: mainMenu;
         width: 0.66 * main.width
