@@ -23,6 +23,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
+    QQmlApplicationEngine engine;
+
     qmlRegisterType<WhereAt>("WhereAt", 1, 0, "WhereAt");
 
     Locator* locator = new Locator();
@@ -35,8 +37,6 @@ int main(int argc, char *argv[])
     SearchStopsModel* textSearchStopsModel = new SearchStopsModel(*downloader, *dbManager);
     TimeboardModel* timeboardModel = new TimeboardModel(*downloader, *dbManager);
 
-    QQmlApplicationEngine engine;
-
     engine.rootContext()->setContextProperty("Settings", settingsManager);
     engine.rootContext()->setContextProperty("DbManager", dbManager);
 
@@ -46,6 +46,5 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("TimeboardModel", timeboardModel);
 
     engine.load(QUrl(QLatin1String("qrc:/main.qml")));
-
     return app.exec();
 }

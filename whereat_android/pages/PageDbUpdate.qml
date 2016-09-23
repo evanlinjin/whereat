@@ -100,6 +100,11 @@ Page { id: page;
         if (update_method === 1) {
             dialog.open();
             whereat.updateDbManual();
+        } else {
+            progressBar0.visible = true;
+            progressBar.visible = false;
+            dialog.open();
+            whereat.updateDb();
         }
     }
 

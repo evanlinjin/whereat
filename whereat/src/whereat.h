@@ -30,10 +30,12 @@ signals:
 
     void progress(QString n, int done, int max);
     void progress0(int done, int max);
+    void progress0(qint64 done, qint64 max);
     void updateDbManualComplete();
 
 public slots:
     void updateDbManual();
+    void updateDb();
 
 private slots:
     // Clearing db for manual database update.
@@ -42,6 +44,8 @@ private slots:
     void updateDbManual_REPLY(QNetworkReply* reply);
     void updateDbManual_REPLY(QNetworkReply::NetworkError error);
     void updateDbManual_JSON(QString name);
+
+    void updateDb_REPLY(int status, QNetworkReply* reply);
 
 };
 

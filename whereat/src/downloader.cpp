@@ -45,6 +45,14 @@ void Downloader::resetConnections() {
             this, SLOT(getAllOneComplete(QNetworkReply*)));
 }
 
+void Downloader::getGitDb() {
+    QString url("https://raw.githubusercontent.com/evanlinjin/whereat_backend/master/api.db");
+    QNetworkReply* reply = nm->get(QNetworkRequest(QUrl(url)));
+    connect(reply, SIGNAL(downloadProgress(qint64,qint64)),
+            this, SIGNAL(getGitDbProgress(qint64,qint64)));
+    qDebug() << this << "REQUEST:" << url;
+}
+
 void Downloader::getStopsNearbySearch(double lat, double lon, double radius) {
     QString url("https://api.at.govt.nz/v1/gtfs/stops/geosearch?");
     url += "lat=";     url += QString::number(lat, 'f', 6);    url += "&";
@@ -110,6 +118,9 @@ void Downloader::networkReplyHandler(QNetworkReply* reply) {
     }
     else if (path.contains("/v1/gtfs/routes/geosearch")) {
         emit routesNearbySearchComplete(reply->error(), reply);
+    }
+    else if (path.contains("evanlinjin/whereat_backend/master")) {
+        emit getGitDbComplete(reply->error(), reply);
     }
     else {
         qDebug() << this << "networkReplyHandler" << "Unknown" << reply->url();

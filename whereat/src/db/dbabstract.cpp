@@ -46,31 +46,6 @@ QSqlQuery DbAbstract::getApiQuery() {
     return QSqlQuery(db);
 }
 
-//bool DbAbstract::connectIfNeeded() {
-//    qDebug() << this << "isOpen:" << isOpen;
-//    if (!isOpen) {
-//        // Setup directory.
-//        QString path =
-//                QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)
-//                + QString("/db/");
-//        QDir dir(path);
-//        if (!dir.exists()) {dir.mkdir(path);}
-
-//        // Setup database connection.
-//        db = QSqlDatabase::addDatabase("QSQLITE", dbName);
-//        db.setDatabaseName(path + dbName + QString(".db"));
-//        if (!db.open()) {
-//            qDebug() << this << "constructor ERROR" << db.lastError().text();
-//            isOpen = false;
-//        } else {
-//            isOpen = true;
-//            qDebug() << this << "constructor SUCCESS";
-//        }
-//        return true;
-//    }
-//    return false;
-//}
-
 void DbAbstract::initTable(QStringList keys, QStringList keyTypes, int primaryIndex) {
     QString q_str = "CREATE TABLE IF NOT EXISTS " + dbName + "(";
     for (int i = 0; i < keys.size(); i++) {

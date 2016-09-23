@@ -26,6 +26,9 @@ signals:
     void getAllOneComplete(QNetworkReply* reply);
     void getAllOneFailed(QNetworkReply::NetworkError error);
 
+    void getGitDbComplete(int status, QNetworkReply* reply);
+    void getGitDbProgress(qint64 done, qint64 total);
+
     // For Filling ListViews >>>
     void stopsNearbySearchComplete(int status, QNetworkReply* reply);
     void stopsTextSearchComplete(int status, QNetworkReply* reply);
@@ -37,6 +40,8 @@ public slots:
     // For Updating Database >>>
     void getAll();
     void resetConnections();
+
+    void getGitDb();
 
     // For Filling ListViews >>>
     void getStopsNearbySearch(double lat, double lon, double radius);

@@ -97,3 +97,95 @@ void WhereAt::updateDbManual_JSON(QString name) {
         emit updateDbManualComplete();
     }
 }
+
+// DEFINITIONS FOR : UPDATE DATABASE NORMAL >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+void WhereAt::updateDb() {
+    qDebug() << this << "updateDb";
+
+    connect(downloader, SIGNAL(getGitDbComplete(int,QNetworkReply*)),
+            this, SLOT(updateDb_REPLY(int,QNetworkReply*)));
+    connect(downloader, SIGNAL(getGitDbProgress(qint64,qint64)),
+            this, SIGNAL(progress0(qint64,qint64)));
+
+    downloader->getGitDb();
+}
+
+void WhereAt::updateDb_REPLY(int status, QNetworkReply* reply) {
+    if (status != 0) {
+        qDebug() << this << "Download error.";
+        return;
+    }
+
+    QIODevice *data = reply;
+    QByteArray sdata;
+
+    // Setup directory.
+    QString path =
+            QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)
+            + QString("/db/");
+    QDir dir(path);
+    if (!dir.exists()) {dir.mkdir(path);}
+
+    QFile file(path + "api.db");
+    if (!file.open(QIODevice::WriteOnly)) {
+        qDebug() << this << "Cannot open" << path << "api.db" << "for writing.";
+        goto dbUpdateEnd;
+    } else {
+        qDebug() << this << "Opened" << path << "api.db" << "for writing.";
+    }
+
+    sdata = data->readAll();
+    file.write(sdata);
+    qDebug() << sdata;
+    file.close();
+
+dbUpdateEnd:
+    reply->deleteLater();
+    disconnect(downloader, SIGNAL(getGitDbComplete(int,QNetworkReply*)),
+               this, SLOT(updateDb_REPLY(int,QNetworkReply*)));
+    disconnect(downloader, SIGNAL(getGitDbProgress(qint64,qint64)),
+               this, SIGNAL(progress0(qint64,qint64)));
+    emit updateDbManualComplete();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

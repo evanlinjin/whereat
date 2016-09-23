@@ -228,5 +228,6 @@
         <file>components/MainButton.qml</file>
         <file>components/MainSecondaryMenu.qml</file>
         <file>components/MainSecondaryMenuHeader.qml</file>
+        <file>pages/PageTimeboard.qml</file>
     </qresource>
 </RCC>
