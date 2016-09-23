@@ -7,9 +7,11 @@ ToolBar { id: toolbar;
     property string ln0;
     property var actionNavMenu;
     property var actionReload;
+    property var actionFav;
     property bool showTabBar: true;
     property alias menuIcon: menuButton.src;
     property alias titleIcon: titleIconImg.source;
+    property alias favIcon: favButton.src;
 
     width: parent.width;
     height: row0.height + tabBar.height;
@@ -57,6 +59,10 @@ ToolBar { id: toolbar;
             ToolbarButton {
                 src: "qrc:/icons/reload.svg";
                 onClicked: actionReload();
+            }
+            ToolbarButton { id: favButton;
+                src: "qrc:/icons/starred.svg";
+                onClicked: actionFav();
             }
             Item {width: 5;}
         }

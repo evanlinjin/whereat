@@ -25,7 +25,7 @@ Page { id: page;
 
     Column {
         anchors.centerIn: parent;
-        anchors.topMargin: -header.height*2;
+        anchors.verticalCenterOffset: -header.height/2;
         spacing: 20;
 
         Label {
@@ -121,6 +121,9 @@ Page { id: page;
 
         x: parent.width/2 - dialog.width/2;
         y: parent.height/2 - dialog.width/2;
+        width: parent.width*2/3;
+        height: parent.height*2/3;
+
         modal: true;
         closePolicy: Popup.NoAutoClose;
 
@@ -134,7 +137,7 @@ Page { id: page;
 
         ColumnLayout {
             anchors.fill: parent;
-            spacing: 20;
+            spacing: 30;
 
             Label {
                 anchors.horizontalCenter: parent.horizontalCenter;

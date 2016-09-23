@@ -34,7 +34,7 @@ Page { id: page;
             HeaderLI {text: "Miscellaneous";}
             PlainLI {
                 text: "About 'Where AT?'";
-                trigger: function() {}
+                trigger: function() {stack.push(pageAbout);}
             }
         }
     }

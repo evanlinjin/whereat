@@ -22,8 +22,10 @@ Page { id: page;
         //ln1: page.ln1;
         titleIcon: page.src;
         menuIcon: "qrc:/icons/back.svg";
+        favIcon: fav ? "qrc:/icons/starred.svg" : "qrc:/icons/non-starred.svg";
         actionNavMenu: function() {stack.pop();}
         actionReload: function() {TimeboardModel.reload(page.id);}
+        actionFav: function() {DbManager.updateSavedStopFavourite(page.id, !page.fav);}
     }
 
     ListView { id: list;
@@ -34,10 +36,10 @@ Page { id: page;
         delegate: RowLayout { id: tabBar;
             height: 55; spacing: 5; width: parent.width;
             Item { height: parent.height; width: 10; }
-            TB_Label {text: model.ln0; fontSize: 14; width: 50; id: tbl0;}
-            TB_Label {text: model.ln1.toUpperCase(); fontSize: 14; Layout.fillWidth: true;}
-            TB_Label {text: model.ln2; fontSize: 14; width: 50; id: tbl2;}
-            TB_Label {text: model.ln3; fontSize: 14; al_r: true; width: 25; id: tbl3;}
+            TB_Label {text: model.ln0; fontSize: 12; width: 50; id: tbl0;}
+            TB_Label {text: model.ln1.toUpperCase(); fontSize: 12; Layout.fillWidth: true;}
+            TB_Label {text: model.ln2; fontSize: 12; width: 50; id: tbl2;}
+            TB_Label {text: model.ln3; fontSize: 12; al_r: true; width: 25; id: tbl3;}
             Item { height: parent.height; width: 10; }
         }
 
