@@ -30,7 +30,7 @@ Page { id: page;
             HeaderLI {text: "Backend";}
             PlainLI {
                 text: "Update Database...";
-                trigger: function() {}
+                trigger: function() {stack.push(pageDbUpdate);}
             }
             HeaderLI {text: "Miscellaneous";}
             PlainLI {

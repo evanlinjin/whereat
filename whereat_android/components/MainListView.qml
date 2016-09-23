@@ -1,6 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
+import "../listitems"
 
 ListView { id: listView;
     property alias esText: emptyState.text;
@@ -11,7 +12,9 @@ ListView { id: listView;
     delegate: Rectangle {
         width: page.width;
         height: 65;
-        color: mouseArea.pressed ? "whitesmoke" : "transparent";
+        color: mouseArea.pressed ?
+                   "whitesmoke" :
+                   menu.item_id === model.id ? "whitesmoke" : "transparent";
         Row {
             anchors.fill: parent;
             spacing: 5;
@@ -70,25 +73,48 @@ ListView { id: listView;
         MouseArea { id: mouseArea;
             anchors.fill: parent;
             onPressAndHold: {
-                menu.x = mouse.x;
-                menu.y = mouse.y;
+                menu.item_id = model.id;
+                menu.ln0 = model.ln0;
+                menu.ln1 = model.ln1;
+                menu.type = model.type;
+                menu.fav = model.fav;
                 menu.open();
             }
         }
+    }
 
-        Menu { id: menu;
-            MenuItem {
-                text: "Open " +  listItemType + " (" + model.ln0 + ")";
-                onTriggered: open0(model.id);
+    MainSecondaryMenu { id: menu;
+        y: parent.height/2 - menu.width/2 - 45;
+
+        ColumnLayout {
+            MainSecondaryMenuHeader {
+                ln0: menu.ln0;
+                ln1: menu.ln1;
+                type: menu.type;
             }
             MenuItem {
-                text: model.fav ? "Remove from Favourites" : "Add to Favourites";
-                onTriggered: updateFavourite(model.id, !model.fav);
+                text: "Open " +  listItemType;
+                onTriggered: {
+                    open0(menu.item_id);
+                    menu.close();
+                }
             }
             MenuItem {
-                text: listItemType + " Information";
+                text: menu.fav ? "Remove from Favourites" : "Add to Favourites";
+                onTriggered: {
+                    updateFavourite(menu.item_id, !menu.fav);
+                    menu.close();
+                }
+            }
+            MenuItem {
+                text: "Close";
+                onTriggered: {
+                    menu.close();
+                }
             }
         }
+
+        onClosed: {item_id = "";}
     }
 
     ScrollBar.vertical: ScrollBar {}
@@ -123,15 +149,4 @@ ListView { id: listView;
         case "Stop": break;
         }
     }
-
-    //    SwipeView.isCurrentItem;
-//    onFocusChanged: {
-//        if (SwipeView.isCurrentItem === true) {
-//            switch (swipeView.currentIndex) {
-//            case 0: FavouriteStopsModel.reload(); break;
-//            case 1: NearbyStopsModel.update(); break;
-//            case 2: break;
-//            }
-//        }
-//    }
 }

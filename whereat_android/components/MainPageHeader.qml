@@ -111,9 +111,9 @@ ToolBar { id: toolbar;
                     implicitWidth: 200
                     implicitHeight: 40
                     color: "transparent";
-                    border.color: textField.enabled ? "grey" : "whitesmoke";
+                    border.color: "lightgrey";
                     border.width: 0.5;
-                    radius: 10;
+                    radius: 2.5;
                 }
 
                 Component.onCompleted: textField.forceActiveFocus();

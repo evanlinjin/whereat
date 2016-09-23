@@ -37,17 +37,19 @@ Drawer { id: mainMenu;
                 Item {
                     height: parent.height;
                     width: parent.height;
-                    Image {
+                    Image { id: itemImg;
                         source: model.icon;
                         anchors.fill: parent;
                         anchors.margins: 15;
                         mipmap: true;
                         smooth: true;
+                    }
 
-                        ColorOverlay { id: overlay;
-                            anchors.fill: parent;
-                            source: parent;
-                            color: "black";
+                    ColorOverlay { id: overlay;
+                        Component.onCompleted: {
+                            overlay.anchors.fill = itemImg;
+                            overlay.source = itemImg;
+                            overlay.color = "black";
                         }
                     }
                 }

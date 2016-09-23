@@ -224,5 +224,9 @@
         <file>listitems/HeaderLI.qml</file>
         <file>listitems/SwitchLI.qml</file>
         <file>listitems/PlainLI.qml</file>
+        <file>pages/PageDbUpdate.qml</file>
+        <file>components/MainButton.qml</file>
+        <file>components/MainSecondaryMenu.qml</file>
+        <file>components/MainSecondaryMenuHeader.qml</file>
     </qresource>
 </RCC>
