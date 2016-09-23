@@ -80,12 +80,12 @@ Drawer { id: mainMenu;
 
         model: ListModel { id: listModel;
             ListElement {i: 0; text: "Stops"; icon: "qrc:/icons/clock.svg";}
-            ListElement {i: 1; text: "Journey Planner"; icon: "qrc:/icons/swap.svg";}
+//            ListElement {i: 1; text: "Journey Planner"; icon: "qrc:/icons/swap.svg";}
             ListElement {i: 2; text: "Settings"; icon: "qrc:/icons/settings.svg";}
             ListElement {i: 3; text: "About"; icon: "qrc:/icons/info.svg";}
             property var actions: {
                 0: function() {stack.clear(); stack.push(pageHome);},
-                1: function() {stack.clear(); stack.push(pageHome);},
+//                1: function() {stack.clear(); stack.push(pageHome);},
                 2: function() {stack.clear(); stack.push(pageSettings);},
                 3: function() {stack.push(pageAbout);}
             }

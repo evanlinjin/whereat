@@ -23,15 +23,14 @@ Page { id: page;
 
     ListView { id: list;
         anchors.fill: parent;
-        anchors.leftMargin: 20;
-        anchors.rightMargin: 20;
+
         model: VisualItemModel {
 
             HeaderLI {text: "The App";}
 
             Item {
-                width: parent.width
-                height: width/2
+                width: parent.width - 40;
+                height: 160
                 anchors.horizontalCenter: parent.horizontalCenter
                 Item {
                     anchors.horizontalCenter: parent.horizontalCenter;
@@ -70,7 +69,11 @@ Page { id: page;
             }
 
             Column {
-                width: parent.width;
+//                width: parent.width;
+                anchors.left: parent.left;
+                anchors.right: parent.right;
+                anchors.leftMargin: 20;
+                anchors.rightMargin: 20;
                 spacing: 5;
 
                 Label {
@@ -112,11 +115,119 @@ Page { id: page;
                     font.pixelSize: 12;
                     onLinkActivated: Qt.openUrlExternally(link)
                 }
-
-                Item {width: parent.width; height: 20;}
             }
 
-            HeaderLI {text: "Icons";}
+            Item {width: parent.width; height: 40;}
+            HeaderLI {text: "Icons by Freepik from Flaticon";}
+            Item {width: parent.width; height: 40;}
+
+            ListView {
+                width: parent.width;
+                height: 100;
+                orientation: ListView.Horizontal;
+                clip: true;
+                model: ListModel {
+                    ListElement {src: "airplane.svg"}
+                    ListElement {src: "bike.svg"}
+                    ListElement {src: "bus.svg"}
+                    ListElement {src: "car.svg"}
+                    ListElement {src: "ferry.svg"}
+                    ListElement {src: "train.svg"}
+                }
+                delegate: Column {
+                    height: 80;
+                    width: 110;
+                    spacing: 10;
+                    Image {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        width: 60; height: 60
+                        source: "qrc:/icons/" + model.src;
+                    }
+                    Label {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: model.src
+                        font.pixelSize: 12
+                    }
+                }
+                ScrollIndicator.horizontal: ScrollIndicator {active: true;}
+            }
+
+            Item {width: parent.width; height: 40;}
+            HeaderLI {text: "Icons from Suru Icon Pack by Canonical";}
+            Item {width: parent.width; height: 40;}
+
+            ListView {
+                width: parent.width;
+                height: 100;
+                orientation: ListView.Horizontal;
+                clip: true;
+                model: ListModel {
+                    ListElement {src: "back.svg"}
+                    ListElement {src: "clock.svg"}
+                    ListElement {src: "info.svg"}
+                    ListElement {src: "starred.svg"}
+                    ListElement {src: "non-starred.svg"}
+                    ListElement {src: "navigation-menu.svg"}
+                    ListElement {src: "back.svg"}
+                    ListElement {src: "reload.svg"}
+                    ListElement {src: "find.svg"}
+                    ListElement {src: "location.svg"}
+                    ListElement {src: "swap.svg"}
+                    ListElement {src: "settings.svg"}
+                    ListElement {src: "tick.svg"}
+                    ListElement {src: "security-alert.svg"}
+                }
+                delegate: Column {
+                    height: 80;
+                    width: 110;
+                    spacing: 10;
+                    Image {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        width: 60; height: 60
+                        source: "qrc:/icons/" + model.src;
+                    }
+                    Label {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: model.src
+                        font.pixelSize: 12
+                    }
+                }
+                ScrollIndicator.horizontal: ScrollIndicator {active: true;}
+            }
+
+            Item {width: parent.width; height: 40;}
+            HeaderLI {text: "Icons from Auckland Transport";}
+            Item {width: parent.width; height: 40;}
+
+            ListView {
+                width: parent.width;
+                height: 100;
+                orientation: ListView.Horizontal;
+                clip: true;
+                model: ListModel {
+                    ListElement {src: "AT.png"}
+                }
+                delegate: Column {
+                    height: 80;
+                    width: 110;
+                    spacing: 10;
+                    Image {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        width: 60; height: 60
+                        source: "qrc:/icons/" + model.src;
+                    }
+                    Label {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        text: model.src
+                        font.pixelSize: 12
+                    }
+                }
+                ScrollIndicator.horizontal: ScrollIndicator {active: true;}
+            }
+
+            Item {width: parent.width; height: 40;}
         }
+
+        ScrollBar.vertical: ScrollBar {}
     }
 }
