@@ -7,6 +7,8 @@ Drawer { id: mainMenu;
 
     background: Rectangle {id: rect; color: "white"; anchors.fill: parent;}
 
+    dragMargin: stack.depth === 1 ? Qt.styleHints.startDragDistance : 0;
+
     MainPageHeader { id: header;
         ln0: "Where AT?";
         actionNavMenu: function() {mainMenu.close();}
@@ -82,10 +84,10 @@ Drawer { id: mainMenu;
             ListElement {i: 2; text: "Settings"; icon: "qrc:/icons/settings.svg";}
             ListElement {i: 3; text: "About"; icon: "qrc:/icons/info.svg";}
             property var actions: {
-                0: function() {stack.clear(); stack.replace(stack.initialItem, pageHome);},
-                1: function() {stack.clear(); stack.replace(stack.initialItem, pageHome);},
-                2: function() {stack.clear(); stack.replace(stack.initialItem, pageSettings);},
-                3: function() {}
+                0: function() {stack.clear(); stack.push(pageHome);},
+                1: function() {stack.clear(); stack.push(pageHome);},
+                2: function() {stack.clear(); stack.push(pageSettings);},
+                3: function() {stack.push(pageAbout);}
             }
         }
     }

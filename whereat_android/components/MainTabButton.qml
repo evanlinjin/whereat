@@ -24,7 +24,7 @@ TabButton {
     ColorOverlay { id: overlay;
         anchors.fill: image;
         source: image;
-        color: checked ? "black" : "grey";
+        color: checked ? "black" : "lightgrey";
     }
     Rectangle {
         width: parent.width;

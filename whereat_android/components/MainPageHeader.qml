@@ -20,12 +20,14 @@ ToolBar { id: toolbar;
 
     width: parent.width;
     height: row0.height + tabBar.height;
-    background: Rectangle {id: rect; color: "white"; anchors.fill: parent;}
+    background: Rectangle {id: rect;
+        color: "white";
+        anchors.fill: parent;
+    }
 
     DropShadow {
         anchors.fill: parent;
-        radius: 10
-        samples: 17
+        samples: 14
         color: "#50000000"
         source: rect;
         visible: showShadow;
@@ -81,7 +83,10 @@ ToolBar { id: toolbar;
             height: showTabBar ? 40 : 0;
             visible: showTabBar;
             currentIndex: 0;
-            background: Rectangle {color: "white"; anchors.fill: parent;}
+            background: Rectangle {
+                color: "white";
+                anchors.fill: parent;
+            }
             MainTabButton {src: "qrc:/icons/starred.svg";}
             MainTabButton {src: "qrc:/icons/location.svg";}
             MainTabButton {src: "qrc:/icons/find.svg";}

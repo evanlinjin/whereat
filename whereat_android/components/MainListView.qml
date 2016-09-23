@@ -80,6 +80,7 @@ ListView { id: listView;
                 menu.fav = model.fav;
                 menu.open();
             }
+            onClicked: open0(model.id);
         }
     }
 
@@ -146,7 +147,7 @@ ListView { id: listView;
 
     function open0(id) {
         switch (listView.listItemType) {
-        case "Stop": break;
+        case "Stop": stack.push(pageTimeboard, {id: id}, StackView.Immediate); break;
         }
     }
 }

@@ -13,11 +13,54 @@ ApplicationWindow { id: main;
     StackView { id: stack;
         anchors.fill: parent;
         initialItem: pageHome;
+
+        popEnter: Transition {
+            XAnimator {
+                from: -stack.width;
+                to: 0;
+                duration: 220
+                easing.type: Easing.OutExpo
+            }
+        }
+
+        popExit: Transition {
+            XAnimator {
+                from: 0;
+                to: stack.width;
+                duration: 220
+                easing.type: Easing.OutSine
+            }
+        }
+
+        pushEnter: Transition {
+            XAnimator {
+                from: stack.width;
+                to: 0
+                duration: 220
+                easing.type: Easing.OutExpo
+            }
+        }
+
+        pushExit: Transition {
+            XAnimator {
+                from: 0;
+                to: -stack.width;
+                duration: 220
+                easing.type: Easing.OutSine
+            }
+        }
+
+        replaceEnter: Transition {}
+        replaceExit: Transition {}
+
+        onDepthChanged: console.log("STACK DEPTH :", depth);
     }
 
-    Component {id: pageHome; PageHome {}}
-    Component {id: pageSettings; PageSettings {}}
-    Component {id: pageDbUpdate; PageDbUpdate {}}
+    Component {id: pageHome; PageHome {} }
+    Component {id: pageTimeboard; PageTimeboard {} }
+    Component {id: pageSettings; PageSettings {} }
+    Component {id: pageDbUpdate; PageDbUpdate {} }
+    Component {id: pageAbout; PageAbout {} }
 
     NavigationMenu {id: mainMenu;
         width: 0.66 * main.width

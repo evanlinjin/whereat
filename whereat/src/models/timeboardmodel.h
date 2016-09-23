@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <QtConcurrent>
 
+#include <math.h>
+
 #include "abstractmodel.h"
 #include "src/db/dbmanager.h"
 #include "src/downloader.h"
@@ -30,6 +32,7 @@ private:
     QTime time;
 
     int getCurrentTimeInSeconds();
+    double getAdditionalDelayFromTimeSequence(int ts);
 
 signals:
     void lnChanged();

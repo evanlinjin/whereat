@@ -229,5 +229,8 @@
         <file>components/MainSecondaryMenu.qml</file>
         <file>components/MainSecondaryMenuHeader.qml</file>
         <file>pages/PageTimeboard.qml</file>
+        <file>components/TimeboardPageHeader.qml</file>
+        <file>components/TB_Label.qml</file>
+        <file>pages/PageAbout.qml</file>
     </qresource>
 </RCC>

@@ -343,6 +343,7 @@ QList<TimeboardItem> DbManager::getTimeboardList(QList<TimeboardItem> raw) {
         q.exec(cmd);
         if (!q.first()) {qDebug() << this << "NO DATA:" << i << cmd;}
         raw[i].trip_headsign = q.value("trip_headsign").toString();
+//        if (raw[i].trip_headsign.contains())
         raw[i].route_id = q.value("route_id").toString();
         raw[i].direction_id = q.value("direction_id").toInt();
 
@@ -362,7 +363,7 @@ QList<TimeboardItem> DbManager::getTimeboardList(QList<TimeboardItem> raw) {
 
     // Get trips list.
     QStringList tripIdList;
-    for (int i = 0; i < (raw.size() > 10 ? 10 : raw.size()); i++) {
+    for (int i = 0; i < (raw.size() > 30 ? 30 : raw.size()); i++) {
         tripIdList.append(raw[i].trip_id);
     }
     emit rtTimeboardTripsListComplete(tripIdList);

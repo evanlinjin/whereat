@@ -1,6 +1,6 @@
 #include "timeboardmodel.h"
 
-#define TB_LOAD_DELAY 3600
+#define TB_LOAD_DELAY 2000
 
 TimeboardModel::TimeboardModel(Downloader &d, DbManager &dbm, QObject *parent) :
     AbstractModel(parent), downloader(d), dbManager(dbm)
@@ -25,6 +25,12 @@ TimeboardModel::TimeboardModel(Downloader &d, DbManager &dbm, QObject *parent) :
 
 int TimeboardModel::getCurrentTimeInSeconds() {
     return QTime(0,0).secsTo(QTime::currentTime());
+}
+
+double TimeboardModel::getAdditionalDelayFromTimeSequence(int ts) {
+    if (ts >= 3 && ts <= 7) {return 300.0;}
+    else if (ts == 8 || ts == 9) {return 60.0;}
+    return 0.0;
 }
 
 void TimeboardModel::updateLn(QString id) {
@@ -117,14 +123,17 @@ void TimeboardModel::reload_rtREPLY(int status, QNetworkReply* reply) {
         return;
     }
 
+    const double timeNowSecs = ((double)getCurrentTimeInSeconds());
+
     QString json_str = (QString) reply->readAll();
     QJsonObject document = QJsonDocument::fromJson(json_str.toUtf8()).object();
     QJsonObject response = document["response"].toObject();
 
     // Get entity list & loop through enitites.
     QJsonArray entityList = response["entity"].toArray();
-    QString trip_id, due_str; double delay, time, due; int stop_seq;
+    QString trip_id; double delay;
     QJsonObject stop_time_update, arrival_departure;
+    double stop_sequence_delay;
 
     for (int i = 0; i < entityList.size(); i++) {
         QJsonObject object = entityList.at(i).toObject()["trip_update"].toObject(); /* Entity Object : Trip Update Object */
@@ -133,72 +142,59 @@ void TimeboardModel::reload_rtREPLY(int status, QNetworkReply* reply) {
         trip_id = object["trip"].toObject()["trip_id"].toString();
 
         stop_time_update = object["stop_time_update"].toObject();
-        if (!stop_time_update.contains("arrival")) {continue;}
-        arrival_departure = stop_time_update["arrival"].toObject();
+        if (stop_time_update.contains("departure")) {
+            arrival_departure = stop_time_update["departure"].toObject();
+        } else {
+            arrival_departure = stop_time_update["arrival"].toObject();
+        }
 
-        // Get stop_seq, delay & time from entity.
-        stop_seq = stop_time_update["stop_sequence"].toInt();
-        delay = arrival_departure["delay"].toInt();
-        time = (int)arrival_departure["time"].toDouble();
+        // delay logic >>
+        stop_sequence_delay = getAdditionalDelayFromTimeSequence(stop_time_update["stop_sequence"].toInt());
+        delay = arrival_departure["delay"].toDouble();
+        if (delay > stop_sequence_delay && stop_sequence_delay != 0) {
+            delay = stop_sequence_delay;
+        }
+        delay = delay;
 
         qDebug() << this << "ANALYSE TRIP >>>";
-        qDebug() << this << "[" << trip_id << "] FROM RT : stop_sequence =" << stop_seq << ", delay =" << delay << ", time =" << time;
+        qDebug() << this << "[" << trip_id << "] FROM RT : delay=" << arrival_departure["delay"].toDouble()
+                 << ", stop_sequence=" << stop_time_update["stop_sequence"].toInt()
+                 << ", stop_sequence_delay=" << stop_sequence_delay;
 
         // Determine the ln3 value for the trip_id.........................
 
-        //qDebug() << "[ CURRENT TIME ]" << QString::number(QDateTime::currentMSecsSinceEpoch()/1000);
-        qDebug() << this << "TIME [CURRENT]" << QDateTime::currentMSecsSinceEpoch()/1000;
-        qDebug() << this << "TIME [FROM RT]" << (int)time << "(-)";
-        qDebug() << this << "TIME [  DELAY]" << delay;
-        due = (delay - (QDateTime::currentMSecsSinceEpoch()/1000 - time) )/60;
-        //due = delay/60;
-        qDebug() << this << "TIME [    DUE]" << due;
-//        if (due < 0) {
-//            qDebug() << this << "[" << trip_id << "] NEGATIVE DUE TIME : no changes";
-//            continue;
-//        }
-
         for (int j = tempList.size() - 1; j >= 0; j--) {
-
             if (tempList.at(j).trip_id == trip_id) {
+                qDebug() << this << "[" << trip_id << "] OLD due :" << tempList[j].due;
+                //tempList[j].due += delay; // :::
+                qDebug() << "tempList[j].due = (tempList[j].time - timeNowSecs + delay)/60.0;";
+                qDebug() << "tempList[j].time" << tempList[j].time
+                         << "timeNowSecs" << timeNowSecs
+                         << "delay" << delay;
+                tempList[j].due = (tempList[j].time - timeNowSecs + delay)/60.0;
 
-                qDebug() << this << "[" << tempList[j].trip_id << "] ITEM ("
-                         << tempList.at(j).route_short_name
-                         << tempList.at(j).trip_headsign
-                         << tempList.at(j).time_str
-                         << tempList.at(j).due << ")";
-                qDebug() << this << "[" << tempList[j].trip_id << "] FROM LIST :"
-                         << "stop_sequence =" << tempList[j].stop_sequence
-                         << ", direction_id =" << tempList[j].direction_id;
-
-//                bool isDirectionValid = tempList[j].direction_id ?
-//                            (tempList[j].stop_sequence >= stop_seq) : // direction_id : 1
-//                            (tempList[j].stop_sequence <= stop_seq);  // direction_id : 0
-//                bool isDirectionValid = tempList[j].stop_sequence >= stop_seq;
-                if (true) {
-                    qDebug() << this << "[" << tempList[j].trip_id << "]" << "DIRECTION VALID : changing DUE to"
-                             << tempList[j].due << "+" << due;
-                    tempList[j].due += due;
+                if (tempList[j].due >= 0.0 && tempList[j].due <= 1.0) {
+                    tempList[j].due_str = "*";
                 } else {
-                    qDebug() << this << "[" << tempList[j].trip_id << "]" << "DIRECTION INVALID : no changes";
+                    tempList[j].due_str = QString::number(tempList[j].due, 'f', 0);
                 }
-
-                break;
+                qDebug() << this << "[" << trip_id << "] CHANGED :"
+                         << tempList[j].route_short_name
+                         << tempList[j].trip_headsign
+                         << tempList[j].time_str
+                         << tempList[j].due_str;
             }
         }
     }
 
-    for (int j = tempList.size() - 1; j >= 0; j--) {
-        if (tempList[j].due >= 0.0 && tempList[j].due < 1.0) {
-            tempList[j].due_str = "*";
-        }
-        else if (tempList[j].due > 30.0) {
-            tempList[j].due_str = "-";
-        }
-        else {
-            tempList[j].due_str = QString::number(tempList[j].due, 'f', 0);
-        }
-    }
+    //    for (int j = tempList.size() - 1; j >= 0; j--) {
+    //    if (tempList[j].due >= 0.0 && tempList[j].due <= 1.0) {
+    //        tempList[j].due_str = "*";
+    //}
+    //        else if (tempList[j].due_str.isEmpty() || tempList[j].due_str.isNull()) {
+    //            tempList[j].due_str = "-";
+    //        }
+    //    }
     emit end();
 }
 
@@ -206,12 +202,17 @@ void TimeboardModel::reload_rtREPLY(int status, QNetworkReply* reply) {
 void TimeboardModel::reload_END() {
     QList<AbstractItem> list;
     list.reserve(tempList.size());
+    QString thisStopId = m_ln.at(2).toString();
 
     for (int i = 0; i < tempList.size(); i++) {
         if (tempList[i].due < 0) {continue;} // Show only times after 'now'.
         AbstractItem item;
+
         item.id = tempList[i].trip_id;
         item.ln0 = tempList[i].route_short_name;
+        if (tempList[i].trip_headsign.contains(thisStopId)) {
+            continue;
+        }
         item.ln1 = tempList[i].trip_headsign;
         item.ln2 = tempList[i].time_str;
         item.ln3 = tempList[i].due_str;

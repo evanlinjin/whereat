@@ -18,7 +18,6 @@ Page { id: page;
     }
 
     ListView { id: list;
-
         anchors.fill: parent;
         model: VisualItemModel {
             HeaderLI {text: "Appearance";}

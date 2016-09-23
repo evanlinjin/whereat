@@ -134,6 +134,7 @@ Page { id: page;
 
         ColumnLayout {
             anchors.fill: parent;
+            spacing: 20;
 
             Label {
                 anchors.horizontalCenter: parent.horizontalCenter;
@@ -157,7 +158,10 @@ Page { id: page;
             MainButton {
                 anchors.horizontalCenter: parent.horizontalCenter;
                 text: show_finish ? "Close" : "Cancel";
-                onClicked: show_finish ? dialog.close() : cancel_update();
+                onClicked: {
+                    show_finish ? dialog.close() : cancel_update();
+                    stack.pop();
+                }
             }
         }
 
