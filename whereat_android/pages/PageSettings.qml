@@ -22,7 +22,7 @@ Page { id: page;
         model: VisualItemModel {
             HeaderLI {text: "Appearance";}
             SwitchLI {
-                text: "Use Dark Theme (Coming soon)";
+                text: "Dark Theme (Coming soon)";
                 checked: Settings.themeIndex;
                 trigger: function() {Settings.themeIndex = !Settings.themeIndex;}
                 enabled: false;
