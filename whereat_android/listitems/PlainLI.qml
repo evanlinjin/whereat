@@ -8,7 +8,7 @@ Rectangle { id: switchLi;
 
     width: parent.width;
     height: 65;
-    color: mouseArea.pressed ? "whitesmoke" : "transparent";
+    color: mouseArea.pressed ? main.select : "transparent";
 
     Row {
         anchors.fill: parent;

@@ -18,7 +18,6 @@ Page { id: page;
         menuIcon: "qrc:/icons/back.svg";
         actionNavMenu: function() {stack.pop();}
         currentIndex: 0;
-        searchMode: false;
         showReload: false;
         showTabBar: false;
     }
@@ -41,9 +40,9 @@ Page { id: page;
             anchors.horizontalCenter: parent.horizontalCenter;
             text: "Begin Update";
             onClicked: begin_update();
-            buttonColor: update_method === 1 ? "red" : "green";
         }
     }
+
     Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter;
         anchors.bottom: parent.bottom;
@@ -127,17 +126,9 @@ Page { id: page;
         modal: true;
         closePolicy: Popup.NoAutoClose;
 
-        background: Rectangle { id: bg;
-            anchors.fill: parent;
-            color: "white";
-            border.color: "whitesmoke";
-            border.width: 1;
-            radius: 2.5;
-        }
-
         ColumnLayout {
             anchors.fill: parent;
-            spacing: 30;
+            spacing: 10;
 
             Label {
                 anchors.horizontalCenter: parent.horizontalCenter;

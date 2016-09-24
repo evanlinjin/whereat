@@ -5,12 +5,7 @@ import QtGraphicalEffects 1.0
 TabButton {
     property alias src: image.source;
     property alias color: overlay.color;
-    //text
     height: parent.height;
-    background: Rectangle { id: backGrd;
-        color: pressed ? "whitesmoke" : "white";
-        anchors.fill: parent;
-    }
     Image { id: image;
         source: "qrc:/icons/location.svg";
         anchors.horizontalCenter: parent.horizontalCenter;
@@ -20,17 +15,12 @@ TabButton {
         width: height;
         mipmap: true;
         smooth: true;
+        opacity: checked ? 1 : 0.3;
     }
     ColorOverlay { id: overlay;
         anchors.fill: image;
         source: image;
-        color: checked ? "black" : "lightgrey";
-    }
-    Rectangle {
-        width: parent.width;
-        height: 3;
-        anchors.horizontalCenter: parent.horizontalCenter;
-        anchors.bottom: parent.bottom;
-        color: checked ? "black" : "white";
+        color: primaryaccent;
+        opacity: image.opacity;
     }
 }

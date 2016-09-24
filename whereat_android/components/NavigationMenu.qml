@@ -5,23 +5,26 @@ import QtGraphicalEffects 1.0
 
 Drawer { id: mainMenu;
 
-    background: Rectangle {id: rect; color: "white"; anchors.fill: parent;}
-
     dragMargin: stack.depth === 1 ? Qt.styleHints.startDragDistance : 0;
 
-    MainPageHeader { id: header;
-        ln0: "Where AT?";
-        actionNavMenu: function() {mainMenu.close();}
-        searchMode: false;
-        showReload: false;
-        showTabBar: false;
-        showShadow: false;
-        currentIndex: 0;
-        menuIcon: "qrc:/icons/back.svg";
-        titleIcon: "qrc:/icons/AT.png";
-        showTitleIconOverlay: false;
-        showTitleIcon: false;
-
+    RowLayout { id: header;
+        width: parent.width;
+        height: 55;
+        anchors.left: parent.left;
+        anchors.right: parent.right;
+        Item {width: 5;}
+        ToolbarButton { id: menuButton;
+            src: "qrc:/icons/back.svg";
+            onClicked: mainMenu.close();
+            color: main.accent;
+        }
+        Label {
+            height: parent.height - 10;
+            Layout.fillWidth: true;
+            text: "Where AT?";
+            font.pixelSize: 18;
+            color: main.accent;
+        }
     }
 
     ListView { id: listView
@@ -31,7 +34,7 @@ Drawer { id: mainMenu;
         delegate: Rectangle {
             width: listView.width;
             height: 55;
-            color: mouseArea.pressed ? "whitesmoke" : "transparent";
+            color: mouseArea.pressed ? main.select : "transparent";
             Row {
                 anchors.fill: parent;
                 spacing: 5;
@@ -48,11 +51,10 @@ Drawer { id: mainMenu;
                     }
 
                     ColorOverlay { id: overlay;
-                        Component.onCompleted: {
-                            overlay.anchors.fill = itemImg;
-                            overlay.source = itemImg;
-                            overlay.color = "black";
-                        }
+                        anchors.fill: itemImg;
+                        source: itemImg;
+                        color: main.accent;
+
                     }
                 }
                 Item {
@@ -65,7 +67,7 @@ Drawer { id: mainMenu;
                         anchors.left: parent.left;
                         anchors.verticalCenter: parent.verticalCenter;
                         anchors.margins: 5;
-                        color: "black";
+                        color: main.accent;
                     }
                 }
             }
@@ -80,12 +82,12 @@ Drawer { id: mainMenu;
 
         model: ListModel { id: listModel;
             ListElement {i: 0; text: "Stops"; icon: "qrc:/icons/clock.svg";}
-//            ListElement {i: 1; text: "Journey Planner"; icon: "qrc:/icons/swap.svg";}
+            //            ListElement {i: 1; text: "Journey Planner"; icon: "qrc:/icons/swap.svg";}
             ListElement {i: 2; text: "Settings"; icon: "qrc:/icons/settings.svg";}
             ListElement {i: 3; text: "About"; icon: "qrc:/icons/info.svg";}
             property var actions: {
                 0: function() {stack.clear(); stack.push(pageHome);},
-//                1: function() {stack.clear(); stack.push(pageHome);},
+                //                1: function() {stack.clear(); stack.push(pageHome);},
                 2: function() {stack.clear(); stack.push(pageSettings);},
                 3: function() {stack.push(pageAbout);}
             }

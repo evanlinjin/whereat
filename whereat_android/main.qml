@@ -1,14 +1,26 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
+import QtQuick.Controls.Material 2.0
+
 import "pages"
 import "components"
 
 ApplicationWindow { id: main;
+
     visible: true;
     width: 480;
     height: 760;
     title: qsTr("Where AT?");
+
+    property string accent: Settings.themeIndex ? "white" : "black";
+    property string primary: Settings.themeIndex ? "black" : "white";
+    property string select: Settings.themeIndex ? "dimgrey" : "lightgrey";
+    Material.accent: Settings.themeIndex ? "white" : "black";
+    Material.foreground: Settings.themeIndex ? "white" : "black";
+    Material.theme: Settings.themeIndex ? Material.Dark : Material.Light;
+    Material.primary: Material.Brown;
+    property string primaryaccent: "white";
 
     StackView { id: stack;
         anchors.fill: parent;

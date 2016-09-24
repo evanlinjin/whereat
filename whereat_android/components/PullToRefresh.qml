@@ -39,8 +39,7 @@
 ****************************************************************************/
 
 import QtQuick 2.7
-import QtGraphicalEffects 1.0
-
+import QtQuick.Controls 2.0
 
 Item { id: ptr;
     height: 60
@@ -54,12 +53,13 @@ Item { id: ptr;
         height: childrenRect.height
         anchors.centerIn: parent
 
-        Text {
+        Label {
             id: label
             anchors.verticalCenter: parent.verticalCenter
             text: "Pull to refresh..."
             font.pixelSize: 14;
             font.weight: Font.ExtraLight;
+            color: main.accent;
         }
     }
 

@@ -22,6 +22,7 @@ Item {
         anchors.left: parent.left;
         anchors.right: parent.right;
         height: 1;
-        color: "whitesmoke";
+        color: main.accent;
+        opacity: 0.1;
     }
 }

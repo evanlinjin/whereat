@@ -6,6 +6,7 @@
         <file>components/MainPageHeader.qml</file>
         <file>components/MainListView.qml</file>
         <file>components/MainTabButton.qml</file>
+	<file>qtquickcontrols2.conf</file>
         <file>icons/account.svg</file>
         <file>icons/active-call.svg</file>
         <file>icons/add-to-call.svg</file>

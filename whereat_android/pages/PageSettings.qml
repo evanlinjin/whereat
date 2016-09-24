@@ -12,7 +12,6 @@ Page { id: page;
         titleIcon: "qrc:/icons/settings.svg";
         actionNavMenu: function() {mainMenu.toggle();}
         currentIndex: 0;
-        searchMode: false;
         showReload: false;
         showTabBar: false;
     }
@@ -22,10 +21,10 @@ Page { id: page;
         model: VisualItemModel {
             HeaderLI {text: "Appearance";}
             SwitchLI {
-                text: "Dark Theme (Coming soon)";
+                text: "Dark Theme";
                 checked: Settings.themeIndex;
                 trigger: function() {Settings.themeIndex = !Settings.themeIndex;}
-                enabled: false;
+//                enabled: false;
             }
             HeaderLI {text: "Backend";}
             PlainLI {

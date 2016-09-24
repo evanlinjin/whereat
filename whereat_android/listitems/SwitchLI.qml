@@ -9,7 +9,7 @@ Rectangle { id: switchLi;
 
     width: parent.width;
     height: 65;
-    color: mouseArea.pressed ? "whitesmoke" : "transparent";
+    color: mouseArea.pressed ? main.select : "transparent";
 
     Row {
         anchors.fill: parent;
@@ -20,7 +20,7 @@ Rectangle { id: switchLi;
             anchors.verticalCenter: parent.verticalCenter;
             font.pixelSize: 14;
             font.weight: Font.Normal;
-            color: switchLi.enabled ? "black" : "grey";
+            opacity: switchLi.enabled ? 1 : 0.3;
         }
 
         Item {

@@ -1,4 +1,4 @@
-QT += qml quick core positioning concurrent network sql xml svg
+QT += qml quick core positioning concurrent network sql xml svg quickcontrols2
 
 CONFIG += c++11
 

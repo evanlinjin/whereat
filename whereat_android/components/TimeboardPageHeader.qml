@@ -16,14 +16,6 @@ ToolBar { id: toolbar;
 
     width: parent.width;
     height: row0.height + tabBar.height;
-    background: Rectangle {id: rect; color: "white"; anchors.fill: parent;}
-
-    DropShadow {
-        anchors.fill: parent;
-        samples: 14
-        color: "#50000000"
-        source: rect;
-    }
 
     Column {
         anchors.fill: parent;
@@ -32,6 +24,7 @@ ToolBar { id: toolbar;
             height: showTabBar ? 50 : 55;
             anchors.left: parent.left;
             anchors.right: parent.right;
+            spacing: 0;
             Item {width: 5;}
             ToolbarButton { id: menuButton;
                 src: "qrc:/icons/navigation-menu.svg";
@@ -56,13 +49,13 @@ ToolBar { id: toolbar;
                     text: ln0;
                     font.pixelSize: 14;
                     font.weight: Font.Normal;
-                    color: "black";
+                    color: primaryaccent;
                 }
                 Label { id: title2;
                     text: ln1;
                     font.pixelSize: 12;
                     font.weight: Font.Light;
-                    color: "black";
+                    color: primaryaccent;
                 }
             }
             Item {width: 5;}
@@ -79,10 +72,10 @@ ToolBar { id: toolbar;
         RowLayout { id: tabBar;
             height: 40; spacing: 5; width: parent.width;
             Item { height: parent.height; width: 10; }
-            TB_Label {text: "ROUTE"; bold: true; fontSize: 12; width: 50; id: tbl0;}
-            TB_Label {text: "DESTINATION"; bold: true; fontSize: 12; Layout.fillWidth: true;}
-            TB_Label {text: "SCHED."; bold: true; fontSize: 12; width: 50; id: tbl2;}
-            TB_Label {text: "DUE"; bold: true; fontSize: 12; al_r: true; width: 25; id: tbl3;}
+            TB_Label {text: "ROUTE"; bold: true; fontSize: 12; width: 50; id: tbl0; color: primaryaccent;}
+            TB_Label {text: "DESTINATION"; bold: true; fontSize: 12; Layout.fillWidth: true; color: primaryaccent;}
+            TB_Label {text: "SCHED."; bold: true; fontSize: 12; width: 50; id: tbl2; color: primaryaccent;}
+            TB_Label {text: "DUE"; bold: true; fontSize: 12; al_r: true; width: 25; id: tbl3; color: primaryaccent;}
             Item { height: parent.height; width: 10; }
         }
     }

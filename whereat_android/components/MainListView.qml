@@ -6,18 +6,19 @@ import "../listitems"
 
 ListView { id: listView;
     property string listItemType: "Stop";
+    property alias pull: ptr.y;
 
     anchors.fill: parent;
 
-    PullToRefresh { id: ptr }
+    PullToRefresh {id: ptr;}
     onDragEnded: if (ptr.refresh) {page.header.actionReload();}
 
     delegate: Rectangle {
         width: page.width;
         height: 65;
         color: mouseArea.pressed ?
-                   "whitesmoke" :
-                   menu.item_id === model.id ? "whitesmoke" : "transparent";
+                   main.select :
+                   menu.item_id === model.id ? main.select : "transparent";
         Row {
             anchors.fill: parent;
             spacing: 5;

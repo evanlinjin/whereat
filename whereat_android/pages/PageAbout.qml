@@ -16,7 +16,6 @@ Page { id: page;
         menuIcon: "qrc:/icons/back.svg";
         actionNavMenu: function() {stack.pop();}
         currentIndex: 0;
-        searchMode: false;
         showReload: false;
         showTabBar: false;
     }

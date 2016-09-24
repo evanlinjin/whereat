@@ -22,6 +22,5 @@ Item { id: tb_label;
         maximumLineCount: 2;
         font.pixelSize: 12;
         font.bold: false;
-        color: "black";
     }
 }
