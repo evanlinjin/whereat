@@ -154,7 +154,7 @@ void TimeboardModel::reload_rtREPLY(int status, QNetworkReply* reply) {
         if (delay > stop_sequence_delay && stop_sequence_delay != 0) {
             delay = stop_sequence_delay;
         }
-        delay = delay;
+//        delay = delay;
 
         qDebug() << this << "ANALYSE TRIP >>>";
         qDebug() << this << "[" << trip_id << "] FROM RT : delay=" << arrival_departure["delay"].toDouble()

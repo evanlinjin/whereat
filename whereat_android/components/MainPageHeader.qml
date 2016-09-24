@@ -17,6 +17,7 @@ ToolBar { id: toolbar;
     property alias titleIcon: titleIconImg.source;
     property alias showTitleIconOverlay: overlay.visible;
     property alias showTitleIcon: iconItem.visible;
+    property string query: "";
 
     width: parent.width;
     height: row0.height + tabBar.height;
@@ -109,7 +110,10 @@ ToolBar { id: toolbar;
                 width: parent.width - spacing;
                 height: 35
                 placeholderText: qsTr("Enter query");
-                onAccepted: actionSearch(text);
+                onAccepted: {
+                    actionSearch(text);
+                    query = text;
+                }
                 color: "black";
 
                 background: Rectangle {

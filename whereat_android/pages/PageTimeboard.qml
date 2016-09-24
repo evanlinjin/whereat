@@ -19,7 +19,7 @@ Page { id: page;
 
     header: TimeboardPageHeader { id: header;
         ln0: page.ln0;
-        //ln1: page.ln1;
+        ln1: page.ln1;
         titleIcon: page.src;
         menuIcon: "qrc:/icons/back.svg";
         favIcon: fav ? "qrc:/icons/starred.svg" : "qrc:/icons/non-starred.svg";
@@ -30,6 +30,9 @@ Page { id: page;
 
     ListView { id: list;
         anchors.fill: parent;
+
+        PullToRefresh { id: ptr }
+        onDragEnded: if (ptr.refresh) {page.header.actionReload();}
 
         model: TimeboardModel;
 
@@ -50,12 +53,14 @@ Page { id: page;
             anchors.centerIn: parent;
         }
 
-        Label { id: emptyState;
-            anchors.centerIn: parent;
-            font.pixelSize: 18;
-            font.weight: Font.ExtraLight;
-            text: "Timeboard";
+        Image { id: emptyState;
+            height: 90;
+            width: 90;
             visible: !busyIndicator.running && !TimeboardModel.count;
+            opacity: 0.1;
+            anchors.centerIn: parent;
+            source: page.src;
+            smooth: true;
         }
     }
 

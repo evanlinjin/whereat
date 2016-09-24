@@ -1,7 +1,7 @@
 .pragma library
 
 var version =
-        "1.1.2";
+        "1.2.0";
 
 var description =
         "<b>A cross-platform application for quick Auckland Transport information.</b> \

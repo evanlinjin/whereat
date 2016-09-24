@@ -1,13 +1,16 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
+
 import "../listitems"
 
 ListView { id: listView;
-    property alias esText: emptyState.text;
     property string listItemType: "Stop";
 
     anchors.fill: parent;
+
+    PullToRefresh { id: ptr }
+    onDragEnded: if (ptr.refresh) {page.header.actionReload();}
 
     delegate: Rectangle {
         width: page.width;
@@ -127,14 +130,6 @@ ListView { id: listView;
         Component.onCompleted: {
             model.endReload();
         }
-    }
-
-    Label { id: emptyState;
-        anchors.centerIn: parent;
-        font.pixelSize: 18;
-        font.weight: Font.ExtraLight;
-        text: "Starred";
-        visible: !busyIndicator.running && !model.count;
     }
 
     // LOGIC >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

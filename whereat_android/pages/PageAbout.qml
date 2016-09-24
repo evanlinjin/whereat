@@ -196,36 +196,6 @@ Page { id: page;
             }
 
             Item {width: parent.width; height: 40;}
-            HeaderLI {text: "Icons from Auckland Transport";}
-            Item {width: parent.width; height: 40;}
-
-            ListView {
-                width: parent.width;
-                height: 100;
-                orientation: ListView.Horizontal;
-                clip: true;
-                model: ListModel {
-                    ListElement {src: "AT.png"}
-                }
-                delegate: Column {
-                    height: 80;
-                    width: 110;
-                    spacing: 10;
-                    Image {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        width: 60; height: 60
-                        source: "qrc:/icons/" + model.src;
-                    }
-                    Label {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        text: model.src
-                        font.pixelSize: 12
-                    }
-                }
-                ScrollIndicator.horizontal: ScrollIndicator {active: true;}
-            }
-
-            Item {width: parent.width; height: 40;}
         }
 
         ScrollBar.vertical: ScrollBar {}

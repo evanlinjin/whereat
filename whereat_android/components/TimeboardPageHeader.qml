@@ -5,6 +5,7 @@ import QtGraphicalEffects 1.0
 
 ToolBar { id: toolbar;
     property string ln0;
+    property string ln1;
     property var actionNavMenu;
     property var actionReload;
     property var actionFav;
@@ -48,12 +49,21 @@ ToolBar { id: toolbar;
                     smooth: true;
                 }
             }
-            Label { id: title;
-                height: parent.height - 10;
+            Column {
                 Layout.fillWidth: true;
-                text: ln0;
-                font.pixelSize: 18;
-                color: "black";
+                spacing: 2.5;
+                Label { id: title;
+                    text: ln0;
+                    font.pixelSize: 14;
+                    font.weight: Font.Normal;
+                    color: "black";
+                }
+                Label { id: title2;
+                    text: ln1;
+                    font.pixelSize: 12;
+                    font.weight: Font.Light;
+                    color: "black";
+                }
             }
             Item {width: 5;}
             ToolbarButton {

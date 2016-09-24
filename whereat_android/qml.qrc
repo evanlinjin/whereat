@@ -232,5 +232,6 @@
         <file>components/TimeboardPageHeader.qml</file>
         <file>components/TB_Label.qml</file>
         <file>pages/PageAbout.qml</file>
+        <file>components/PullToRefresh.qml</file>
     </qresource>
 </RCC>

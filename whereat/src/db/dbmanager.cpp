@@ -67,7 +67,7 @@ QSqlDatabase DbManager::initTable(
 
 QString DbManager::getIconUrl(QString stop_name) {
     if (stop_name == "") {
-        return QString("qrc:/icons/AT.png");
+        return QString("qrc:/whereat.png");
     }
     if (stop_name.contains("Train Station", Qt::CaseSensitive)) {
         return QString("qrc:/icons/train.svg");
@@ -323,7 +323,10 @@ QString DbManager::getVersion() {
     return "";
 }
 
-bool sortTimes(TimeboardItem i, TimeboardItem j) {return (i.time < j.time);}
+bool sortTimes(TimeboardItem i, TimeboardItem j) {
+    return (i.time < j.time);
+}
+
 QList<TimeboardItem> DbManager::getTimeboardList(QList<TimeboardItem> raw) {
 
     QSqlQuery q = getApiQuery();

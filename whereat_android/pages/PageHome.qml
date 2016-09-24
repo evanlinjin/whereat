@@ -14,9 +14,10 @@ Page { id: page;
             switch(swipeView.currentIndex) {
             case 0: FavouriteStopsModel.reload(); break;
             case 1: NearbyStopsModel.reload(); break;
+            case 2: TextSearchStopsModel.reload(query);
             }
         }
-        actionSearch: function(query) {TextSearchStopsModel.reload(query);}
+        actionSearch: function(q) {TextSearchStopsModel.reload(q);}
         searchMode: swipeView.currentIndex === 2;
         currentIndex: swipeView.currentIndex;
     }
@@ -28,21 +29,18 @@ Page { id: page;
         Item {
             MainListView {
                 model: FavouriteStopsModel;
-                esText: "Favourites";
                 listItemType: "Stop";
             }
         }
         Item {
             MainListView {
                 model: NearbyStopsModel;
-                esText: "Nearby";
                 listItemType: "Stop";
             }
         }
         Item {
             MainListView {
                 model: TextSearchStopsModel;
-                esText: "Search";
                 listItemType: "Stop";
             }
         }
